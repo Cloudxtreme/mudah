@@ -1,0 +1,7 @@
+<span ng-if="!taskAccept.isButton()">
+<ion-option-button class="button-positive" ng-show="taskAccept.show()"  ng-click="taskAccept.action()">Accept</ion-option-button>
+</span>
+
+<span ng-if="taskAccept.isButton()">
+<button class="button button-positive" ng-disabled="taskAccept.disable()" ng-show="taskAccept.show()" ng-click="taskAccept.action()">Accept</button>
+</span>

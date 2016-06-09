@@ -1,0 +1,7 @@
+<span ng-if="!taskDelete.isButton()">
+  <ion-option-button class="button-assertive" ng-show="taskDelete.show()"  ng-click="taskDelete.action()">Delete</ion-option-button>
+</span>
+
+<span ng-if="taskDelete.isButton()">
+<button class="button button-assertive" ng-show="taskDelete.show()" ng-click="taskDelete.action()">Delete</button>
+</span>

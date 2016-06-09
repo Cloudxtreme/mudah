@@ -1,0 +1,3 @@
+<div ng-show="dueDate.show()" class="assertive">{{dueDate.date | amDateFormat:'DD/MM/YYYY, h:mm:ss a'}}
+  <font ng-class="dueDate.isOverdue() ? 'assertive' : 'balanced'">(<span am-time-ago="dueDate.date"></span>)</font>
+</div>

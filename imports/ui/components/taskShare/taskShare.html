@@ -1,0 +1,7 @@
+<span ng-if="!taskShare.isButton()">
+  <ion-option-button  class="button-royal" ng-show="taskShare.show()"  ng-click="taskShare.action()">Share</ion-option-button>
+</span>
+
+<span ng-if="taskShare.isButton()">
+<button class="button button-royal" ng-disabled="taskShare.disable()" ng-show="taskShare.show()" ng-click="taskShare.action()">Share</button>
+</span>

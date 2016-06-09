@@ -1,0 +1,7 @@
+<span ng-if="!taskAcknowledge.isButton()">
+  <ion-option-button class="button-balanced" ng-show="taskAcknowledge.show()"  ng-click="taskAcknowledge.action()">Acknowledge</ion-option-button>
+</span>
+
+<span ng-if="taskAcknowledge.isButton()">
+<button class="button button-balanced" ng-show="taskAcknowledge.show()" ng-click="taskAcknowledge.action()">Acknowledge</button>
+</span>

@@ -1,0 +1,7 @@
+<span ng-if="!taskSocial.isButton()">
+  <ion-option-button class="button-energized" ng-show="taskSocial.show()"  ng-click="taskSocial.action()">Broadcast</ion-option-button>
+</span>
+
+<span ng-if="taskSocial.isButton()">
+  <button class="button button-energized"  ng-show="taskSocial.show()" ng-click="taskSocial.action()">Broadcast</button>
+</span>

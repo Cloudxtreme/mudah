@@ -1,0 +1,45 @@
+.i-title {
+  padding-top:5px;
+  padding-left:5px;
+  font-size:150%;
+  font-weight: bold;
+}
+
+.byline {
+  font-size: 80%
+}
+
+
+/* Login */
+.login-container {
+    display: -webkit-flex;
+    -webkit-flex-direction: column;
+    height: 100%;
+}
+
+.login-container > .button-row img {
+    max-width: 80%;
+}
+
+.login-container > .header {
+    -webkit-flex: 4;
+    padding-top: 50px;
+}
+
+.bg-transparent {
+  background-color: transparent !important;
+}
+
+/* Item */
+/* for item : if you want to use a 'chevron' symbol ">" on the list, remove this style */
+.item-complex .item-content, .item-radio .item-content {
+    padding: 16px 16px 16px 16px;
+}
+
+/* when you click on a List, Ionic sets an 'active' class to change the background color
+https://forum.ionicframework.com/t/change-list-background-color-on-press/3854
+
+.item.active, .item.activated, .item-complex.active .item-content, .item-complex.activated .item-content, .item .item-content.active, .item .item-content.activated {
+    background-color: #ff00ff !important;
+}
+*/

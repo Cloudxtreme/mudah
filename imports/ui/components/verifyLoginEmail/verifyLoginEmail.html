@@ -1,0 +1,20 @@
+<ion-view>
+
+  <ion-content class="has-header">
+    <h3 class="padding">Activate Integritomer Account</h3>
+    <div ng-if="verifyLoginEmail.error">
+      <label class="item assertive">
+        {{ verifyLoginEmail.error.message }}
+      </label>
+    </div>
+    <div ng-if="verifyLoginEmail.message">
+      <label class="item positive">
+        <h3  class="padding positive">Welcome <b class="assertive">{{verifyLoginEmail.username}}</b>, your account has been activated</h3>
+        <div class="padding positive">You can now log in as <span class="assertive">{{verifyLoginEmail.email}}</span> via the Integritometer app</div>
+      </label>
+    </div>
+
+
+
+  </ion-content>
+</ion-view>

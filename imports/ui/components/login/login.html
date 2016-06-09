@@ -1,0 +1,36 @@
+<ion-view title="igloo">
+
+  <ion-content class="has-header">
+  <section class="login-container">
+    <h3 class="padding">SIGN IN</h3>
+
+    <div class="list list-inset">
+      <div ng-show="login.error">
+        <label class="item assertive">
+          {{ login.error.message }}
+        </label>
+      </div>
+      <form name="loginForm">
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Email</span>
+          <span ng-show="loginForm.email.$touched && !loginForm.email.$valid" class="assertive byline">Please enter an email</span>
+          <input type="email" name="email" ng-model="login.credentials.email" placeholder="email" aria-label="email" required/>
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Password</span>
+          <span ng-show="loginForm.password.$touched && !loginForm.password.$valid" class="assertive byline">Please enter a password</span>
+          <input type="password" name="password" ng-model="login.credentials.password" placeholder="password" aria-label="password" required/>
+        </label>
+        <label class="item">
+          <button class="button button-block  button-energized" ng-click="login.login()" ng-disabled="loginForm.$invalid">Sign in</button>
+        </label>
+      </form>
+      <div class="item">
+        <a href="/password">Forgot password?</a>
+      </div>
+
+    </div>
+
+  </section>
+  </ion-content>
+</ion-view>

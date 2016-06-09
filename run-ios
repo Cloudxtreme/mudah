@@ -1,0 +1,1 @@
+meteor run ios --settings settings-heroku.json --mobile-server https://danchat.herokuapp.com

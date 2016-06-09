@@ -1,0 +1,30 @@
+<ion-view>
+  <ion-nav-title>
+    Watch List
+   </ion-nav-title>
+  <ion-content class="has-header">
+    <h3 class="padding">Watching</h3>
+    <empty-list list="watchList.tasks" text="You are not watching any Promises"></empty-list>
+    <ion-list>
+        <ion-item ng-repeat="task in watchList.tasks  track by task._id" class="item-text-wrap" ng-click="watchList.openDetail($event,task)">
+        {{task.name}}
+        <due-date date="task.dueDate"></due-date>
+        <status-icons task="task" show-area="true"></status-icons>
+
+        <watch-list-options task="task" button-style="option"></watch-list-options>
+      <!--
+      <task-chat task="task"></task-chat>
+      <task-accept task="task"></task-accept>
+      <task-decline task="task"></task-decline>
+      <task-offer task="task"></task-offer>
+      <task-acknowledge task="task"></task-acknowledge>
+      <task-offline task="task"></task-offline>
+      <ion-option-button class="button-positive">Teatime</ion-option-button>
+        -->
+      </ion-item>
+
+    </ion-list>
+
+
+  </ion-content>
+</ion-view>

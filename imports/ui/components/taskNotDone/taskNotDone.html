@@ -1,0 +1,8 @@
+
+<span ng-if="!taskNotDone.isButton()">
+  <ion-option-button class="button-energized" ng-show="taskNotDone.show()"  ng-click="taskNotDone.action()">NotDone</ion-option-button>
+</span>
+
+<span ng-if="taskNotDone.isButton()">
+<button class="button button-royal"  ng-show="taskNotDone.show()" ng-click="taskNotDone.action()">NotDone</button>
+</span>

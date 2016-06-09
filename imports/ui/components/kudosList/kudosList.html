@@ -1,0 +1,18 @@
+<ion-view title="completedList">
+
+  <ion-content class="has-header">
+    <h3 class="padding">Completed Watches/Kudos</h3>
+    <empty-list list="kudosList.tasks" text="You have not completed any Watched Promises"></empty-list>
+
+    <ion-list>
+      <ion-item ng-repeat="task in kudosList.tasks  track by task._id" class="item-text-wrap" ng-click="kudosList.openDetail($event,task)">
+        {{task._id}} {{task.name}}
+        <status-icons task="task"></status-icons>
+
+        <watch-list-options task="task" button-style="option"></watch-list-options>
+      </ion-item>
+    </ion-list>
+
+
+  </ion-content>
+</ion-view>

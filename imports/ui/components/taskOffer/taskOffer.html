@@ -1,0 +1,7 @@
+<span ng-if="!taskOffer.isButton()">
+<ion-option-button class="button-royal" ng-show="taskOffer.show()"  ng-click="taskOffer.action()">{{taskOffer.buttonLabel}}</ion-option-button>
+</span>
+
+<span ng-if="taskOffer.isButton()">
+<button class="button button-royal" ng-show="taskOffer.show()" ng-click="taskOffer.action()">{{taskOffer.buttonLabel}}</button>
+</span>

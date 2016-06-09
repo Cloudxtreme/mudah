@@ -1,0 +1,43 @@
+<ion-view title="promiseList" view-title="hello world">
+
+  <ion-content class="has-header">
+    <h3 class="padding" >Promises</h3>
+    <empty-list list="promiseList.tasks" text="You do not have any Promises"></empty-list>
+    <ion-list>
+      <!--
+      <ion-item ng-repeat="task in promiseList.tasks" class="item-text-wrap" ui-sref="tab.taskEdit({ taskId: task._id })">
+      <ion-item ng-repeat="task in promiseList.tasks" class="item-text-wrap" ng-click="promiseList.openEdit(task)">
+      -->
+      <ion-item ng-repeat="task in promiseList.tasks  track by task._id" class="item-text-wrap" ng-click="promiseList.openDetail($event,task)">
+        <font class="positive">{{task.name}}</font>
+
+        <due-date date="task.dueDate"></due-date>
+        <status-icons task="task" edit-area="true"></status-icons>
+
+<promise-list-options task="task" button-style="option"></promise-list-options>
+
+<!--
+<task-chat task="task"></task-chat>
+<task-accept task="task"></task-accept>
+<task-decline task="task"></task-decline>
+<task-offer task="task"></task-offer>
+<task-acknowledge task="task"></task-acknowledge>
+
+<task-done task="task"></task-done>
+<task-not-done task="task"></task-not-done>
+
+<task-revoke task="task"></task-revoke>
+<task-unrevoke task="task"></task-unrevoke>
+<task-delete task="task"></task-delete>
+<task-complete task="task"></task-complete>
+<task-social task="task"></task-social>
+<task-offline task="task"></task-offline>
+<ion-option-button class="button-positive">Teatime</ion-option-button>
+-->
+
+      </ion-item>
+    </ion-list>
+
+
+  </ion-content>
+</ion-view>

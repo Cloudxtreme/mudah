@@ -1,0 +1,30 @@
+<ion-tabs class="tabs-stable tabs-icon-top tabs-color-positive" ng-cloak delegate-handle="tabsHandle">
+
+
+    <ion-tab  title="Integritometer" icon-on="ion-ios-speedometer" icon-off="ion-ios-speedometer-outline"
+       on-deselect="tabs.clearHistory()" href="#/tab/integritometer">
+      <ion-nav-view name="tab-integritometer"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab  title="Create" icon-on="ion-ios-plus-empty" icon-off="ion-ios-plus-outline"
+      on-deselect="tabs.clearHistory()" href="#/tab/draftList">
+      <ion-nav-view name="tab-create"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab  title="My Promises" icon-on="ion-ios-person" icon-off="ion-ios-person-outline"
+      on-deselect="tabs.clearHistory()" href="#/tab/promiseList">
+      <ion-nav-view name="tab-promise"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab  title="Watching" icon-on="ion-ios-glasses" icon-off="ion-ios-glasses-outline"
+      on-deselect="tabs.clearHistory()" href="#/tab/watchList">
+      <ion-nav-view name="tab-watch"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab  title="Notifications" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong"
+       on-deselect="tabs.clearHistory()" href="#/tab/notifications">
+      <ion-nav-view name="tab-notifications"></ion-nav-view>
+    </ion-tab>
+
+
+</ion-tabs>

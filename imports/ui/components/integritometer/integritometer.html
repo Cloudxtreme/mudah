@@ -1,0 +1,38 @@
+<ion-view title="Integritometer">
+
+  <ion-content class="has-header bg-aqua">
+    <ion-item>
+
+    <canvas id="radar" class="chart chart-radar"
+      chart-data="integritometer.data" chart-labels="integritometer.labels">
+    </canvas>
+    </ion-item>
+
+
+    <div class="button-bar">
+      <a class="button button-small button-positive" ng-click="integritometer.search(1)">1 Month</a>
+      <a class="button button-small button-balanced" ng-click="integritometer.search(3)">3 Months</a>
+      <a class="button button-small button-energized" ng-click="integritometer.search(6)">6 Months</a>
+      <a class="button button-small button-royal" ng-click="integritometer.search(12)">1 Year</a>
+    </div>
+
+
+    <div class="card">
+      <div class="item item-divider">
+        Your Kudos score is 74%
+      </div>
+      <div class="item bg-silver red item-divider">
+        Strong
+      </div>
+      <div class="item item-divider">
+        You rank 5th out of 60 friends <font class="red">**</font>
+      </div>
+      <div class="item item-text-wrap">
+        <font class="red">**</font>Note: doing this sort of processing is Resource intensive.
+        Will need to upgrade Server capacity as number of users grow.
+      </div>
+    </div>
+
+
+  </ion-content>
+</ion-view>

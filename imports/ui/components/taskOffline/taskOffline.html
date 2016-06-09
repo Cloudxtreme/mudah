@@ -1,0 +1,9 @@
+<span ng-if="!taskOffline.isButton()">
+  <ion-option-button  ng-show="taskOffline.show()"  ng-click="taskOffline.action()">
+    <i class="icon ion-plane assertive"></i>
+  </ion-option-button>
+</span>
+
+<span ng-if="taskOffline.isButton()">
+  <button ng-show="taskOffline.show()" class="button icon ion-plane assertive" ng-click="taskOffline.action()"></button>
+</span>

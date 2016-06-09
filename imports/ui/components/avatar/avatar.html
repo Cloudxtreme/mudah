@@ -1,0 +1,9 @@
+<div class="item item-avatar">
+
+  <img  ng-src="{{avatar.getPhotoUrl()}}" ng-click="avatar.editPhoto()"/>
+
+  <h2>{{avatar.user.profile.name}}</h2>
+  <p>
+    {{avatar.getOAuthSource()}}
+  </p>
+</div>

@@ -1,0 +1,3 @@
+<!-- menu-close attribute will close sidemenu -->
+<ion-item menu-close ui-sref="guest" ng-hide="auth.isLoggedIn">Login</ion-item>
+<ion-item menu-close ng-click="auth.logout()" ng-show="auth.isLoggedIn">Logout</ion-item>

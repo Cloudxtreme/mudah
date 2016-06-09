@@ -1,0 +1,7 @@
+<span ng-if="!taskChat.isButton()">
+  <ion-option-button class="button-energized" ng-show="taskChat.show()" ng-click="taskChat.action()">Chat</ion-option-button>
+</span>
+
+<span ng-if="taskChat.isButton()">
+<button class="button button-energized" ng-show="taskChat.show()" ng-click="taskChat.action()">Chat</button>
+</span>

@@ -1,0 +1,4 @@
+meteor test --driver-package dispatch:mocha-browser 
+# meteor test --driver-package dispatch:mocha-browser -p 5000
+#meteor test --driver-package dispatch:mocha-phantomjs
+#meteor test --settings settings-localhost.json --driver-package dispatch:mocha-browser --full-app

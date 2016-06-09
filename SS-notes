@@ -1,0 +1,67 @@
+How to build for Android and install on Mobile
+-----------------------------------------------
+$ meteor build .meteor --server https://danchat.herokuapp.com --debug
+
+note : use the --debug option.  This will create a debugger APK, which can be installed on the Device.
+issue : i couldn't install an APK that was built without the --debug option
+
+Facebook Auth
+--------------
+0) Set App.accessRule() in mobile-config.js ( REVIEW please ! Currently, allowing everything )
+  - I did not have to add the cordova-whitelist plugin. Pre-installed ?
+
+1) OAuth2 doesn't work on Android Emulator. Use workaround below :
+
+    meteor run android --mobile-server sschat.meteor.com
+
+    see: https://github.com/meteor/meteor/wiki/OAuth-for-mobile-Meteor-clients
+
+    Handy scripts :  use run-local (for running on localhost),   run-mobile to test on Android Emulator
+
+---------------
+CORDOVA plugins
+---------------
+1) To add Cordova plugins. Use 'meteor add'. The dependecy will be added to .meteor/cordova-plugin
+  $ meteor add cordova-plugin-datepicker@0.8.2
+
+2) The plugins will not be ready in $ionicPlatform.ready().  But, usable in Controllers.
+Remember to inject the $cordova<plugin> into the Controller before using it.
+
+    function TodosListCtrl($scope, $cordovaDatePicker)
+
+--------------
+HEROKU
+--------------
+
+1) How to deploy            http://justmeteor.com/blog/deploy-to-production-on-heroku/
+
+2) ANDROID_HOME issue     see : https://github.com/AdmitHub/meteor-buildpack-horse/issues/50
+- the suggested fixes don't  work
+- Solution -  use the hacked Buildpack from the user 'Alveoli'     https://github.com/Alveoli/meteor-buildpack-horse.git
+
+	------------> $ heroku buildpacks:set  https://github.com/Alveoli/meteor-buildpack-horse.git
+
+3) When running meteor locally,  you need to add back the android platform
+
+	------------> $ meteor add-platform android
+
+4) settings.json file (set content to Heroku environtment variable)
+
+    ---> $ heroku config:set METEOR_SETTINGS="$(cat settings-heroku.json)"
+
+5) set ROOT_UTL
+
+---> $ heroku config:set ROOT_URL=https://danchat.herokuapp.com
+
+
+--------------------
+SMTP Server - Google
+---------------------
+Enable IMAP in Google settings !!
+http://docs.helpscout.net/article/120-smtp-settings
+
+
+-----------
+Amazon S3 Set up
+==========
+see: https://github.com/quackware/meteor-slingshot-example

@@ -1,0 +1,38 @@
+<ion-view>
+
+  <ion-content class="has-header">
+    <section class="login-container">
+      <h3 class="padding">Profile</h3>
+
+      <div class="list list-inset">
+        <div ng-if="editProfile.error">
+          <label class="item assertive">
+            {{ editProfile.error.message }}
+          </label>
+        </div>
+        <div ng-if="editProfile.message">
+          <label class="item positive">
+           Your profile has been updated
+          </label>
+        </div>
+
+        <form name="profileForm">
+
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Name</span>
+            <span class="assertive">{{editProfile.currentUser.profile.name }}</span>
+          </label>
+         <label class="item item-input item-stacked-label">
+           <span ng-show="profileForm.name.$error.required && profileForm.name.$dirty" class="assertive byline">required</span>
+           <input type="text" id="name" name="name" ng-model="editProfile.userName" placeholder="Change name to ..." required/>
+         </label>
+
+          <button class="button button-block  button-energized" ng-click="editProfile.action()"
+             ng-disabled="profileForm.name.$invalid">Save</button>
+      	</form>
+      </div>
+
+
+    </section>
+  </ion-content>
+</ion-view>

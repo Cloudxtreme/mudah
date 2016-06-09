@@ -1,0 +1,5 @@
+<div ng-show="meteorStatus.settings.public.features.meteorStatus">
+  <button ng-show="meteorStatus.isOffline" class="button button-icon button-clear ion-plane"></button>
+  <button href="#" ng-hide="meteorStatus.isOffline" class="button button-outline" ng-click="meteorStatus.disconnect()">Go Offline</button>
+  <button href="#" ng-show="meteorStatus.isOffline" class="button button-outline" ng-click="meteorStatus.reconnect()">Reconnect</button>
+</div>

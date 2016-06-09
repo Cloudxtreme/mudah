@@ -1,0 +1,7 @@
+<span ng-if="!taskUnrevoke.isButton()">
+  <ion-option-button class="button-energized" ng-show="taskUnrevoke.show()"  ng-click="taskUnrevoke.action()">{{taskUnrevoke.buttonLabel}}</ion-option-button>
+</span>
+
+<span ng-if="taskUnrevoke.isButton()">
+  <button class="button button-energized"  ng-show="taskUnrevoke.show()" ng-click="taskUnrevoke.action()">{{taskUnrevoke.buttonLabel}}</button>
+</span>

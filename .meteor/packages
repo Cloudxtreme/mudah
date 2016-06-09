@@ -1,0 +1,44 @@
+# Meteor packages used by this project, one per line.
+# Check this file (and the other files in this directory) into your repository.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+meteor-base             # Packages every Meteor app needs to have
+mobile-experience       # Packages for a great mobile UX
+mongo                   # The database Meteor supports right now
+reactive-var            # Reactive variable for tracker
+jquery                  # Helpful client-side library
+tracker                 # Meteor's client-side reactive programming library
+
+es5-shim                # ECMAScript 5 compatibility for older browsers.
+standard-minifier-js    # JS minifier run for production mode
+seba:minifiers-autoprefixer
+fourseven:scss
+pbastowski:angular-babel
+angular-templates
+#sanjo:jasmine
+#velocity:html-reporter
+#velocity:console-reporter
+accounts-password
+dotansimha:accounts-ui-angular
+accounts-facebook
+accounts-twitter
+tmeasday:publish-counts
+check
+email
+dab0mb:ionic-assets
+planettraining:material-design-icons
+aldeed:simple-schema
+dburles:collection-helpers  ##  useful HELPERS ! see http://guide.meteor.com/collections.html#collection-helpers
+reywood:publish-composite
+meteorhacks:kadira
+kadira:debug
+meteorhacks:kadira-profiler
+mdg:validated-method
+dispatch:mocha-phantomjs
+dispatch:mocha-browser
+service-configuration
+accounts-google
+edgee:slingshot
+ccorcos:clientside-image-manipulation

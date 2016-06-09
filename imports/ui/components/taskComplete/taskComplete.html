@@ -1,0 +1,7 @@
+<span ng-if="!taskComplete.isButton()">
+  <ion-option-button class="button-energized" ng-show="taskComplete.show()"  ng-click="taskComplete.action()">Complete</ion-option-button>
+</span>
+
+<span ng-if="taskComplete.isButton()">
+  <button class="button button-energized"  ng-show="taskComplete.show()" ng-click="taskComplete.action()">Complete</button>
+</span>

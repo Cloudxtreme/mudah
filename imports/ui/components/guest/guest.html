@@ -1,0 +1,30 @@
+<ion-view view-title="Guest">
+
+ <ion-content scroll="false" class="has-header">
+   <section class="login-container bg-navy">
+      <div class = "col header text-center" ng-click="guest.home()">
+         <img src="/img/ionic.png" class = "logo"/>
+         <h2 class="aqua">INTEGRITOMETER</h2>
+      </div>
+      <div class = "col text-center" ng-show="guest.isLoggedIn">
+        <a href="#" ng-click="guest.home()">Home</a>
+      </div>
+
+      <div class = "col button-row text-center" ng-show="guest.isGuest"  ng-click="guest.loginFacebook()">
+         <img src="/img/facebook.png" />
+      </div>
+      <div class = "col button-row text-center" ng-show="guest.isGuest"  ng-click="guest.loginGoogle()">
+         <img src="/img/google.png" />
+      </div>
+      <div class = "col button-row text-center" ng-show="guest.isGuest"  ng-click="guest.loginEmail()">
+         <img src="/img/login.png" />
+         <BR><a ui-sref="password" >Forgot password?</a>
+      </div>
+      <div class = "col button-row text-center" ng-show="guest.isGuest"  ng-click="guest.register()">
+         <img src="/img/signup.png" />
+      </div>
+
+
+  </section>
+ </ion-content>
+</ion-view>

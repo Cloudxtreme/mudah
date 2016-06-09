@@ -1,0 +1,1 @@
+meteor build .meteor --mobile-settings settings-heroku.json  --server https://danchat.herokuapp.com --debug

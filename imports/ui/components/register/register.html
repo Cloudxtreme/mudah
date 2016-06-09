@@ -1,0 +1,70 @@
+<ion-view title="igloo">
+
+  <ion-content class="has-header">
+    <section class="login-container">
+      <h3 class="padding">Sign Up</h3>
+
+      <div class="list list-inset">
+        <div ng-if="register.error">
+          <label class="item assertive">
+            {{ register.error.message }}
+          </label>
+        </div>
+        <div ng-if="register.message">
+          <label class="item positive">
+            Hi <b class="assertive">{{register.credentials.profile.name}}</b>, Thank you for registering.
+            An email has been sent to <b class="assertive">{{register.credentials.email}}</b>.
+            To activate your account, simply click on the link in the email.
+          </label>
+        </div>
+
+        <form name="registerForm" ng-if="!register.message">
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Email</span>
+            <span ng-show="registerForm.email.$error.required && registerForm.email.$dirty" class="assertive byline">required</span>
+            <span ng-show="!registerForm.email.$error.required && registerForm.email.$error.email && registerForm.email.$dirty" class="assertive byline">invalid email</span>
+             <input type="email" id="email" name="email" ng-model="register.credentials.email" required/>
+         </label>
+
+         <label class="item item-input item-stacked-label">
+           <span class="input-label">Name</span>
+           <span ng-show="registerForm.name.$error.required && registerForm.name.$dirty" class="assertive byline">required</span>
+           <input type="text" id="name" name="name" ng-model="register.credentials.profile.name" required/>
+         </label>
+
+         <label class="item item-input item-stacked-label">
+           <span class="input-label">Password</span>
+           <span ng-show="registerForm.password.$error.required && registerForm.password.$dirty" class="assertive byline">required</span>
+           <span ng-show="!registerForm.password.$error.required && (registerForm.password.$error.minlength || registerForm.password.$error.maxlength) && registerForm.password.$dirty"
+                    class="assertive byline">Passwords must be between 8 and 20 characters.</span>
+           <span ng-show="!registerForm.password.$error.required && !registerForm.password.$error.minlength && !registerForm.password.$error.maxlength && registerForm.password.$error.pattern && registerForm.password.$dirty"
+                    class="assertive byline">Must contain a lower &amp; uppercase letter, and a symbol !@#$%^&*</span>
+            <input type="password" id="password" name="password" ng-model="register.credentials.password" ng-minlength="8" ng-maxlength="20"
+              ng-pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/" required  />
+          </label>
+
+
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Confirm Password</span>
+            <span ng-show="registerForm.password_c.$error.required && registerForm.password_c.$dirty" class="assertive byline">Please confirm your password</span>
+            <span ng-show="!registerForm.password_c.$error.required && registerForm.password_c.$error.noMatch && registerForm.password.$dirty" class="assertive byline">Passwords do not match.</span>
+             <input type="password" id="password_c" name="password_c" ng-model="register.password_c" validate-password required  />
+          </label>
+
+          <div class="item item-input" ng-click="register.openTerms()">
+               <span class="item-text-wrap byline">By signing up, you agree to Integritometer’s <a href="#">Terms and conditions of Use and Privacy Policy</a></span>
+          </div>
+          <ion-checkbox class="item checkbox-energized" name="terms" ng-model="register.agreeTerms" required>I Accept</ion-checkbox>
+
+          <button class="button button-block  button-energized" ng-click="register.register()"
+             ng-disabled="registerForm.email.$invalid || registerForm.name.$invalid || registerForm.password.$invalid || registerForm.password_c.$error.noMatch || registerForm.terms.$invalid">Register</button>
+      	</form>
+      </div>
+
+      <div class="item">
+        <a href="/guest">Already a User?</a>
+      </div>
+
+    </section>
+  </ion-content>
+</ion-view>
