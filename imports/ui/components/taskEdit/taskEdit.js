@@ -4,8 +4,8 @@ import uiRouter from 'angular-ui-router';
 
 import { Meteor } from 'meteor/meteor';
 
-import './taskEdit.html';
-
+//import './taskEdit.html';
+import './tinderEdit.html';
 
 import { statusHelper } from '/imports/ui/helpers/statusHelper';
 import { taskHelper } from '/imports/api/methods/taskHelper';
@@ -16,6 +16,7 @@ import { name as FocusMe } from '/imports/ui/directives/focusMe';
 
 import _ from 'underscore';
 import moment from 'moment';
+import 'angular-elastic';
 
 const name = 'taskEdit';
 
@@ -169,9 +170,11 @@ export default angular.module(name, [
   uiRouter,
   uiService,
   chatsAdd,
-  FocusMe
+  FocusMe,
+  'monospaced.elastic',
 ]).component(name, {
-  templateUrl: `imports/ui/components/${name}/${name}.html`,
+  //templateUrl: `imports/ui/components/${name}/${name}.html`,
+  templateUrl: `imports/ui/components/${name}/tinderEdit.html`,
   controllerAs: name,
   controller: TaskEdit
 })

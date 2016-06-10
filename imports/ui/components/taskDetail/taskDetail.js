@@ -4,7 +4,9 @@ import uiRouter from 'angular-ui-router';
 
 import {  Meteor } from 'meteor/meteor';
 
-import './taskDetail.html';
+//import './taskDetail.html';
+import './tinder.html';
+
 
 import { statusHelper } from '/imports/ui/helpers/statusHelper';
 import { name as WatchListOptions } from '../watchListOptions/watchListOptions';
@@ -107,7 +109,8 @@ export default angular.module(name, [
     uiRouter,
     WatchListOptions
   ]).component(name, {
-    templateUrl: `imports/ui/components/${name}/${name}.html`,
+    //templateUrl: `imports/ui/components/${name}/${name}.html`,
+    templateUrl: `imports/ui/components/${name}/tinder.html`,
     controllerAs: name,
     controller: TaskDetail
   })

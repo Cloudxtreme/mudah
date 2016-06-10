@@ -9,6 +9,15 @@
   font-size: 80%
 }
 
+.button-pill {
+  border-radius: 50%;
+  border: 5px solid #AAAAAA;
+}
+
+/* when buttons wrap to next line */
+.buttonoptions .button {
+  margin-bottom: 5px;
+}
 
 /* Login */
 .login-container {

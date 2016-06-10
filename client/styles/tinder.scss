@@ -1,0 +1,76 @@
+
+td-card {
+    position: absolute;
+    top: calc( 50vh - 300px ) !important;
+    left:50%;
+    //  left: calc( 50vw-300px ) !important;
+    width: 300px;
+    margin: 80px 0 40px -150px;
+    box-shadow: 0px 1px 10px rgba(0,0,0,0.5);
+    border-radius: 10px;
+    //background-color: rgb(0,0,0);
+    color: #fff;
+    //  height: 580px;
+    //padding: 0 20px;
+    //border: 1px solid #999;
+}
+
+td-card img {
+    margin-top: 20px;
+    width: 100%;
+    //height: 258px;
+
+}
+
+td-card .item-input input {
+    width: 95%;
+}
+
+/*
+.item-input input, .item-input textarea {
+    width: 100%;
+}
+*/
+
+td-card  input[type="text"], input[type="datetime"], input[type="datetime-local"]  {
+    display: block;
+    padding-top: 2px;
+    padding-left: 5px;
+    height: 34px;
+    color: #ff00ff;
+    vertical-align: middle;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+td-card  textarea  {
+    display: block;
+    padding-top: 2px;
+    padding-left: 5px;
+    height: 34px;
+    color: #ff00ff;
+    vertical-align: middle;
+    font-size: 18px;
+    line-height: 16px;
+}
+
+
+td-card .title-font input[type="textarea"]  {
+    font-size: 18px;
+}
+
+td-card .input-label  {
+    color: #fff;
+}
+
+td-card .item-stacked-label input, .item-stacked-label textarea  {
+    border-radius: 2px;
+    border: none;
+    background-color: #fff;
+}
+
+td-card .item-stacked-label .input-label, .item-stacked-label .icon {
+    display: inline-block;
+    padding-bottom: 5px;
+    vertical-align: middle;
+}

@@ -5,8 +5,8 @@
 
 <font style="color:green">{{statusIcons.task.status}}</font>
 <span ng-show="statusIcons.task.status=='ACTIVE'">ENSHRINED</span>
-<i class="icon ion-thumbsup calm" ng-show="statusIcons.statusHelper.isPendingAck(statusIcons.task)">Pending Ack</i>
-<i class="icon ion-thumbsup calm" ng-show="statusIcons.statusHelper.isAcknowledged(statusIcons.task)">Acked by:<font style="color:blue">{{statusIcons.lastAck()}}</font></i>
+<span ng-show="statusIcons.statusHelper.isPendingAck(statusIcons.task)">Pending Ack</span>
+<span ng-show="statusIcons.statusHelper.isAcknowledged(statusIcons.task)">Acked by:<font style="color:blue">{{statusIcons.lastAck()}}</font></span>
 
 <span ng-show="statusIcons.isSharedWithMe()" class="royal">Creator:{{statusIcons.creatorName()}}</span>
 <span ng-show="statusIcons.isShared()" class="royal">tag:{{statusIcons.sharedWith()}}</span>
@@ -27,10 +27,10 @@
 </span>
 
 <span  ng-show="statusIcons.editValue=='true' || statusIcons.showValue=='true'">
-  <span ng-show="statusIcons.editValue=='true'" style="float:right;padding-right:10px">
+  <span ng-show="statusIcons.editValue=='true'" class="padding-right" style="float:right">
     <a ng-click="statusIcons.openValue($event,statusIcons.task)">{{statusIcons.getValueLabel()}}</a>
   </span>
-  <span ng-show="statusIcons.showValue=='true' && statusIcons.task.value!=null" style="float:right;padding-right:10px" class="balanced">
+  <span ng-show="statusIcons.showValue=='true' && statusIcons.task.value!=null" style="float:right" class="padding-right balanced">
     Value {{statusIcons.task.value}}
   </span>
   <span style="clear:both"></span>
