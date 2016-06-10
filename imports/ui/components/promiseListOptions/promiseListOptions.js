@@ -33,11 +33,8 @@ class PromiseListOptions {
     this.taskEditService=taskEditService;
 
     if ( this.buttonStyle==null ) {
-      console.log("button style not specified, set to option");
       this.buttonStyle="option";
-    } else {
-      console.log("button style is=", this.buttonStyle);
-    }
+    } 
   }
 }
 

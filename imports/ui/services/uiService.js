@@ -37,6 +37,7 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
       goGuestpage: goGuestpage,
       getFacebookPhotoUrl : getFacebookPhotoUrl,
       getGooglePhotoUrl : getGooglePhotoUrl,
+      getProfilePhoto : getProfilePhoto,
       spinner : spinner
     }
     return service;
@@ -58,7 +59,7 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
     // to stop the 'click' event frm being propagated further to the 'viewDetails' onclick
     // http://benohead.com/angularjs-stopping-event-propagation-on-ng-click/
      function stopFurtherClicks($event) {
-       console.log("$event = ", $event);
+      // console.log("$event = ", $event);
        $event.stopPropagation();
        $event.preventDefault();
      }
@@ -166,6 +167,24 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
 
     function getGooglePhotoUrl(user) {
       return user.services.google.picture;
+    }
+
+    function getProfilePhoto(user) {
+  //    if (user==undefined || user.services==undefined) return;
+
+      if ( user.services.facebook ) {
+        return getFacebookPhotoUrl(user);
+      }
+
+      if ( user.services.google ) {
+        return getGooglePhotoUrl(user);
+      }
+
+      if ( user.services.password && user.profile.photo ) {
+          return user.profile.photo;
+      }
+
+      return "/img/blankuser.png";
     }
 
     function spinner(flag) {

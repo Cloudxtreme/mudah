@@ -15,12 +15,23 @@
   <i class="icon ion-ios-loop-strong positive" ng-show="statusIcons.isEdited()"></i>
   by:<font style="color:red">{{statusIcons.lastEditor()}}</font>
 </span>
-<span ng-show="statusIcons.editArea=='true' || statusIcons.showArea=='true'">
+
+<span  ng-show="statusIcons.editArea=='true' || statusIcons.showArea=='true'">
   <span ng-show="statusIcons.editArea=='true'" style="float:right">
     <a ng-click="statusIcons.openArea($event,statusIcons.task)">{{statusIcons.getAreaLabel()}}</a>
   </span>
-  <span ng-show="statusIcons.showArea=='true' && statusIcons.task.area!=null" style="float:right">
+  <span ng-show="statusIcons.showArea=='true' && statusIcons.task.area!=null" style="float:right" class="balanced">
     {{statusIcons.task.area}}
+  </span>
+  <span style="clear:both"></span>
+</span>
+
+<span  ng-show="statusIcons.editValue=='true' || statusIcons.showValue=='true'">
+  <span ng-show="statusIcons.editValue=='true'" style="float:right;padding-right:10px">
+    <a ng-click="statusIcons.openValue($event,statusIcons.task)">{{statusIcons.getValueLabel()}}</a>
+  </span>
+  <span ng-show="statusIcons.showValue=='true' && statusIcons.task.value!=null" style="float:right;padding-right:10px" class="balanced">
+    Value {{statusIcons.task.value}}
   </span>
   <span style="clear:both"></span>
 </span>

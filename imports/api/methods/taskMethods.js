@@ -28,6 +28,7 @@ TaskSchema = new SimpleSchema({
   creator: {type:String},
 
   area: {type: String, optional:true},
+  value: {type: String, optional:true},
   reward: {type: String, optional:true},
   forfeit: {type: String, optional:true},
   dueDate : {type: Date},
@@ -56,7 +57,7 @@ export const addTask = new ValidatedMethod({
   }).validator(),
 
   // Factor out Method body so that it can be called independently (3)
-  run({ taskName,reward,forfeit,dueDate }) {
+  run({ taskName}) {
     console.log("insert method task=" + taskName );
 
     task = {};
@@ -68,9 +69,10 @@ export const addTask = new ValidatedMethod({
     task.ackBy = null;
 
     task.area = null;
-    task.reward = reward;
-    task.forfeit = forfeit;
-    task.dueDate = dueDate;
+    task.value=null;
+    task.reward = null;
+    task.forfeit = null;
+    task.dueDate = null;
 
     task.edited = false;     // used for counter-offers
     task.editedBy = null;
@@ -189,6 +191,27 @@ export const updateArea = new ValidatedMethod({
     }, {
       $set: {
         area: newArea
+      }
+    });
+  }
+});
+
+export const updateValue = new ValidatedMethod({
+  name: 'updateValue',
+
+  validate: new SimpleSchema({
+    taskId: {type:String,optional:false},
+    newValue: {type:String,optional:false}
+  }).validator(),
+
+  run({ taskId, newValue }) {
+    const oldTask = taskHelper.getPermittedTask(taskId); // will throw Exception if no permission
+
+    Tasks.update({
+      _id: taskId
+    }, {
+      $set: {
+        value: newValue
       }
     });
   }

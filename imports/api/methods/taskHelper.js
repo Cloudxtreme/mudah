@@ -136,6 +136,14 @@ class TaskHelper {
     }
   }
 
+  getUser(userId) {
+  if (userId != null) {
+      tmpUser = Meteor.users.findOne(userId);
+      return tmpUser;
+    }
+    return "";
+  }
+
   handleMethodError(error, reason, details) {
     var meteorError = new Meteor.Error(error, reason, details);
 

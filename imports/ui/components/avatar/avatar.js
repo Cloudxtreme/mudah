@@ -18,6 +18,19 @@ class Avatar {
     this.uiService = uiService;
   }
 
+  canEditPhoto() {
+    if (this.user==undefined || this.user.services==undefined) return;
+
+    if ( this.user.services.password ) {  // can change photo only if you registered with login/password
+      return true;
+    }
+    return false;
+  }
+
+  editPhoto() {
+    this.uiService.goState("tab.photo");
+  }
+
   getPhotoUrl() {
     if (this.user==undefined || this.user.services==undefined) return;
 
@@ -40,10 +53,10 @@ class Avatar {
     if (this.user==undefined || this.user.services==undefined) return;
 
     if ( this.user.services.facebook) {
-      return "via Facebook";
+      return "Logged in via Facebook";
     }
     if ( this.user.services.google) {
-      return "via Google";
+      return "Logged in via Google";
     }
   }
 

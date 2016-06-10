@@ -59,10 +59,10 @@ class TaskEdit {
   }
 
 
-
-
-
-
+  isCreator() {
+    console.log("is creator = " + statusHelper.isCreator(this.task));
+    return statusHelper.isCreator(this.task);
+  }
 }
 
 

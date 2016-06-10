@@ -37,8 +37,7 @@ class DraftList {
 
     $reactive(this).attach($scope);
 
-    console.log("create");
-  console.log(Meteor.user());
+    
 
     this.sort = {
       creator: 1

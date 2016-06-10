@@ -37,7 +37,22 @@ class Photo {
     this.message='';
   }
 
+  allow() {
+    if ( Meteor.user().services.password ) {
+      return true;
+    } else {
+      this.error={};
+      this.error.message = "You logged in via Google or Facebook, please update your Profile photo there";
+      return false;
+    }
+  }
+
+
   action() {
+    if (!this.allow()) {
+      return;
+    }
+
    var input: any = document.getElementById('fileToUpload');
    var file = input.files[0];
 

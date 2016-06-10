@@ -21,12 +21,9 @@ class WatchListOptions {
     $reactive(this).attach($scope);
 
     if ( this.buttonStyle==null ) {
-      console.log("button style not specified, set to option");
+      //console.log("button style not specified, set to option");
       this.buttonStyle="option";
-    } else {
-      console.log("button style is=", this.buttonStyle);
-    }
-
+    } 
   }
 }
 

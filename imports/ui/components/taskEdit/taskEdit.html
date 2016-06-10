@@ -29,7 +29,7 @@
           <input focus-me name="dueDate" type="datetime-local"  ng-min="taskEdit.minDate" ng-model="taskEdit.task.dueDate">
         </ion-input>
 
-
+        
         <div class="padding">
           <button ng-disabled="editForm.dueDate.$invalid" class="button button-energized" ng-click="taskEdit.save()">Save</button>
           <task-accept ng-show="taskEdit.showAllOptions" task="taskEdit.task" button-style="button"></task-accept>

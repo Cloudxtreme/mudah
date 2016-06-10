@@ -6,16 +6,18 @@ import './statusIcons.html';
 import { statusHelper } from '../../helpers/statusHelper';
 import { name as dueDate } from '../dueDate/dueDate';
 import { name as AreaEdit } from '../areaEdit/areaEdit';
+import { name as ValueEdit } from '../valueEdit/valueEdit';
 
 const name = 'statusIcons';
 
 class StatusIcons {
-  constructor($scope, $reactive,  uiService, areaEditService) {
+  constructor($scope, $reactive,  uiService, areaEditService, valueEditService) {
     'ngInject';
 
     this.uiService = uiService;
     this.statusHelper = statusHelper; // so that it can be used in HTML
     this.areaEditService = areaEditService;
+    this.valueEditService = valueEditService;
 
     $reactive(this).attach($scope);
 
@@ -26,11 +28,23 @@ class StatusIcons {
     this.areaEditService.openModal(task);
   }
 
+  openValue($event,task) {
+    this.uiService.stopFurtherClicks($event);
+    this.valueEditService.openModal(task);
+  }
+
   getAreaLabel() {
     if (this.task.area==null) {
       return "Set Area";
     }
     return this.task.area;
+  }
+
+  getValueLabel() {
+    if (this.task.value==null) {
+      return "Set Value";
+    }
+    return "Value " + this.task.value;
   }
 
   /*
@@ -128,13 +142,16 @@ class StatusIcons {
 export default angular.module(name, [
   angularMeteor,
   dueDate,
-  AreaEdit
+  AreaEdit,
+  ValueEdit
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   bindings: {
     task: '<',
     showArea: '@',
-    editArea: '@'
+    editArea: '@',
+    showValue: '@',
+    editValue: '@'
   },
   controllerAs: name,
   controller: StatusIcons

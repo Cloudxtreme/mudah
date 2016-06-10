@@ -9,7 +9,7 @@
         <ion-item ng-repeat="task in watchList.tasks  track by task._id" class="item-text-wrap" ng-click="watchList.openDetail($event,task)">
         {{task.name}}
         <due-date date="task.dueDate"></due-date>
-        <status-icons task="task" show-area="true"></status-icons>
+        <status-icons task="task" show-area="true" edit-value="true"></status-icons>
 
         <watch-list-options task="task" button-style="option"></watch-list-options>
       <!--

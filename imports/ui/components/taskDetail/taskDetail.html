@@ -1,26 +1,41 @@
 <ion-modal-view>
 
-  <px-modal-header view-title="{{taskDetail.task.name}}"></px-modal-header>
+  <px-modal-header view-title="Promise"></px-modal-header>
 
   <ion-view>
   <ion-content class="has-header">
 
-    <div class="list">
-      <div class="item item-text-wrap">
-        <h2>Reward</h2>
-        <p>{{taskDetail.task.reward}}</p>
+  <div class="list card">
+
+    <div class="item item-avatar">
+      <img   ng-src="{{taskDetail.creatorPhoto}}"/>
+      <h2>{{taskDetail.creator.profile.name}}</h2>
+      <p>
+        {{taskDetail.task.name}}
+      </p>
+    </div>
+
+      <div class="item item-body">
+        <!--
+        <img style="width:400px" ng-src="{{taskDetail.creatorPhoto}}"/>
+      -->
+        <div class="item item-text-wrap">
+          <h2>Reward</h2>
+          <p>{{taskDetail.task.reward}}</p>
+        </div>
+        <div class="item item-text-wrap">
+          <h2>Forfeit</h2>
+          <p>{{taskDetail.task.forfeit}}</p>
+        </div>
+        <div class="item item-text-wrap">
+          <h2>By When</h2>
+          <p>{{taskDetail.task.dueDate | amDateFormat:'DD/MM/YYYY, h:mm:ss a'}}</p>
+        </div>
       </div>
-      <div class="item item-text-wrap">
-        <h2>Forfeit</h2>
-        <p>{{taskDetail.task.forfeit}}</p>
-      </div>
-      <div class="item item-text-wrap">
-        <h2>By When</h2>
-        <p>{{taskDetail.task.dueDate | amDateFormat:'DD/MM/YYYY, h:mm:ss a'}}</p>
-      </div>
+
       <div class="padding">
-        <watch-list-options ng-show="taskDetail.showWatchListOptions()" task="taskDetail.task" button-style="button"></watch-list-options>
-        <promise-list-options ng-show="taskDetail.showPromiseListOptions()" task="taskDetail.task" button-style="button"></promise-list-options>
+        <watch-list-options ng-if="taskDetail.showWatchListOptions()" task="taskDetail.task" button-style="button"></watch-list-options>
+        <promise-list-options ng-if="taskDetail.showPromiseListOptions()" task="taskDetail.task" button-style="button"></promise-list-options>
       </div>
     </div>
 

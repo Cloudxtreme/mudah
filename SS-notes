@@ -49,6 +49,8 @@ HEROKU
 
     ---> $ heroku config:set METEOR_SETTINGS="$(cat settings-heroku.json)"
 
+    ---> $ heroku config:set METEOR_SETTINGS="$(cat settings-intdemo.json)"
+
 5) set ROOT_UTL
 
 ---> $ heroku config:set ROOT_URL=https://danchat.herokuapp.com

@@ -8,19 +8,25 @@ import './taskDetail.html';
 
 import { statusHelper } from '/imports/ui/helpers/statusHelper';
 import { name as WatchListOptions } from '../watchListOptions/watchListOptions';
+import { taskHelper } from '/imports/api/methods/taskHelper';
 
 const name = 'taskDetail';
 
 class TaskDetail {
-  constructor($stateParams, $scope, $reactive, taskDetailService) {
+  constructor($stateParams, $scope, $reactive, taskDetailService, uiService) {
     'ngInject';
 
     $reactive(this).attach($scope);
     this.taskDetailService = taskDetailService;
 
+
     this.task = taskDetailService.getTask();
     this.whichOption = taskDetailService.getWhichOption();
+
+    this.creator = taskHelper.getUser(this.task.creator);
+    this.creatorPhoto = uiService.getProfilePhoto(this.creator);
   }
+
 
   showWatchListOptions() {
       if ( this.whichOption == this.taskDetailService.watchListOptions ) {

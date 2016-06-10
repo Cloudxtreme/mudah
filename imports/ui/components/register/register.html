@@ -35,10 +35,8 @@
          <label class="item item-input item-stacked-label">
            <span class="input-label">Password</span>
            <span ng-show="registerForm.password.$error.required && registerForm.password.$dirty" class="assertive byline">required</span>
-           <span ng-show="!registerForm.password.$error.required && (registerForm.password.$error.minlength || registerForm.password.$error.maxlength) && registerForm.password.$dirty"
-                    class="assertive byline">Passwords must be between 8 and 20 characters.</span>
            <span ng-show="!registerForm.password.$error.required && !registerForm.password.$error.minlength && !registerForm.password.$error.maxlength && registerForm.password.$error.pattern && registerForm.password.$dirty"
-                    class="assertive byline">Must contain a lower &amp; uppercase letter, and a symbol !@#$%^&*</span>
+                    class="assertive byline">Must be at least 8-characters, contain a lower &amp; uppercase letter, and a symbol !@#$%^&*</span>
             <input type="password" id="password" name="password" ng-model="register.credentials.password" ng-minlength="8" ng-maxlength="20"
               ng-pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/" required  />
           </label>
