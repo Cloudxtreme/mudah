@@ -19,9 +19,7 @@ class TaskRevoke {
 
 
   action() {
-    if ( this.isButton() ) {
-      this.uiService.hideModal();
-    }
+    this.uiService.hideOptions(this.isButton());
 
     newStatus= statusHelper.status.REVOKED;
     if ( this.task.status==statusHelper.status.PENDING ) {
@@ -69,20 +67,6 @@ class TaskRevoke {
 }
 
 
-function TaskRevokeService($rootScope, $state) {
-  'ngInject';
-
-  var service = {
-    doUpdate: doUpdate
-  }
-  return service;
-
-  // function implementations
-  function doUpdate(task) {
-  }
-}
-
-
 // create a module
 export default angular.module(name, [
   angularMeteor
@@ -95,4 +79,3 @@ export default angular.module(name, [
   controllerAs: name,
   controller: TaskRevoke
 })
-.factory( statusHelper.getServiceName(name), TaskRevokeService);

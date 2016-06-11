@@ -34,9 +34,7 @@ class TaskDecline {
   }
 
   action() {
-    if ( this.isButton() ) {
-      this.uiService.hideModal();
-    }
+    this.uiService.hideOptions(this.isButton());
 
     newStatus = statusHelper.getNextStatus(name,  this.task.status);
 

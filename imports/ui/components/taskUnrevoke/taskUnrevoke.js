@@ -10,19 +10,18 @@ import { updateStatus } from '../../../api/methods/taskMethods.js';
 const name = 'taskUnrevoke';
 
 class TaskUnrevoke {
-  constructor($scope, $reactive,uiService) {
+  constructor($scope, $reactive,uiService, $timeout) {
     'ngInject';
 
     this.uiService = uiService;
+    this.$timeout = $timeout;
     $reactive(this).attach($scope);
 
-    //console.log("TaskUnrevoke task=", this.task);
+
   }
 
   action() {
-    if ( this.isButton() ) {
-      this.uiService.hideModal();
-    }
+    this.uiService.hideOptions(this.isButton());
 
     if ( statusHelper.isSharedTask(this.task) ) {
       // Call the Method
@@ -55,6 +54,7 @@ class TaskUnrevoke {
     return statusHelper.isButton(this.buttonStyle);
   }
 
+
   show() {
     /*
     if ( statusHelper.isSharedTask(this.task) && statusHelper.allow(this.task, name) ) {
@@ -62,36 +62,20 @@ class TaskUnrevoke {
     }
     */
     todayDate = new Date();
-    if ( statusHelper.allow(this.task, name) &&
+    if ( statusHelper.allow( this.task, name) &&
           (this.task.dueDate==null || this.task.dueDate > todayDate ))  {
       if ( this.task.status==statusHelper.status.CANCELLED ) {
           this.buttonLabel = "Restore";
       } else {
           this.buttonLabel = "Unrevoke";
       }
+
       return true;
     }
+
     return false;
   }
 }
-
-/*
-function TaskUnrevokeService($rootScope, $state) {
-  'ngInject';
-
-  var service = {
-    doUpdate: doUpdate
-  }
-  return service;
-
-  // function implementations
-  function doUpdate(task) {
-    console.log("TaskUnrevokeService  taskId=" + task._id);
-  }
-}
-*/
-
-
 
 // create a module
 export default angular.module(name, [
@@ -105,27 +89,3 @@ export default angular.module(name, [
   controllerAs: name,
   controller: TaskUnrevoke
 })
-.config(config);
-//.factory( statusHelper.getServiceName(name), TaskUnrevokeService);
-
-function config($stateProvider) {
-'ngInject';
-
-  $stateProvider.state('tab.taskUnrevoke', {
-    url: '/taskUnrevoke/:taskId',
-    views: {
-      'tab-promise': {
-          template: '<task-unrevoke></task-unrevoke>'
-      }
-    },
-    resolve: {
-      currentUser($q) {
-        if (Meteor.userId() === null) {
-          return $q.reject('AUTH_REQUIRED');
-        } else {
-          return $q.resolve();
-        }
-      }
-    }
-  });
-}

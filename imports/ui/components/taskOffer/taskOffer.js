@@ -48,10 +48,8 @@ class TaskOffer {
   }
 
   action() {
-    //this.uiService.goState('tab.taskEdit', { "taskId": this.task._id});
-    if ( this.isButton() ) {
-      this.uiService.hideModal();
-    }
+    this.uiService.hideOptions(this.isButton());
+    
     this.taskEditService.openModal(this.task);
   }
 

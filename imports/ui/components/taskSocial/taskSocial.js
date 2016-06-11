@@ -20,9 +20,7 @@ class TaskSocial {
 
   action() {
     this.uiService.alert("(Coming Soon) Share on Facebook");
-    if ( this.isButton() ) {
-      this.uiService.hideModal();
-    }
+    this.uiService.hideOptions(this.isButton());
   }
 
   show() {

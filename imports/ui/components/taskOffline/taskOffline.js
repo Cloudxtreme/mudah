@@ -17,9 +17,7 @@ class TaskOffline {
 
   action() {
       this.uiService.alert("You are offline");
-      if ( this.isButton() ) {
-        this.uiService.hideModal();
-      }
+      this.uiService.hideOptions(this.isButton());
   }
 
   isButton() {

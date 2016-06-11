@@ -33,9 +33,8 @@ class TaskChat {
   }
 
   action() {
-    if ( this.isButton() ) {
-      this.uiService.hideModal();
-    }
+    this.uiService.hideOptions(this.isButton());
+    
     this.$state.go("tab.chat", { chatId: this.task._id });
   }
 }

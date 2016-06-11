@@ -4,8 +4,7 @@ import uiRouter from 'angular-ui-router';
 
 import {  Meteor } from 'meteor/meteor';
 
-//import './taskDetail.html';
-import './tinder.html';
+import './taskDetail.html';
 
 
 import { statusHelper } from '/imports/ui/helpers/statusHelper';
@@ -27,6 +26,7 @@ class TaskDetail {
 
     this.creator = taskHelper.getUser(this.task.creator);
     this.creatorPhoto = uiService.getProfilePhoto(this.creator);
+
   }
 
 
@@ -82,8 +82,7 @@ function TaskDetailService(uiService) {
   }
 
   function setTask(task) {
-    currTask={};
-    currTask = _.clone(task);
+    currTask = task;  // point to the Task. Do not clone as task buttons won't be reactive
 
     console.log("taskDetailService, set task");
     console.log(task);
@@ -109,8 +108,7 @@ export default angular.module(name, [
     uiRouter,
     WatchListOptions
   ]).component(name, {
-    //templateUrl: `imports/ui/components/${name}/${name}.html`,
-    templateUrl: `imports/ui/components/${name}/tinder.html`,
+    templateUrl: `imports/ui/components/${name}/${name}.html`,
     controllerAs: name,
     controller: TaskDetail
   })

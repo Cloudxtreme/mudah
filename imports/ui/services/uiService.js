@@ -26,6 +26,7 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
       goState: goState,
       openModal : openModal,
       hideModal : hideModal,
+      hideOptions: hideOptions,
       openModalUrl : openModalUrl,
       alert : alert,
       isIOS  : isIOS,
@@ -103,13 +104,24 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
     }
 
     function hideModal() {
-      $rootScope.modal.hide();
+        $rootScope.modal.hide();
+        if (peekModal()) {
+          console.log("uiService : there's a modal is the stack, show it");
+          $rootScope.modal = popModal();
+          $rootScope.modal.show();
+        }
+    }
 
-      if (peekModal()) {
-        console.log("uiService : there's a modal is the stack, show it");
-        $rootScope.modal = popModal();
-        $rootScope.modal.show();
+    function hideOptions(isButton) {
+      if ( Meteor.settings.public.features.hideOptions==true) {
+        if ( isButton ) {
+            hideModal();
+        } else {
+          console.log("in LIST mode, close option buttons");
+          $ionicListDelegate.closeOptionButtons();
+        }
       }
+
     }
 
     function alert(msg, title) {

@@ -14,9 +14,7 @@ class TaskDelete {
   }
 
   action() {
-    if ( this.isButton() ) {
-      this.uiService.hideModal();
-    }
+    this.uiService.hideOptions(this.isButton());
 
     deleteTask.call({
       taskId: this.task._id

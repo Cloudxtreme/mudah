@@ -4,7 +4,7 @@
     <h3 class="padding" >Drafts</h3>
 
     <div ng-show="draftList.showCreate">
-      <i ng-click="draftList.hideCreate()" class="icon padding-right ion-ios-close-outline positive"  style="float:right"></i>
+      <i ng-click="draftList.hideCreate()" class="icon padding-right ion-ios-close-outline assertive"  style="float:right"></i>
       <form name="createForm" class="padding-left" style="clear:both">
         <input chat-input id="createInputField" type="text" ng-model="draftList.taskName" placeholder="describe your Promise"
            on-return="draftList.create()" on-blur="draftList.create()"/>
@@ -12,7 +12,7 @@
       </form>
       </div>
     <div ng-show="draftList.showEdit">
-      <i ng-click="draftList.hideEdit()" class="icon padding-right ion-ios-close-outline positive"  style="float:right"></i>
+      <i ng-click="draftList.hideEdit()" class="icon padding-right ion-ios-close-outline assertive"  style="float:right"></i>
       <form name="editForm" class="padding-left" style="clear:both">
         <input chat-input id="editInputField" type="text" ng-model="draftList.editTask.name"
             on-focus="draftList.focusEdit()" on-blur="draftList.update()" on-return="draftList.update()"/>

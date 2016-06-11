@@ -31,10 +31,9 @@ class TaskAcknowledge {
   }
 
   action() {
-    if ( this.isButton() ) {
-      this.uiService.hideModal();
-    }
-        markAsAcknowledged.call({
+    this.uiService.hideOptions(this.isButton());
+    
+    markAsAcknowledged.call({
           taskId: this.task._id
         }, (err, res) => {
           if (err) {
@@ -42,7 +41,7 @@ class TaskAcknowledge {
           } else {
             // success!
           }
-        });
+    });
   }
 }
 

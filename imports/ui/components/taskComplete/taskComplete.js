@@ -3,8 +3,12 @@ import angularMeteor from 'angular-meteor';
 
 import './taskComplete.html';
 
-import { statusHelper } from '/imports/ui/helpers/statusHelper';
-import { markAsCompleted } from '/imports/api/methods/taskMethods';
+import {
+  statusHelper
+} from '/imports/ui/helpers/statusHelper';
+import {
+  markAsCompleted
+} from '/imports/api/methods/taskMethods';
 
 const name = 'taskComplete';
 
@@ -18,29 +22,29 @@ class TaskComplete {
 
 
   action() {
-    if ( this.isButton() ) {
-      this.uiService.hideModal();
-    }
+    this.uiService.hideOptions(this.isButton());
 
-      markAsCompleted.call({
-        taskId: this.task._id
-      }, (err, res) => {
-        if (err) {
-          alert(err);
-        } else {
-          // success!
-        }
-      });
+    markAsCompleted.call({
+      taskId: this.task._id
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      } else {
+        // success!
+      }
+    });
   }
   isButton() {
     return statusHelper.isButton(this.buttonStyle);
   }
 
   show() {
-    if (statusHelper.isOffline() ) { return false};
+    if (statusHelper.isOffline()) {
+      return false
+    };
 
-    if ( this.task.completed == false && statusHelper.allow(this.task, name) ) {
-        return true;
+    if (this.task.completed == false && statusHelper.allow(this.task, name)) {
+      return true;
     }
     return false;
   }
@@ -54,7 +58,7 @@ export default angular.module(name, [
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   bindings: {
     task: '<',
-    buttonStyle : '@'
+    buttonStyle: '@'
   },
   controllerAs: name,
   controller: TaskComplete

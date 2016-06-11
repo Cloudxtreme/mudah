@@ -1,8 +1,4 @@
 <div>
-<i class="icon ion-ios-locked"  ng-show="statusIcons.statusHelper.isPrivateTask(statusIcons.task)"></i>
-<i class="icon ion-ios-person royal" ng-show="statusIcons.statusHelper.isCreator(statusIcons.task)"></i>
-<i class="icon ion-ios-box positive" ng-show="statusIcons.statusHelper.isCompleted(statusIcons.task)"></i>
-
 <font style="color:green">{{statusIcons.task.status}}</font>
 <span ng-show="statusIcons.task.status=='ACTIVE'">ENSHRINED</span>
 <span ng-show="statusIcons.statusHelper.isPendingAck(statusIcons.task)">Pending Ack</span>
@@ -15,6 +11,10 @@
   <i class="icon ion-ios-loop-strong positive" ng-show="statusIcons.isEdited()"></i>
   by:<font style="color:red">{{statusIcons.lastEditor()}}</font>
 </span>
+
+<i class="icon ion-ios-locked"  ng-show="statusIcons.statusHelper.isPrivateTask(statusIcons.task)"></i>
+<i class="icon ion-ios-person royal" ng-show="statusIcons.statusHelper.isCreator(statusIcons.task)"></i>
+<i class="icon ion-ios-box positive" ng-show="statusIcons.statusHelper.isCompleted(statusIcons.task)"></i>
 
 <span  ng-show="statusIcons.editArea=='true' || statusIcons.showArea=='true'">
   <span ng-show="statusIcons.editArea=='true'" style="float:right">

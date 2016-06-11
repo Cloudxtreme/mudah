@@ -19,10 +19,8 @@ class TaskNotDone {
 
 
   action() {
-    if ( this.isButton() ) {
-      this.uiService.hideModal();
-    }
-    
+    this.uiService.hideOptions(this.isButton());
+
     console.log("not-done task ...", this.task._id);
     newStatus = statusHelper.getNextStatus(name,  this.task.status);
     // Call the Method

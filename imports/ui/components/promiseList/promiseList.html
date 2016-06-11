@@ -9,8 +9,7 @@
       <ion-item ng-repeat="task in promiseList.tasks" class="item-text-wrap" ng-click="promiseList.openEdit(task)">
       -->
       <ion-item ng-repeat="task in promiseList.tasks  track by task._id" class="item-text-wrap" ng-click="promiseList.openDetail($event,task)">
-        <font class="positive">{{task.name}}</font>
-
+        {{task.name}}
         <due-date date="task.dueDate"></due-date>
         <status-icons task="task" edit-area="true" show-value="true"></status-icons>
 

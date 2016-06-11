@@ -3,43 +3,37 @@
   <px-modal-header view-title="Promise"></px-modal-header>
 
   <ion-view>
-  <ion-content class="has-header">
+    <ion-content class="has-header">
+      <td-card>
+          <img ng-src="{{taskDetail.creatorPhoto}}" width="200px" height="200px">
+          <div class="padding bg-blue">
+            <h3 class="yellow">{{taskDetail.creator.profile.name}}</h3>
+            <div class="yellow">{{taskDetail.task.name}}</div>
+            <div class="padding-top">
+              <div class="aqua" style="float:left">Due {{taskDetail.task.dueDate | amDateFormat:'DD/MM/YYYY, h:mm:ss a'}}</div>
+              <div class="white" style="float:right">{{taskDetail.task.area}}</div>
+            </div>
+            <div style="clear:both"></div>
+            <div class="white" style="float:left">{{taskDetail.task.status}}</div>
+            <div class="white" style="float:right">Value {{taskDetail.task.value}}</div>
 
-  <div class="list card">
+            <div class="yellow" style="clear:both">Reward</div>
+            <div class="white">{{taskDetail.task.reward}}</div>
+            <div class="yellow" style="clear:both">Forfeit</div>
+            <div class="white">{{taskDetail.task.forfeit}}</div>
 
-    <div class="item item-avatar">
-      <img   ng-src="{{taskDetail.creatorPhoto}}"/>
-      <h2>{{taskDetail.creator.profile.name}}</h2>
-      <p>
-        {{taskDetail.task.name}}
-      </p>
-    </div>
 
-      <div class="item item-body">
-        <!--
-        <img style="width:400px" ng-src="{{taskDetail.creatorPhoto}}"/>
-      -->
-        <div class="item item-text-wrap">
-          <h2>Reward</h2>
-          <p>{{taskDetail.task.reward}}</p>
-        </div>
-        <div class="item item-text-wrap">
-          <h2>Forfeit</h2>
-          <p>{{taskDetail.task.forfeit}}</p>
-        </div>
-        <div class="item item-text-wrap">
-          <h2>By When</h2>
-          <p>{{taskDetail.task.dueDate | amDateFormat:'DD/MM/YYYY, h:mm:ss a'}}</p>
-        </div>
-      </div>
+          </div>
+      
+          <div class="padding text-center">
+              <watch-list-options ng-if="taskDetail.showWatchListOptions()" task="taskDetail.task" button-style="button"></watch-list-options>
+              <promise-list-options ng-if="taskDetail.showPromiseListOptions()" task="taskDetail.task" button-style="button"></promise-list-options>
+          </div>
 
-      <div class="padding">
-        <watch-list-options ng-if="taskDetail.showWatchListOptions()" task="taskDetail.task" button-style="button"></watch-list-options>
-        <promise-list-options ng-if="taskDetail.showPromiseListOptions()" task="taskDetail.task" button-style="button"></promise-list-options>
-      </div>
-    </div>
+      </td-card>
 
-  </ion-content>
-</ion-view>
+
+    </ion-content>
+  </ion-view>
 
 </ion-modal-view>

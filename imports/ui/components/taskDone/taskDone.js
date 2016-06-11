@@ -16,11 +16,8 @@ class TaskDone {
     this.uiService = uiService;
   }
 
-
   action() {
-      if ( this.isButton() ) {
-        this.uiService.hideModal();
-      }
+    this.uiService.hideOptions(this.isButton());
 
     newStatus = statusHelper.getNextStatus(name,  this.task.status);
     // Call the Method

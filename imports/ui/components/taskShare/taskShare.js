@@ -25,13 +25,11 @@ class TaskShare {
   }
 
   action() {
-    if ( this.isButton() ) {
-      this.uiService.hideModal();
-    } else {
-      if (  statusHelper.noDueDate(this.task)  ) {
+    this.uiService.hideOptions(this.isButton());
+
+    if ( this.isButton() &&  statusHelper.noDueDate(this.task)  ) {
         this.taskEditService.openModalWithAllOptions(this.task);
         return;
-      }
     }
 
     this.taskEditService.saveEditedTask(this.task);
