@@ -1,22 +1,27 @@
-<ion-modal-view>
+<ion-modal-view class="bg-transparent">
 
-  <px-modal-header view-title=""></px-modal-header>
-
-  <ion-view>
+  <ion-view class="bg-transparent">
     <ion-content class="has-header">
-      <td-card class="bg-aqua">
+      <td-card class="bg-aqua taskEdit">
         <div class="list">
 
-          <form name="editForm">
-            <!--
-            <div class="padding item-text-wrap">
-              <h4>{{taskEdit.task.name}}</h4>
-            </div>
-          -->
-          <ion-input class="item item-input">
-            <textarea msd-elastic ng-model="taskEdit.task.name"  class="padding">
-            </textarea>
-          </ion-input>
+          <i ng-click="taskEdit.hide()" class="icon padding ion-ios-close-outline assertive" style="float:right"></i>
+
+          <form name="editForm" style="clear:both">
+            <ion-input class="item item-input item-stacked-label">
+              <span class="input-label">By When</span>
+              <div class="byline item-text-wrap padding-bottom">
+                <span ng-show="taskEdit.task.dueDate==null" class="blue">To Accept or Share, you need to specify a Due Date</span>
+                <span ng-show="editForm.dueDate.$invalid" class="assertive"><b>Must be a future date!</b></span>
+                <a href="#" ng-click="taskEdit.setDefaultDueDate()">Next Week</a>
+              </div>
+              <input focus-me name="dueDate" type="datetime-local" ng-min="taskEdit.minDate" ng-model="taskEdit.task.dueDate">
+            </ion-input>
+            <div class="padding"></div>
+            <ion-input class="item item-input">
+              <textarea msd-elastic ng-model="taskEdit.task.name" class="padding">
+              </textarea>
+            </ion-input>
             <ion-input class="item item-input item-stacked-label">
               <span class="input-label">Reward</span>
               <input class="orange" type="text" name="reward" ng-model="taskEdit.task.reward" />
@@ -26,22 +31,15 @@
               <input type="text" name="forfeit" ng-model="taskEdit.task.forfeit" />
             </ion-input>
 
-
-            <ion-input class="item item-input item-stacked-label">
-              <span class="input-label">By When</span>
-              <div class="byline item-text-wrap padding-bottom">
-                  <span ng-show="taskEdit.task.dueDate==null" class="blue">To Accept or Share, you need to specify a Due Date</span>
-                  <span ng-show="editForm.dueDate.$invalid" class="assertive"><b>Must be a future date!</b></span>
-                  <a href="#" ng-click="taskEdit.setDefaultDueDate()">Next Week</a>
-              </div>
-              <input focus-me name="dueDate" type="datetime-local" ng-min="taskEdit.minDate" ng-model="taskEdit.task.dueDate">
-            </ion-input>
-
-
             <div class="padding text-center buttonoptions">
               <button ng-disabled="editForm.dueDate.$invalid" class="button button-energized" ng-click="taskEdit.save()">Save</button>
-              <task-accept ng-show="taskEdit.showAllOptions" task="taskEdit.task" button-style="button"></task-accept>
-              <task-share ng-show="taskEdit.showAllOptions" task="taskEdit.task" button-style="button"></task-share>
+              <task-accept ng-show="taskEdit.showAllOptions" task="taskEdit.task" button-style="button" close="true"></task-accept>
+
+              <task-share ng-show="taskEdit.showAllOptions" task="taskEdit.task" button-style="button" close="true"></task-share>
+          <!--
+              <button class="button button-calm" ng-disabled="true">Share</button>
+              <button class="button button-royal" ng-disabled="true">Request</button>
+-->
               <task-delete ng-show="taskEdit.showAllOptions" task="taskEdit.task" button-style="button"></task-delete>
             </div>
 
@@ -49,9 +47,6 @@
         </div>
 
       </td-card>
-
-
-
 
     </ion-content>
   </ion-view>

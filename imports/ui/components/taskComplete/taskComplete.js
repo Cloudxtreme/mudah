@@ -24,14 +24,14 @@ class TaskComplete {
   action() {
     this.uiService.hideOptions(this.isButton());
 
-    markAsCompleted.call({
-      taskId: this.task._id
-    }, (err, res) => {
-      if (err) {
-        alert(err);
-      } else {
-        // success!
-      }
+    this.call('markAsCompleted', {taskId:this.task._id},
+      function(err, res)  {
+        if (err) {
+          alert(err);
+        } else {
+          // success!
+          this.task.completed = true; // to hide button
+        }
     });
   }
   isButton() {

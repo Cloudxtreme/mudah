@@ -132,7 +132,6 @@ export const updateTask = new ValidatedMethod({
       task.neverCountered = false;
     }
 
-
     Tasks.update({
       _id: task._id
     }, {
@@ -244,15 +243,20 @@ export const updateDueDate = new ValidatedMethod({
 });
 
 
-export const share = new ValidatedMethod({
-  name: 'share',
+
+export const shareMany = new ValidatedMethod({
+  name: 'shareMany',
 
   validate: new SimpleSchema({
       taskId: {type:String},
-      otherUserId: {type:String}
+      otherUserId: {type:[String]}
     }).validator(),
 
   run({ taskId,newStatus, otherUserId }) {
+    console.log("shareMany userIds=");
+    console.log(otherUserId);
+
+
       const origTask = taskHelper.getMyTask(taskId); // will throw Exception if no permission
 
       Tasks.update(taskId, {
@@ -265,12 +269,12 @@ export const share = new ValidatedMethod({
           'editedBy' : Meteor.userId(),
           'private' : false
         },
-        $addToSet: {
-          userIds: otherUserId
-        }
+        $addToSet: {  userIds: {$each: otherUserId } }
       });
+
   }
 });
+
 
 
 export const markAsAcknowledged = new ValidatedMethod({

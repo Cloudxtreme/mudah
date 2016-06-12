@@ -23,15 +23,12 @@ class TaskDecline {
   show() {
     if (statusHelper.isOffline() ) { return false};
 
-    if (   statusHelper.isSharedTask(this.task) && this.task.status == statusHelper.status.PENDING && this.wasEditedByThirdParty() ) {
+    if ( this.task.status == statusHelper.status.PENDING && statusHelper.isSharedTask(this.task)  && statusHelper.wasEditedByThirdParty(this.task) ) {
         return true;
     }
     return false;
   }
 
-  wasEditedByThirdParty() {
-    return (this.task.edited && this.task.editedBy !=Meteor.userId() );
-  }
 
   action() {
     this.uiService.hideOptions(this.isButton());

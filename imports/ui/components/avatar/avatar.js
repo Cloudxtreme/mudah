@@ -21,7 +21,7 @@ class Avatar {
   canEditPhoto() {
     if (this.user==undefined || this.user.services==undefined) return;
 
-    if ( this.user.services.password ) {  // can change photo only if you registered with login/password
+    if ( this.user.services.password && this.user._id == Meteor.userId()) {  // can change photo only if you registered with login/password
       return true;
     }
     return false;
@@ -32,21 +32,7 @@ class Avatar {
   }
 
   getPhotoUrl() {
-    if (this.user==undefined || this.user.services==undefined) return;
-
-    if ( this.user.services.facebook ) {
-      return this.uiService.getFacebookPhotoUrl(this.user);
-    }
-
-    if ( this.user.services.google ) {
-      return this.uiService.getGooglePhotoUrl(this.user);
-    }
-
-    if ( this.user.services.password && this.user.profile.photo ) {
-        return this.user.profile.photo;
-    }
-
-    return "/img/blankuser.png";
+    return this.uiService.getProfilePhoto(this.user);
   }
 
   getOAuthSource() {

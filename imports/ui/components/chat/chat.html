@@ -3,11 +3,15 @@
     <div class="message-list">
       <div ng-repeat="message in chat.messages" class="message-wrapper">
         <div class="message" ng-class="message.userId === $root.currentUser._id ? 'message-mine' : 'message-other'">
+          <p><img ng-src="{{chat.getPhotoUrl(message.userId)}}" class="chat-picture">
+              <b class="maroon">{{ chat.getName(message.userId) }}</b>
+          </p>
           <div class="text">{{ message.text }}</div>
           <span class="message-timestamp">{{ message.timestamp | amDateFormat: 'HH:MM' }}</span>
         </div>
-      </div>
+
     </div>
+  </div>
   </ion-content>
   <ion-footer-bar keyboard-attach class="bar-stable footer-chat item-input-inset allow-for-tabs">
     <button class="button button-clear button-icon button-positive icon ion-ios-upload-outline"></button>

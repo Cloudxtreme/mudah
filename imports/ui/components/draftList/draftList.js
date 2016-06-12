@@ -37,7 +37,7 @@ class DraftList {
 
     $reactive(this).attach($scope);
 
-    
+
 
     this.sort = {
       creator: 1
@@ -120,6 +120,7 @@ class DraftList {
         if (err) {
           alert("add task error e=",err);
         }
+        console.log("---> init()");
         this.init();
       });
   }

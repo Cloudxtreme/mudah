@@ -137,25 +137,25 @@ class TaskHelper {
   }
 
   getUser(userId) {
-  if (userId != null) {
-      tmpUser = Meteor.users.findOne(userId);
-      return tmpUser;
-    }
-    return "";
+    if (userId != null) {
+        tmpUser = Meteor.users.findOne(userId);
+        return tmpUser;
+      }
+      return null;
   }
 
   handleMethodError(error, reason, details) {
-    var meteorError = new Meteor.Error(error, reason, details);
+      var meteorError = new Meteor.Error(error, reason, details);
 
-    if (Meteor.isClient) {
-      throw meteorError;
-    }
+      if (Meteor.isClient) {
+        throw meteorError;
+      }
 
-    if (Meteor.isServer) {
-      //return meteorError;
-      console.log("Server method error err=", error + " reason=", reason);
-      throw meteorError;
-    }
+      if (Meteor.isServer) {
+        //return meteorError;
+        console.log("Server method error err=", error + " reason=", reason);
+        throw meteorError;
+      }
   }
 
 }

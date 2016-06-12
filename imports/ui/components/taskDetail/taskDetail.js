@@ -44,6 +44,10 @@ class TaskDetail {
       return false;
   }
 
+  hide() {
+      this.taskDetailService.closeModal();
+  }
+
   action() {
     // do nothing
   }

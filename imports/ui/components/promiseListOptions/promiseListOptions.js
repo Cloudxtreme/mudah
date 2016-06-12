@@ -34,7 +34,7 @@ class PromiseListOptions {
 
     if ( this.buttonStyle==null ) {
       this.buttonStyle="option";
-    } 
+    }
   }
 }
 

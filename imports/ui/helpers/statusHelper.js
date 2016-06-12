@@ -144,6 +144,9 @@ class StatusHelper {
     return task.ack;
   }
 
+  wasEditedByThirdParty(task) {
+    return (task.edited && task.editedBy !=Meteor.userId() );
+  }
 
   isOnline() {
     return Meteor.status().connected;
@@ -168,9 +171,6 @@ class StatusHelper {
     return false;
   }
 
-
-
-
   canShareOnSocialMedia(task) {
     acceptedStatus = this.acceptedStatus['taskSocial'];
     if ( acceptedStatus.indexOf(task.status)>=0 ) {
@@ -180,7 +180,7 @@ class StatusHelper {
   }
 
   hasPermission(task) {
-    if ( task.creator == Meteor.userId() ||  _.contains(task.userIds, Meteor.userId())   ) {
+    if ( task.creator == Meteor.userId() || this.isParticipant(task)  ) {
       return true;
     }
 

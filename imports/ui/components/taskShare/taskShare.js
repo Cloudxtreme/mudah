@@ -25,15 +25,21 @@ class TaskShare {
   }
 
   action() {
-    this.uiService.hideOptions(this.isButton());
-
-    if ( this.isButton() &&  statusHelper.noDueDate(this.task)  ) {
-        this.taskEditService.openModalWithAllOptions(this.task);
-        return;
+    if ( this.close ) {
+      this.uiService.hideOptions(this.isButton(), true, true); // close the Edit Modal
+    } else {
+      this.uiService.hideOptions(this.isButton() ); // close Modal,depending on config
     }
 
-    this.taskEditService.saveEditedTask(this.task);
-    this.chatsAddService.openModal(this.task._id);
+    if ( this.isButton()==false && statusHelper.noDueDate(this.task)  ) {  // call from list button-option
+        this.taskEditService.openModalWithAllOptions(this.task);
+    } else {
+      if (this.taskEditService.isDirty(this.task) ) {
+        this.taskEditService.saveEditedTask(this.task);
+      }
+      this.chatsAddService.openModal(this.task._id, this.task.name, "share");
+    }
+
   }
 
   show() {
@@ -84,7 +90,8 @@ export default angular.module(name, [
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   bindings: {
     task: '<',
-    buttonStyle: '@'
+    buttonStyle: '@',
+    close: '@'
   },
   controllerAs: name,
   controller: TaskShare

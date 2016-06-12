@@ -91,13 +91,17 @@ class StatusIcons {
 
   sharedWith() {
     if ( statusHelper.isSharedTask(this.task) ) {
+      if ( this.task.userIds.length > 1 ) {
+        return this.getName( this.task.userIds[0] ) + " and others";
+      }
+
       return this.getName( this.task.userIds[0] );
     }
     return "";
   }
 
   isSharedWithMe() {
-    if ( statusHelper.isCreator(this.task)==false && _.contains(this.task.userIds, Meteor.userId() ) ) {
+    if ( statusHelper.isCreator(this.task)==false &&  statusHelper.isParticipant(this.task) )  {
       return true;
     }
     return false;

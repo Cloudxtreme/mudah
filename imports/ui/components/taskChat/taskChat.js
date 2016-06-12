@@ -16,9 +16,6 @@ class TaskChat {
   }
 
   isButton() {
-    //console.log("task chat button=", this.buttonStyle);
-    //console.log("isButton=", statusHelper.isButton(this.buttonStyle) );
-
     return statusHelper.isButton(this.buttonStyle);
   }
 
@@ -33,8 +30,8 @@ class TaskChat {
   }
 
   action() {
-    this.uiService.hideOptions(this.isButton());
-    
+    this.uiService.hideOptions(this.isButton(), true);
+
     this.$state.go("tab.chat", { chatId: this.task._id });
   }
 }

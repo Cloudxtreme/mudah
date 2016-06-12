@@ -18,28 +18,35 @@ class TaskAccept {
 
 
   action() {
-    this.uiService.hideOptions(this.isButton());
-
-    if ( this.isButton()==false && statusHelper.noDueDate(this.task)  ) {  // call from list button-option
-        this.taskEditService.openModalWithAllOptions(this.task);
+    if ( this.close ) {
+      this.uiService.hideOptions(this.isButton(), true, true); // close the Edit Modal
+    } else {
+      this.uiService.hideOptions(this.isButton() ); // close Modal,depending on config
     }
 
-    this.taskEditService.saveEditedTask(this.task);
+    if (  statusHelper.noDueDate(this.task) ) {  // call from list button-option
+        this.taskEditService.openModalWithAllOptions(this.task);
+        return;
+    }
+
+    // if user updated the task, then pressed 'Accept', save the task first
+    if (this.taskEditService.isDirty(this.task) ) {
+      this.taskEditService.saveEditedTask(this.task);
+    }
 
     newStatus = statusHelper.getNextStatus(name, this.task.status);
 
     updateStatus.call({
-      taskId: this.task._id,
-      newStatus: newStatus
-    }, (err, res) => {
-      if (err) {
-        console.log("Error found.....back in client");
-        alert(err);
-      } else {
-        // success!
-      }
+        taskId: this.task._id,
+        newStatus: newStatus
+      }, (err, res) => {
+        if (err) {
+          console.log("Error .....back in client");
+          alert(err);
+        } else {
+          // success!
+        }
     });
-
   }
 
   isButton() {
@@ -69,7 +76,7 @@ class TaskAccept {
         return true; // your own task that has been un-shared. you can take it on for yourself
       }
       */
-      if (this.task.status == statusHelper.status.PENDING && this.wasEditedByThirdParty()) {
+      if (this.task.status == statusHelper.status.PENDING && statusHelper.wasEditedByThirdParty(this.task)) {
         return true;
       }
     }
@@ -77,13 +84,7 @@ class TaskAccept {
     return false;
   }
 
-  wasEditedByThirdParty() {
-  //  return (statusHelper.isParticipant(this.task) && this.task.edited && this.task.editedBy != Meteor.userId());
-    if ( statusHelper.isParticipant(this.task) || statusHelper.isCreator(this.task) ) {
-      return (this.task.edited && this.task.editedBy != Meteor.userId());
-    }
-    return false;
-  }
+
 
 }
 
@@ -96,7 +97,8 @@ export default angular.module(name, [
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   bindings: {
     task: '<',
-    buttonStyle: '@'
+    buttonStyle: '@',
+    close: '@'
   },
   controllerAs: name,
   controller: TaskAccept

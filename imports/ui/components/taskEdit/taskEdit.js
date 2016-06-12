@@ -28,7 +28,10 @@ class TaskEdit {
 
     this.uiService = uiService;
 
-    this.task = taskEditService.getTask();
+
+    this.originalTask = _.clone( taskEditService.getTask() );
+    this.task = this.originalTask;
+
     this.taskEditService = taskEditService;
     this.chatsAddService = chatsAddService;
     this.showAllOptions =taskEditService.getAllOptionsFlag();
@@ -44,7 +47,9 @@ class TaskEdit {
   }
 
   save() {
-    this.taskEditService.saveEditedTask(this.task);
+    if (this.taskEditService.isDirty(this.task) ) {
+      this.taskEditService.saveEditedTask(this.task);
+    }
     this.taskEditService.closeModal();
   }
 
@@ -63,6 +68,10 @@ class TaskEdit {
     console.log("is creator = " + statusHelper.isCreator(this.task));
     return statusHelper.isCreator(this.task);
   }
+
+  hide() {
+      this.taskEditService.closeModal();
+  }
 }
 
 
@@ -77,6 +86,7 @@ function TaskEditService(uiService) {
     closeModal: closeModal,
     setTask: setTask,
     getTask : getTask,
+    isDirty: isDirty,
     saveEditedTask : saveEditedTask,
     setAllOptionsFlag : setAllOptionsFlag,
     getAllOptionsFlag : getAllOptionsFlag
@@ -89,7 +99,7 @@ function TaskEditService(uiService) {
     setAllOptionsFlag(false);
 
     var modal = "<task-edit></task-edit>";
-    uiService.openModal(modal);
+    uiService.openEditModal(modal);
   }
 
   function openModalWithAllOptions(task) {
@@ -97,16 +107,17 @@ function TaskEditService(uiService) {
     setAllOptionsFlag(true);
 
     var modal = "<task-edit></task-edit>";
-    uiService.openModal(modal);
+    uiService.openEditModal(modal);
   }
 
   function closeModal() {
-    uiService.hideModal();
+    uiService.hideEditModal();
   }
 
   function setTask(task) {
-    currTask={};
-    currTask = _.clone(task);
+    //currTask={};
+    //currTask = _.clone(task);
+    currTask = task;
 
     console.log("set task");
     console.log(task);
@@ -125,16 +136,82 @@ function TaskEditService(uiService) {
   }
 
   function isDirty(task) {
-    if (  task.name != oldTask.name ||
-          task.reward != oldTask.reward ||
-          task.forfeit != oldTask.forfeit ||
-          task.dueDate != oldTask.dueDate ) {
-        return true;
-    } else {
-        return false;
-    }
+    let oldTask = taskHelper.getPermittedTask( task._id);
+    //logTask(task,oldTask);
+    if (
+        compareString(task.name, oldTask.name) && compareString(task.reward, oldTask.reward) &&
+        compareString(task.forfeit, oldTask.forfeit)  && compareDate(task.dueDate, oldTask.dueDate) ) {
+         console.log("no change");
+         return false;
+       } else {
+         console.log("is dirty");
+         return true;
+       }
+
   }
 
+  function compareString(a,b) {
+    console.log("---> String a=" + a + "*  b=" + b + "*" );
+    return (a===b);
+  }
+
+  function compareDate(a,b) {
+    console.log("---> Date a=" + a + "*  b=" + b + "*" );
+
+    if (a!=null && b!=null) {
+      console.log("date match = " +  a.getTime() == b.getTime() );
+      return ( a.getTime() == b.getTime() );
+    }
+    if (a!=null && b==null) {
+      console.log("date dont match");
+      return false;
+    }
+    if (a==null && b!=null) {
+      console.log("date dont match");
+      return false;
+    }
+
+    return false;
+  }
+
+  function saveEditedTask(task) {
+    let saveTask = {};
+    saveTask._id = task._id;
+    saveTask.name = task.name;
+    saveTask.reward = task.reward;
+    saveTask.forfeit = task.forfeit;
+    saveTask.dueDate = task.dueDate;
+    saveTask.neverCountered = task.neverCountered;
+    saveTask.userIds = task.userIds;
+
+      updateTask.call({
+        task: saveTask
+      }, (err, res) => {
+        if (err) {
+          alert(err);
+        } else {
+          // success!
+        }
+      });
+
+  }
+
+  function logTask(task,oldTask) {
+    console.log("=LOG=");
+    console.log("task.name=", task.name + "*");
+    console.log("oldTask.name=", oldTask.name + "*");
+    console.log("----");
+    console.log("task.reward=", task.reward + "*");
+    console.log("oldTask.reward=", oldTask.reward + "*");
+    console.log("----");
+    console.log("task.forfeit=", task.forfeit + "*");
+    console.log("oldTask.forfeit=", oldTask.forfeit + "*");
+    console.log("----");
+    console.log("task.dueDate=", task.dueDate + "*");
+    console.log("oldTask.dueDate=", oldTask.dueDate + "*");
+  }
+
+/*
   function saveEditedTask(task) {
 
     oldTask = taskHelper.getPermittedTask( task._id);
@@ -160,6 +237,7 @@ function TaskEditService(uiService) {
       });
     }
   }
+  */
 }
 
 

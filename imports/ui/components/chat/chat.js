@@ -9,6 +9,7 @@ import _ from 'underscore';
 
 import './chat.html';
 
+import { taskHelper } from '/imports/api/methods/taskHelper';
 import { Messages } from '../../../api/tasks';
 import { name as ChatInputDirective } from '../../directives/chatInputDirective';
 import { newMessage } from '../../../api/methods/taskMethods.js';
@@ -17,39 +18,76 @@ const name = 'chat';
 
 class Chat {
 
-  constructor($scope, $reactive, $state, $stateParams, $log, $timeout, $ionicScrollDelegate) {
+  constructor($scope, $reactive, $state, $stateParams, $log, $timeout, $ionicScrollDelegate, uiService) {
     'ngInject';
 
     //console.log("Chat component chatId=", $stateParams.chatId);
-    console.log("chat..");
-    console.log($stateParams);
-
-    $reactive(this).attach($scope);
 
     this.$state = $state;
     this.$log = $log;
     this.$timeout = $timeout;
     this.$ionicScrollDelegate = $ionicScrollDelegate;
+    this.uiService = uiService;
 
     this.chatId = $stateParams.chatId;
     this.isIOS = ionic.Platform.isWebView() && ionic.Platform.isIOS();
     this.isCordova = Meteor.isCordova;
 
+    $reactive(this).attach($scope);
 
     this.subscribe('messages', () => [ this.chatId  ]);
-
 
     this.helpers({
       messages() {
         return Messages.find({ chatId: this.chatId });
+      },
+      test() {
+        this.cacheUsers(this.chatId);
       }
     });
+
+    this.cacheUsers(this.chatId);
 
     this.$timeout(() => {
       this.$ionicScrollDelegate.$getByHandle('chatScroll').scrollBottom(true);
     }, 300);
 
     this.autoScroll();
+  }
+
+  cacheUsers(taskId) {
+    let task = taskHelper.getPermittedTask(taskId);
+    console.log("---> get users=");
+    console.log( task.userIds);
+
+    this.users = [];
+    for (x=0;x<task.userIds.length;x++) {
+      let userId = task.userIds[x];
+
+      let currUser = taskHelper.getUser(userId);
+      let userDetails = {};
+        userDetails.name = currUser.profile.name;
+        userDetails.photo = this.uiService.getProfilePhoto(currUser);
+
+      this.users[ userId ] = userDetails;
+      //console.log("name = " + this.users[userId].name );
+    }
+
+    // get the Creator's profile
+    currUser = taskHelper.getUser(task.creator);
+    let userDetails = {};
+      userDetails.name = currUser.profile.name;
+      userDetails.photo = this.uiService.getProfilePhoto(currUser);
+    this.users[ task.creator ] = userDetails;
+
+  }
+
+  getName(userId) {
+    return this.users[userId].name;
+  }
+
+  getPhotoUrl(userId) {
+    return this.users[userId].photo;
   }
 
 
@@ -147,7 +185,7 @@ function config($stateProvider) {
   $stateProvider.state('tab.chat', {
     url: '/chat/:chatId',
     views: {
-      'tab-promise': {
+      'tab-notifications': {
           template: '<chat><chat>'
       }
     },

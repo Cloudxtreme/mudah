@@ -1,10 +1,10 @@
-<ion-modal-view>
+<ion-modal-view class="bg-transparent">
 
-  <px-modal-header view-title="Promise"></px-modal-header>
-
-  <ion-view>
+  <ion-view class="bg-transparent">
     <ion-content class="has-header">
-      <td-card>
+      <td-card class="bg-navy taskDetail">
+          <i ng-click="taskDetail.hide()" class="icon padding ion-ios-close-outline white"  style="float:right"></i>
+          <div style="clear:both"></div>
           <img ng-src="{{taskDetail.creatorPhoto}}" width="200px" height="200px">
           <div class="padding bg-blue">
             <h3 class="yellow">{{taskDetail.creator.profile.name}}</h3>
@@ -24,7 +24,7 @@
 
 
           </div>
-      
+
           <div class="padding text-center">
               <watch-list-options ng-if="taskDetail.showWatchListOptions()" task="taskDetail.task" button-style="button"></watch-list-options>
               <promise-list-options ng-if="taskDetail.showPromiseListOptions()" task="taskDetail.task" button-style="button"></promise-list-options>

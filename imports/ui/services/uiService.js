@@ -27,7 +27,8 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
       openModal : openModal,
       hideModal : hideModal,
       hideOptions: hideOptions,
-      openModalUrl : openModalUrl,
+      openEditModal : openEditModal,
+      hideEditModal : hideEditModal,
       alert : alert,
       isIOS  : isIOS,
       isAndroid: isAndroid,
@@ -98,12 +99,17 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
       $rootScope.modal.show();
     }
 
-    function openModalUrl(url) {
-      $rootScope.modal = $ionicModal.fromTemplateUrl(url);
-      $rootScope.modal.show();
+    function openEditModal(modal) {
+      $rootScope.editModal = $ionicModal.fromTemplate(modal);
+      $rootScope.editModal.show();
+    }
+    function hideEditModal(modal) {
+      $rootScope.editModal.hide();
     }
 
     function hideModal() {
+      console.log("hide Modal");
+
         $rootScope.modal.hide();
         if (peekModal()) {
           console.log("uiService : there's a modal is the stack, show it");
@@ -112,17 +118,24 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
         }
     }
 
-    function hideOptions(isButton) {
-      if ( Meteor.settings.public.features.hideOptions==true) {
+    function hideOptions(isButton, flag, isEditModal) {
+      if (flag==undefined) {
+        flag = Meteor.settings.public.features.hideOptions;
+      }
+      if ( flag==true) {
         if ( isButton ) {
+          if ( isEditModal ) {
+            hideEditModal();
+          } else {
             hideModal();
+          }
+
         } else {
-          console.log("in LIST mode, close option buttons");
-          $ionicListDelegate.closeOptionButtons();
+          $ionicListDelegate.closeOptionsButtons;
         }
       }
-
     }
+
 
     function alert(msg, title) {
       if (title==null) { title="Alert";}
@@ -173,8 +186,9 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
       $state.go('guest');
     }
 
-    function getFacebookPhotoUrl(user) {
-      return "https://graph.facebook.com/" + user.services.facebook.id + "/picture?type=small";
+    function getFacebookPhotoUrl(user, size) {
+      if (size==undefined) { size="large";}
+      return "https://graph.facebook.com/" + user.services.facebook.id + "/picture?type=" + size;
     }
 
     function getGooglePhotoUrl(user) {
@@ -182,21 +196,21 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
     }
 
     function getProfilePhoto(user) {
-  //    if (user==undefined || user.services==undefined) return;
+        if (user==undefined || user.services==undefined) return;
 
-      if ( user.services.facebook ) {
-        return getFacebookPhotoUrl(user);
-      }
+        if ( user.services.facebook ) {
+          return getFacebookPhotoUrl(user, "small");
+        }
 
-      if ( user.services.google ) {
-        return getGooglePhotoUrl(user);
-      }
+        if ( user.services.google ) {
+          return getGooglePhotoUrl(user);
+        }
 
-      if ( user.services.password && user.profile.photo ) {
-          return user.profile.photo;
-      }
+        if ( user.services.password && user.profile.photo ) {
+            return user.profile.photo;
+        }
 
-      return "/img/blankuser.png";
+        return "/img/blankuser.png";
     }
 
     function spinner(flag) {

@@ -32,7 +32,7 @@ class TaskAcknowledge {
 
   action() {
     this.uiService.hideOptions(this.isButton());
-    
+
     markAsAcknowledged.call({
           taskId: this.task._id
         }, (err, res) => {
