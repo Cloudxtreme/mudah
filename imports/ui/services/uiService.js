@@ -105,12 +105,14 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
     }
     function hideEditModal(modal) {
       $rootScope.editModal.hide();
+      $rootScope.editModal.remove();
     }
 
     function hideModal() {
       console.log("hide Modal");
 
         $rootScope.modal.hide();
+        $rootScope.modal.remove();
         if (peekModal()) {
           console.log("uiService : there's a modal is the stack, show it");
           $rootScope.modal = popModal();

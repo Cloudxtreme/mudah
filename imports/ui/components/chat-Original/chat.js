@@ -28,49 +28,39 @@ class Chat {
     this.uiService = uiService;
     this.$log = $log;
     this.$timeout = $timeout;
-    this.isIOS = ionic.Platform.isWebView() && ionic.Platform.isIOS();
-    this.isCordova = Meteor.isCordova;
-    this.$ionicScrollDelegate = $ionicScrollDelegate;
+
 
     $reactive(this).attach($scope);
 
-    //this.chatId = $stateParams.chatId;
-    this.task = chatService.getTask();
-    this.chatId = this.task._id;
-    this.cacheUsers(this.chatId);
+    this.chatId = $stateParams.chatId;
+   
+    this.$ionicScrollDelegate = $ionicScrollDelegate;
+    this.uiService = uiService;
+
+
+    this.isIOS = ionic.Platform.isWebView() && ionic.Platform.isIOS();
+    this.isCordova = Meteor.isCordova;
+
+
 
     this.subscribe('messages', () => [ this.chatId  ]);
 
     this.helpers({
       messages() {
         return Messages.find({ chatId: this.chatId });
+      },
+      init() {
+        this.cacheUsers(this.chatId);
       }
     });
 
 
     this.$timeout(() => {
-      this.currScrollBar = this.findScrollBar("chatScroll");
-      this.currScrollBar.scrollBottom(true);
+      this.$ionicScrollDelegate.$getByHandle('chatScroll').scrollBottom(true);
     }, 300);
-
 
     this.autoScroll();
   }
-
-  findScrollBar(name) {
-
-    for (x=0;x<this.$ionicScrollDelegate._instances.length;x++) {
-      console.log("x=",x);
-      console.log(this.$ionicScrollDelegate._instances[x] );
-
-      console.log("$$delegateHandle = " + this.$ionicScrollDelegate._instances[x].$$delegateHandle );
-      if  ( name == this.$ionicScrollDelegate._instances[x].$$delegateHandle ) {
-        return this.$ionicScrollDelegate._instances[x];
-      }
-    }
-    return null;
-  }
-
 
   cacheUsers(taskId) {
     console.log("get task = ", taskId);
@@ -135,11 +125,8 @@ class Chat {
         } else {
           // success!
         }
-        this.init();
-
-        // this is a hack as getByHandle() doesn't work !
-        //this.$ionicScrollDelegate._instances[2].scrollBottom(true);
-
+      //  this.init();
+      delete this.message;
     });
 
   }
@@ -151,7 +138,7 @@ class Chat {
     }
 
     this.$timeout(() => {
-      this.currScrollBar.scrollBottom(true);
+      this.$ionicScrollDelegate.$getByHandle('chatScroll').scrollBottom(true);
     }, 300);
   }
 
@@ -160,7 +147,7 @@ class Chat {
       this.keyboardHeight = 0;
     }
 
-    this.currScrollBar.resize();
+    this.$ionicScrollDelegate.$getByHandle('chatScroll').resize();
   }
 
   closeKeyboard () {
@@ -178,7 +165,7 @@ class Chat {
       recentMessagesNum = currMessagesNum;
 
       this.$timeout(() => {
-        this.currScrollBar.scrollBottom(true);
+        this.$ionicScrollDelegate.$getByHandle('chatScroll').scrollBottom(animate);
       }, 300);
     });
   }
@@ -210,9 +197,7 @@ function ChatService(uiService, $state) {
 
   function openChat(task) {
     setTask(task);
-    //$state.go("tab.chat", { chatId: task._id });
-    var modal = "<chat></chat>";
-    uiService.openModal(modal);
+    $state.go("tab.chat", { chatId: task._id });
   }
 
   function setTask(task) {

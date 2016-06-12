@@ -9,10 +9,11 @@ import { name as Chat } from '../chat/chat';
 const name = 'taskChat';
 
 class TaskChat {
-  constructor($scope, $state, uiService) {
+  constructor($scope, $state, uiService, chatService) {
     'ngInject';
     this.$state = $state;
     this.uiService = uiService;
+    this.chatService = chatService;
   }
 
   isButton() {
@@ -32,7 +33,8 @@ class TaskChat {
   action() {
     this.uiService.hideOptions(this.isButton(), true);
 
-    this.$state.go("tab.chat", { chatId: this.task._id });
+    this.chatService.openChat(this.task);
+
   }
 }
 

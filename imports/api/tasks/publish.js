@@ -2,8 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { Tasks } from './collection';
-import { Messages } from './collection';
-
+import { Messages } from './collection'; 
 
 if (Meteor.isServer) {
   Meteor.publish('tasks', function(listType) {
@@ -103,6 +102,7 @@ Meteor.publish('messages', function(taskId) {
         ]
         }
       ] });
+
 
   if (task) {
     console.log("You have permission to view this task !!");

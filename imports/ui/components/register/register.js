@@ -72,6 +72,7 @@ class Register {
 
   hideTerms() {
     tmpModal.hide();
+    tmpModal.remove();
   }
 
 }

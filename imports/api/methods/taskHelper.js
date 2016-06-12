@@ -32,6 +32,7 @@ class TaskHelper {
     const task = Tasks.findOne(taskId);
     //const task = Tasks.findOne("dKzgP7cTEYKuKkFxe");
     //const task = Tasks.findOne("kJ25gauz55FcFo9CK");
+
     if (!task) {
       this.handleMethodError(404, "no such task"); // if user doesnt have permission, this Task won't be in the subscription
     }
