@@ -32,7 +32,8 @@ class TaskShare {
     }
 
     if ( this.isButton()==false && statusHelper.noDueDate(this.task)  ) {  // call from list button-option
-        this.taskEditService.openModalWithAllOptions(this.task);
+      this.taskEditService.openModalForDate(this.task);
+      return;
     } else {
       if (this.taskEditService.isDirty(this.task) ) {
         this.taskEditService.saveEditedTask(this.task);

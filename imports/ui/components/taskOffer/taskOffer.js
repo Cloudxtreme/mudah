@@ -49,8 +49,8 @@ class TaskOffer {
 
   action() {
     this.uiService.hideOptions(this.isButton());
-    
-    this.taskEditService.openModal(this.task);
+
+    this.taskEditService.openModalForSave(this.task);
   }
 
 }

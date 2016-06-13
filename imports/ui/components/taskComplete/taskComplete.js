@@ -3,27 +3,24 @@ import angularMeteor from 'angular-meteor';
 
 import './taskComplete.html';
 
-import {
-  statusHelper
-} from '/imports/ui/helpers/statusHelper';
-import {
-  markAsCompleted
-} from '/imports/api/methods/taskMethods';
+import {  statusHelper} from '/imports/ui/helpers/statusHelper';
+import {  markAsCompleted} from '/imports/api/methods/taskMethods';
 
 const name = 'taskComplete';
 
 class TaskComplete {
-  constructor($scope, $reactive, uiService) {
+  constructor($scope, $rootScope, $reactive, uiService) {
     'ngInject';
 
     this.uiService = uiService;
+    this.$rootScope = $rootScope;
+
     $reactive(this).attach($scope);
   }
 
 
   action() {
-    this.uiService.hideOptions(this.isButton());
-
+  
     this.call('markAsCompleted', {taskId:this.task._id},
       function(err, res)  {
         if (err) {

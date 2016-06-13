@@ -5,17 +5,26 @@ import './taskDelete.html';
 
 import { statusHelper } from '/imports/ui/helpers/statusHelper';
 import { deleteTask } from '/imports/api/methods/taskMethods';
+import { name as TaskEdit } from '../taskEdit/taskEdit';
 const name = 'taskDelete';
 
 class TaskDelete {
-  constructor($scope, uiService) {
+  constructor($scope, $rootScope, uiService, taskEditService ) {
     'ngInject';
     this.uiService = uiService;
+    this.taskEditService = taskEditService;
+    this.$rootScope = $rootScope;
   }
 
   action() {
-    if  (this.isButton() ) {
-      this.uiService.hideModal(); // when used from Draft List
+
+    if ( this.$rootScope.modal ) {
+      this.$rootScope.modal.hide();
+      this.$rootScope.modal.remove();
+    }
+    if ( this.$rootScope.editModal ) {
+      this.$rootScope.editModal.hide();
+      this.$rootScope.editModal.remove();
     }
 
     deleteTask.call({
@@ -48,12 +57,14 @@ class TaskDelete {
 
 // create a module
 export default angular.module(name, [
-  angularMeteor
+  angularMeteor,
+  TaskEdit
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   bindings: {
     task: '<',
-    buttonStyle: '@'
+    buttonStyle: '@',
+    close: '@'
   },
   controllerAs: name,
   controller: TaskDelete

@@ -5,7 +5,7 @@
       <td-card class="bg-aqua taskEdit">
         <div class="list">
 
-          <i ng-click="taskEdit.hide()" class="icon padding ion-ios-close-outline assertive" style="float:right"></i>
+          <div ng-click="taskEdit.hide()" class="white padding" style="float:right">Close</div>
 
           <form name="editForm" style="clear:both">
             <ion-input class="item item-input item-stacked-label">
@@ -17,19 +17,22 @@
               </div>
               <input focus-me name="dueDate" type="datetime-local" ng-min="taskEdit.minDate" ng-model="taskEdit.task.dueDate">
             </ion-input>
-            <div class="padding"></div>
-            <ion-input class="item item-input">
-              <textarea msd-elastic ng-model="taskEdit.task.name" class="padding">
-              </textarea>
-            </ion-input>
-            <ion-input class="item item-input item-stacked-label">
-              <span class="input-label">Reward</span>
-              <input class="orange" type="text" name="reward" ng-model="taskEdit.task.reward" />
-            </ion-input>
-            <ion-input class="item item-input item-stacked-label">
-              <span class="input-label">Forfeit</span>
-              <input type="text" name="forfeit" ng-model="taskEdit.task.forfeit" />
-            </ion-input>
+
+            <div ng-if="taskEdit.dateOnly==false">
+              <div class="padding"></div>
+              <ion-input class="item item-input">
+                <textarea msd-elastic ng-model="taskEdit.task.name" class="padding">
+                </textarea>
+              </ion-input>
+              <ion-input class="item item-input item-stacked-label">
+                <span class="input-label">Reward</span>
+                <input class="orange" type="text" name="reward" ng-model="taskEdit.task.reward" />
+              </ion-input>
+              <ion-input class="item item-input item-stacked-label">
+                <span class="input-label">Forfeit</span>
+                <input type="text" name="forfeit" ng-model="taskEdit.task.forfeit" />
+              </ion-input>
+            </div>
 
             <div class="padding text-center buttonoptions">
               <button ng-disabled="editForm.dueDate.$invalid" class="button button-energized" ng-click="taskEdit.save()">Save</button>
@@ -40,7 +43,7 @@
               <button class="button button-calm" ng-disabled="true">Share</button>
               <button class="button button-royal" ng-disabled="true">Request</button>
 -->
-              <task-delete ng-show="taskEdit.showAllOptions" task="taskEdit.task" button-style="button"></task-delete>
+              <task-delete ng-show="taskEdit.showAllOptions" task="taskEdit.task" button-style="button" close="true"></task-delete>
             </div>
 
           </form>

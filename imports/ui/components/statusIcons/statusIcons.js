@@ -1,14 +1,16 @@
 import angular from 'angular';
 import angularMeteor from 'angular-meteor';
-
-import './statusIcons.html';
+import { Meteor } from 'meteor/meteor';
 
 import { statusHelper } from '../../helpers/statusHelper';
 import { name as dueDate } from '../dueDate/dueDate';
 import { name as AreaEdit } from '../areaEdit/areaEdit';
 import { name as ValueEdit } from '../valueEdit/valueEdit';
+import 'angular-moment';
+
 
 const name = 'statusIcons';
+import "./statusIcons.html";
 
 class StatusIcons {
   constructor($scope, $reactive,  uiService, areaEditService, valueEditService) {
@@ -33,6 +35,12 @@ class StatusIcons {
     this.valueEditService.openModal(task);
   }
 
+  showChat() {
+    if (Meteor.settings.public.features.chat==true) {
+      return true;
+    }
+    return false;
+  }
   getAreaLabel() {
     if (this.task.area==null) {
       return "Set Area";
@@ -47,23 +55,17 @@ class StatusIcons {
     return "Value " + this.task.value;
   }
 
-  /*
-  isEditedByOwner() { // only if the countering has started
-    return ( this.task.edited && this.task.creator === this.task.editedBy );
-  }
-  isEditedByWatcher() {
-    return ( this.task.edited && this.task.creator != this.task.editedBy );
-  }
-  */
   isEdited() {
       return ( this.task.edited  );
   }
 
   lastEditor() {
       if (this.task.editedBy === Meteor.userId() ) {
+        this.myTurn = false;
         return "me";
       } else {
-          return this.getName(this.task.editedBy);
+        this.myTurn=true;
+        return this.getName(this.task.editedBy);
       }
   }
 
@@ -91,11 +93,23 @@ class StatusIcons {
 
   sharedWith() {
     if ( statusHelper.isSharedTask(this.task) ) {
-      if ( this.task.userIds.length > 1 ) {
-        return this.getName( this.task.userIds[0] ) + " and others";
+      let firstUser = this.getName( this.task.userIds[0] );
+      let howManyOthers = this.task.userIds.length;
+
+      if ( howManyOthers==0) {
+          console.log("this is a Bug ! should not be a shared task and shared with 0 users !!");
+          return "";
       }
 
-      return this.getName( this.task.userIds[0] );
+      if ( howManyOthers==1) {
+        return firstUser;
+      } else {
+        if ( howManyOthers==2) {
+          return firstUser + " and 1 other";
+        } else {
+          return firstUser + " and " + howManyOthers + " others";
+        }
+      }
     }
     return "";
   }
@@ -105,6 +119,20 @@ class StatusIcons {
       return true;
     }
     return false;
+  }
+
+  canEditArea() {
+    if (  statusHelper.isCreator(this.task) ) {
+      return true;
+    }
+    return false;
+  }
+
+  canEditValue() {
+    if (  statusHelper.isCreator(this.task) ) {
+      return false;
+    }
+    return true;
   }
 
   creatorName() {
@@ -139,23 +167,32 @@ class StatusIcons {
     }
     return "";
   }
+
+  isRecentMessage() {
+    let lastHour = new Date()
+    lastHour.setHours( lastHour.getHours() - 1);
+
+    if ( this.task.lastMessage.timestamp > lastHour ) {
+      //console.log("  msg = ", this.task.lastMessage.timestamp);
+      //console.log("1 ago = ", lastHour);
+      return true;
+    }
+    return false;
+  }
 }
 
 
 // create a module
 export default angular.module(name, [
   angularMeteor,
+  'angularMoment',
   dueDate,
   AreaEdit,
   ValueEdit
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   bindings: {
-    task: '<',
-    showArea: '@',
-    editArea: '@',
-    showValue: '@',
-    editValue: '@'
+    task: '<'
   },
   controllerAs: name,
   controller: StatusIcons

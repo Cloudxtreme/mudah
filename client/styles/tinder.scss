@@ -1,3 +1,10 @@
+.item-avatar-name {  // place name under item-avatar
+    position:absolute;
+    top:60px;
+    left:16px;
+    font-weight:bold;
+    font-size:10px;
+}
 
 
 td-card {
@@ -9,7 +16,7 @@ td-card {
     width: 300px;
     box-shadow: 0px 1px 10px rgba(0,0,0,0.5);
     border-radius: 10px;
-    color: #fff;
+  //  color: #fff;
     border-style:solid;
     border-width:1px;
 }
@@ -19,6 +26,13 @@ td-card {
 }
 .taskEdit {
   border: 1px solid #7FDBFF !important;
+}
+
+.tdSelect {
+  border: 10px solid #FFF !important;
+}
+.tdSelect .input-label {
+    color: #000;
 }
 
 td-card img {

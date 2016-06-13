@@ -20,7 +20,7 @@ const name = 'chat';
 
 class Chat {
 
-  constructor($scope, $reactive, $stateParams, $log, $timeout, $ionicScrollDelegate, uiService, chatService) {
+  constructor($scope, $reactive, $log, $timeout, $ionicScrollDelegate, uiService, chatService) {
     'ngInject';
 
     console.log("Chat component");
@@ -34,8 +34,11 @@ class Chat {
 
     $reactive(this).attach($scope);
 
-    //this.chatId = $stateParams.chatId;
     this.task = chatService.getTask();
+
+    //console.log("------> clear last message");
+    //this.task.lastMessage = {};
+
     this.chatId = this.task._id;
     this.cacheUsers(this.chatId);
 
@@ -60,8 +63,8 @@ class Chat {
   findScrollBar(name) {
 
     for (x=0;x<this.$ionicScrollDelegate._instances.length;x++) {
-      console.log("x=",x);
-      console.log(this.$ionicScrollDelegate._instances[x] );
+      //console.log("x=",x);
+      //console.log(this.$ionicScrollDelegate._instances[x] );
 
       console.log("$$delegateHandle = " + this.$ionicScrollDelegate._instances[x].$$delegateHandle );
       if  ( name == this.$ionicScrollDelegate._instances[x].$$delegateHandle ) {
@@ -73,11 +76,9 @@ class Chat {
 
 
   cacheUsers(taskId) {
-    console.log("get task = ", taskId);
+    let task = this.task;
 
-    let task = taskHelper.getPermittedTask(taskId);
-
-    console.log("---> get users=");
+    console.log("---> get friends=");
     console.log( task.userIds);
 
     this.users = [];
@@ -110,10 +111,6 @@ class Chat {
   getPhotoUrl(userId) {
     //return "/img/blankuser.png";
     return this.users[userId].photo;
-  }
-
-  close() {
-    console.log("---close()---");
   }
 
   init() {
@@ -182,19 +179,6 @@ class Chat {
       }, 300);
     });
   }
-
-
-  handleError(err) {
-    if (err.error == 'cancel') return;
-    this.$log.error('Profile save error ', err);
-
-    this.$ionicPopup.alert({
-      title: err.reason || 'Save failed',
-      template: 'Please try again',
-      okType: 'button-positive button-clear'
-    });
-  }
-
 }
 
 function ChatService(uiService, $state) {
@@ -209,8 +193,12 @@ function ChatService(uiService, $state) {
   return service;
 
   function openChat(task) {
+    if ( Meteor.settings.public.features.chat==false) {
+      uiService.comingSoon("Clicking on the Promiser's Photo is a shortcut to open the Chat view");
+      return;
+    }
+
     setTask(task);
-    //$state.go("tab.chat", { chatId: task._id });
     var modal = "<chat></chat>";
     uiService.openModal(modal);
   }
@@ -236,26 +224,3 @@ export default angular.module(name, [
   controller: Chat
 })
 .factory( statusHelper.getServiceName(name), ChatService)
-.config(config);
-
-function config($stateProvider) {
-'ngInject';
-
-  $stateProvider.state('tab.chat', {
-    url: '/chat/:chatId',
-    views: {
-      'tab-notifications': {
-          template: '<chat></chat>'
-      }
-    },
-    resolve: {
-      currentUser($q) {
-        if (Meteor.userId() === null) {
-          return $q.reject('AUTH_REQUIRED');
-        } else {
-          return $q.resolve();
-        }
-      }
-    }
-  });
-}

@@ -6,22 +6,22 @@ import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import './watchList.html';
 
-import { name as StatusIcons } from '../statusIcons/statusIcons';
 import { name as WatchListOptions } from '../watchListOptions/watchListOptions';
 import { taskHelper } from '/imports/api/methods/taskHelper';
-import { statusHelper } from '/imports/ui/helpers/statusHelper';
 import { name as TaskDetail } from '../taskDetail/taskDetail';
 import { name as EmptyList } from '/imports/ui/directives/emptyList';
+import { name as UserPromise } from '/imports/ui/directives/userPromise';
 
 const name = 'watchList';
 
 class WatchList {
-  constructor($scope, $reactive, uiService, taskDetailService) {
+  constructor($scope, $reactive, uiService, taskDetailService, chatService) {
     'ngInject';
 
     $reactive(this).attach($scope);
     this.uiService = uiService;
     this.taskDetailService = taskDetailService;
+    this.chatService = chatService;
 
     this.load();
   }
@@ -56,10 +56,10 @@ class WatchList {
 export default angular.module(name, [
   angularMeteor,
   uiRouter,
-  StatusIcons,
   TaskDetail,
   EmptyList,
-  WatchListOptions
+  WatchListOptions,
+  UserPromise
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   controllerAs: name,

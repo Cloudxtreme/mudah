@@ -10,7 +10,10 @@
               <b class="maroon">{{ chat.getName(message.userId) }}</b>
           </p>
           <div class="text">{{ message.text }}</div>
-          <span class="message-timestamp">{{ message.timestamp | amDateFormat: 'HH:MM' }}</span>
+          <!--
+          <div class="message-timestamp">{{ message.timestamp | amDateFormat: 'DD.MM.YYYY HH:MM:SS' }}</div>
+        -->
+          <div class="message-timestamp" am-time-ago="message.timestamp"></div>
         </div>
 
     </div>

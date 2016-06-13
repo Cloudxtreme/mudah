@@ -18,11 +18,12 @@ class ChatsAdd {
   constructor($scope, $rootScope, $reactive, $state, uiService) {
     'ngInject';
 
-    $reactive(this).attach($scope);
     this.$state = $state;
     this.$rootScope = $rootScope;
     this.uiService = uiService;
 
+    $reactive(this).attach($scope);
+  
     this.selected = [];
 
     console.log("mode = ", this.mode);
@@ -101,13 +102,7 @@ class ChatsAdd {
   }
 
   getPhotoUrl(user) {
-    if (user.services.facebook) {
-      return this.uiService.getFacebookPhotoUrl(user);
-    }
-
-    if (user.services.google) {
-      return this.uiService.getGooglePhotoUrl(user);
-    }
+    return this.uiService.getProfilePhoto(user);
   }
 
   getOAuthSource(user) {

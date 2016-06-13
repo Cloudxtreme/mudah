@@ -1,15 +1,16 @@
-<ion-modal-view>
-    <px-modal-header view-title="{{valueEdit.currTask.name}}"></px-modal-header>
-   <ion-view>
+<ion-modal-view class="bg-transparent">
 
-     <ion-content class="has-header">
-       <form name="areaForm">
+  <ion-view class="bg-transparent">
+    <ion-content class="has-header">
+
+      <td-card class="tdSelect">
+       <form name="valueForm">
          <ion-input class="item item-input item-select">
            <div class = "input-label">
              Value
            </div>
 
-           <select  ng-model="valueEdit.currTask.value">
+           <select  ng-model="valueEdit.currTask.value" ng-change="valueEdit.action()">
              <option value="1">Ermm...</option>
              <option value="2">Waking Up</option>
              <option value="3">Good Stuff</option>
@@ -20,11 +21,8 @@
           </select>
          </ion-input>
 
-         <label class="item">
-            <button class="button button-block  button-energized"
-                  ng-click="valueEdit.action()">Save</button>
-         </label>
        </form>
+     </td-card>
      </ion-content>
    </ion-view>
  </ion-modal-view>

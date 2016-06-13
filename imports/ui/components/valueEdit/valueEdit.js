@@ -25,8 +25,6 @@ class  ValueEdit {
 
 
   action() {
-    console.log("value = ", this.currTask.value);
-
       this.closeModal(); // easier to mock this!
 
       this.call('updateValue',

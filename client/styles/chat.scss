@@ -6,6 +6,17 @@
   vertical-align:middle
 }
 
+.friend-picture {
+  max-width: 40px;
+  max-height: 40px;
+  margin: 5px;
+  vertical-align:middle;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #000;
+  border-radius: 50%;
+}
+
 .chat {
   background-color: #DDDDDD;
   background-repeat: no-repeat;
@@ -86,9 +97,13 @@
   }
 
   .message-timestamp {
+    /*
     position: absolute;
     bottom: 2px;
     right: 7px;
+    */
+    padding-right:5px;
+    float:right;
     color: gray;
     font-size: 12px;
   }

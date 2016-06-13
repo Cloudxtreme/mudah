@@ -50,11 +50,12 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
       console.log(msg);
     }
 
-    function comingSoon() {
+    function comingSoon(msg) {
+      if (msg==null ) {  msg = "";  }
 
       $ionicPopup.alert({
         title: 'Coming Soon',
-        template: 'Work in Progress'
+        template: 'Work in Progress. ' + msg
       });
     }
 
@@ -103,6 +104,7 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
       $rootScope.editModal = $ionicModal.fromTemplate(modal);
       $rootScope.editModal.show();
     }
+
     function hideEditModal(modal) {
       $rootScope.editModal.hide();
       $rootScope.editModal.remove();

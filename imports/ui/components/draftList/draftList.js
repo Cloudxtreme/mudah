@@ -111,6 +111,7 @@ class DraftList {
     console.log("create taskName = ", this.taskName);
 
     if (this.taskName.length ==0 ) {
+      this.hideCreate();
       return;
     }
 
@@ -157,7 +158,7 @@ class DraftList {
     this.hideCreate();
     this.hideEdit();
     this.uiService.stopFurtherClicks($event);
-    this.taskEditService.openModalWithAllOptions(task);
+    this.taskEditService.openModal(task);
   }
 
   hasDueDate(task) {
@@ -230,14 +231,14 @@ class DraftList {
       });
   }
 
-  openDetail() {
+  openTaskEdit() {
     this.call('addTask', {
       taskName: this.taskName,
     }, function(err,_id) {
         this.hideCreate();
         //console.log("added _id=", _id);
         let task = taskHelper.getMyTask(_id);
-        this.taskEditService.openModalWithAllOptions(task);
+        this.taskEditService.openModal(task);
     });
   }
 

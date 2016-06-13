@@ -11,6 +11,7 @@ import { taskHelper } from '/imports/api/methods/taskHelper';
 import { statusHelper } from '../../helpers/statusHelper';
 import { name as dueDate } from '../dueDate/dueDate';
 import { name as EmptyList } from '/imports/ui/directives/emptyList';
+import { name as UserPromise } from '/imports/ui/directives/userPromise';
 
 import './promiseList.html';
 
@@ -86,7 +87,8 @@ export default angular.module(name, [
   dueDate,
   TaskDetail,
   PromiseListOptions,
-  EmptyList
+  EmptyList,
+  UserPromise
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   controllerAs: name,

@@ -25,7 +25,7 @@ class TaskAccept {
     }
 
     if (  statusHelper.noDueDate(this.task) ) {  // call from list button-option
-        this.taskEditService.openModalWithAllOptions(this.task);
+        this.taskEditService.openModalForDate(this.task);
         return;
     }
 

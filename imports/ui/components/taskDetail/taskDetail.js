@@ -10,6 +10,7 @@ import './taskDetail.html';
 import { statusHelper } from '/imports/ui/helpers/statusHelper';
 import { name as WatchListOptions } from '../watchListOptions/watchListOptions';
 import { taskHelper } from '/imports/api/methods/taskHelper';
+import { name as UserList } from '/imports/ui/components/userList/userList';
 
 const name = 'taskDetail';
 
@@ -110,7 +111,8 @@ function TaskDetailService(uiService) {
 export default angular.module(name, [
     angularMeteor,
     uiRouter,
-    WatchListOptions
+    WatchListOptions,
+    UserList
   ]).component(name, {
     templateUrl: `imports/ui/components/${name}/${name}.html`,
     controllerAs: name,

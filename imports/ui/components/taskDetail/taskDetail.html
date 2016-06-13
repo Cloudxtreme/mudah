@@ -3,14 +3,15 @@
   <ion-view class="bg-transparent">
     <ion-content class="has-header">
       <td-card class="bg-navy taskDetail">
-          <i ng-click="taskDetail.hide()" class="icon padding ion-ios-close-outline white"  style="float:right"></i>
+
+          <div ng-click="taskDetail.hide()" class="white padding" style="float:right">Close</div>
           <div style="clear:both"></div>
           <img ng-src="{{taskDetail.creatorPhoto}}" width="200px" height="200px">
           <div class="padding bg-blue">
             <h3 class="yellow">{{taskDetail.creator.profile.name}}</h3>
             <div class="yellow">{{taskDetail.task.name}}</div>
             <div class="padding-top">
-              <div class="aqua" style="float:left">Due {{taskDetail.task.dueDate | amDateFormat:'DD/MM/YYYY, h:mm:ss a'}}</div>
+              <div class="aqua" style="float:left">Due {{taskDetail.task.dueDate | amDateFormat:'D.M.YYYY HH:MM:SS'}}</div>
               <div class="white" style="float:right">{{taskDetail.task.area}}</div>
             </div>
             <div style="clear:both"></div>
@@ -21,7 +22,7 @@
             <div class="white">{{taskDetail.task.reward}}</div>
             <div class="yellow" style="clear:both">Forfeit</div>
             <div class="white">{{taskDetail.task.forfeit}}</div>
-
+            <user-list user-ids="taskDetail.task.userIds"></user-list>
 
           </div>
 

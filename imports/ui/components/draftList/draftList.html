@@ -1,8 +1,6 @@
 <ion-view title="draftList">
 
   <ion-content class="has-header  myDraftList">
-    <h3 class="padding">Drafts</h3>
-
     <div ng-show="draftList.showCreate">
       <i ng-click="draftList.hideCreate()" class="icon padding-right ion-ios-close-outline assertive" style="float:right"></i>
       <form name="createForm" class="padding-left" style="clear:both">
@@ -12,7 +10,7 @@
           </textarea>
         </ion-input>
 
-        <a ng-show="draftList.taskName.length>0" ng-click="draftList.openDetail()" class="padding byline">Set By When - Reward - Forfeit</a>
+        <a ng-show="draftList.taskName.length>0" ng-click="draftList.openTaskEdit()" class="padding byline">Set By When - Reward - Forfeit</a>
       </form>
     </div>
     <div ng-show="draftList.showEdit">
@@ -47,11 +45,11 @@
         <status-icons task="task"></status-icons>
 
         <div>
-          <div ng-show="draftList.hasDueDate(task)" class="assertive">{{task.dueDate | amDateFormat:'DD/MM/YYYY, h:mm:ss a'}}
+          <div ng-show="draftList.hasDueDate(task)" class="assertive">{{task.dueDate | amDateFormat:'D.M.YYYY HH:MM:SS'}}
             <font ng-class="draftList.statusHelper.isOverdue(task) ? 'assertive' : 'balanced'">(<span am-time-ago="task.dueDate"></span>)</font>
           </div>
           <div style="font-size:80%">
-            <font class="royal">More Details and Actions</font>
+            <font class="royal">By When - Reward - Forfeit - Actions</font>
           </div>
         </div>
 

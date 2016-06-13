@@ -1,31 +1,30 @@
-<ion-modal-view>
-    <px-modal-header view-title="{{areaEdit.currTask.name}}"></px-modal-header>
-   <ion-view>
+<ion-modal-view class="bg-transparent">
 
-     <ion-content class="has-header">
+  <ion-view class="bg-transparent">
+    <ion-content class="has-header">
+
+      <td-card class="tdSelect">
        <form name="areaForm">
-         <ion-input class="item item-input item-select">
-           <div class = "input-label">
-             Area
-           </div>
+         
+           <ion-input class="item item-input item-select">
+             <div class = "input-label">
+               Area
+             </div>
 
-           <select  ng-model="areaEdit.currTask.area">
-             <option>Career</option>
-             <option>Health</option>
-             <option>Finances</option>
-             <option>Family</option>
-             <option>Friends</option>
-             <option>Leisure</option>
-             <option>Love</option>
-             <option>Misc</option>
-          </select>
-         </ion-input>
+             <select  ng-model="areaEdit.currTask.area" ng-change="areaEdit.action()">
+               <option>Career</option>
+               <option>Health</option>
+               <option>Finances</option>
+               <option>Family</option>
+               <option>Friends</option>
+               <option>Leisure</option>
+               <option>Love</option>
+               <option>Misc</option>
+            </select>
+          </ion-input>
 
-         <label class="item">
-            <button class="button button-block  button-energized"
-                  ng-click="areaEdit.action()">Save</button>
-         </label>
        </form>
+     </td-card>
      </ion-content>
    </ion-view>
  </ion-modal-view>

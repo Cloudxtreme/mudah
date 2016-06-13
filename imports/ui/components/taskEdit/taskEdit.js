@@ -32,9 +32,13 @@ class TaskEdit {
     this.originalTask = _.clone( taskEditService.getTask() );
     this.task = this.originalTask;
 
+
     this.taskEditService = taskEditService;
     this.chatsAddService = chatsAddService;
-    this.showAllOptions =taskEditService.getAllOptionsFlag();
+    this.showAllOptions =taskEditService.getAllOptions();
+    this.dateOnly = taskEditService.getDateOnly();
+
+    console.log("date Only = ", this.dateOnly);
 
     this.minDate = new Date();
 
@@ -78,36 +82,48 @@ class TaskEdit {
 function TaskEditService(uiService) {
   'ngInject';
   let currTask=null;
-  let allOptionsFlag=false;
+  let allOptions=false;
+  let dateOnly=false;
 
   var service = {
     openModal: openModal,
-    openModalWithAllOptions: openModalWithAllOptions,
+    openModalForDate:openModalForDate,
+    openModalForSave: openModalForSave,
     closeModal: closeModal,
     setTask: setTask,
     getTask : getTask,
     isDirty: isDirty,
     saveEditedTask : saveEditedTask,
-    setAllOptionsFlag : setAllOptionsFlag,
-    getAllOptionsFlag : getAllOptionsFlag
+    getAllOptions : getAllOptions,
+    getDateOnly : getDateOnly
   }
   return service;
 
-
-  function openModal(task) {
+  function open(task) {
     setTask(task);
-    setAllOptionsFlag(false);
-
     var modal = "<task-edit></task-edit>";
     uiService.openEditModal(modal);
   }
 
-  function openModalWithAllOptions(task) {
-    setTask(task);
-    setAllOptionsFlag(true);
+  function openModal(task) {
+    allOptions=true;
+    dateOnly=false;
 
-    var modal = "<task-edit></task-edit>";
-    uiService.openEditModal(modal);
+    open(task);
+  }
+
+  function openModalForDate(task) {
+    allOptions=true;
+    dateOnly = true;
+
+    open(task);
+  }
+
+  function openModalForSave(task) {
+    allOptions=false;
+    dateOnly = false;
+
+    open(task);
   }
 
   function closeModal() {
@@ -123,12 +139,20 @@ function TaskEditService(uiService) {
     console.log(task);
   }
 
-  function getAllOptionsFlag() {
-    return allOptionsFlag;
+  function getAllOptions() {
+    return allOptions;
   }
 
-  function setAllOptionsFlag(flag) {
-    allOptionsFlag = flag
+  function setAllOptions(flag) {
+    allOptions = flag
+  }
+
+  function setDateOnly(flag) {
+    dateOnly = flag;
+  }
+
+  function getDateOnly() {
+    return dateOnly;
   }
 
   function getTask() {
@@ -211,33 +235,7 @@ function TaskEditService(uiService) {
     console.log("oldTask.dueDate=", oldTask.dueDate + "*");
   }
 
-/*
-  function saveEditedTask(task) {
 
-    oldTask = taskHelper.getPermittedTask( task._id);
-
-    if (  isDirty(task) ) {
-      saveTask = {};
-      saveTask._id = task._id;
-      saveTask.name = task.name;
-      saveTask.reward = task.reward;
-      saveTask.forfeit = task.forfeit;
-      saveTask.dueDate = task.dueDate;
-      saveTask.neverCountered = task.neverCountered;
-      saveTask.userIds = task.userIds;
-
-      updateTask.call({
-        task: saveTask
-      }, (err, res) => {
-        if (err) {
-          alert(err);
-        } else {
-          // success!
-        }
-      });
-    }
-  }
-  */
 }
 
 
