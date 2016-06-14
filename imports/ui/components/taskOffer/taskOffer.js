@@ -18,6 +18,18 @@ class TaskOffer {
     $reactive(this).attach($scope);
     this.uiService = uiService;
     this.taskEditService = taskEditService;
+
+    this.autorun(() => {
+      neverFlag = this.getReactively('this.task.neverCountered');
+      this.setButtonLabel(neverFlag);
+    });
+  }
+
+  setButtonLabel(neverFlag) {
+    this.buttonLabel = "Offer";
+    if ( statusHelper.isCreator(this.task) && neverFlag==true ) {
+      this.buttonLabel = "Edit";
+    }
   }
 
   isButton() {
@@ -27,23 +39,12 @@ class TaskOffer {
   show() {
     if (statusHelper.isOffline() ) { return false};
 
-    neverFlag = this.getReactively('this.task.neverCountered');
-
-    if ( this.task.status == statusHelper.status.PENDING  ) {
-        if ( neverFlag==true && this.task.creator==Meteor.userId() ) {
-          this.buttonLabel = "Edit";
-        } else {
-          this.buttonLabel = "Offer";
-        }
-
+    if ( this.task.status == statusHelper.status.PENDING ||
+       ( statusHelper.isCreator(this.task) &&
+         (this.task.status == statusHelper.status.CANCELLED  || this.task.status == statusHelper.status.REVOKED) )) {
       return true;
     }
 
-    if ( this.task.status == statusHelper.status.REVOKED && statusHelper.isCreator(this.task) ) {
-      this.buttonLabel = "Edit";
-
-      return true;
-    }
     return false;
   }
 

@@ -4,8 +4,27 @@
     left:16px;
     font-weight:bold;
     font-size:10px;
+    max-width:50px;
 }
 
+.tdshareheader {
+  height:54px;
+}
+
+.tdtitle {
+    position: absolute;
+    top: 10px;
+    left: 16px;
+    max-width: 200px;
+    max-height: 44px;
+    overflow: scroll;
+}
+
+span.buttons.tdsharebutton {
+  position:absolute;
+  top:2px;
+  right:2px;
+}
 
 td-card {
     position: absolute;
@@ -35,11 +54,9 @@ td-card {
     color: #000;
 }
 
-td-card img {
-    margin-top: 20px;
+td-card img.taskPhoto {
     width: 100%;
     //height: 258px;
-
 }
 
 td-card .item-input input {

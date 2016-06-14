@@ -5,30 +5,25 @@ import './taskRevoke.html';
 import { Tasks } from '../../../api/tasks';
 import { statusHelper } from '../../helpers/statusHelper';
 
-import { updateStatus } from '../../../api/methods/taskMethods.js';
+import { revokeTask } from '/imports/api/methods/taskMethods.js';
 
 const name = 'taskRevoke';
 
 class TaskRevoke {
   constructor($scope, $reactive, $state, $stateParams, uiService) {
     'ngInject';
+
     $reactive(this).attach($scope);
     this.uiService = uiService;
-
   }
 
 
   action() {
     this.uiService.hideOptions(this.isButton());
 
-    newStatus= statusHelper.status.REVOKED;
-    if ( this.task.status==statusHelper.status.PENDING ) {
-      newStatus= statusHelper.status.CANCELLED;
-    }
     // Call the Method
-    updateStatus.call({
-      taskId: this.task._id,
-      newStatus: newStatus
+    revokeTask.call({
+      taskId: this.task._id
     }, (err, res) => {
       if (err) {
         if (err.error === 'update.not-logged-in') {
@@ -40,6 +35,7 @@ class TaskRevoke {
         // success!
       }
     });
+
   }
 
 

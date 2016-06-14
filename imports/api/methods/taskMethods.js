@@ -14,24 +14,32 @@ import _ from 'underscore';
 TaskSchema = new SimpleSchema({
   _id : {type: String, regEx: SimpleSchema.RegEx.Id},
   name: {type: String, optional:false},
+  creator: {type:String},
   createDate: {type: Date},
+
   edited: {type:Boolean, optional:true},
   editedBy: {type:String, optional:true},
-  neverCountered: {type:Boolean, optional:true},
+  editedDate: {type: Date},
+
   status: {type:String},
   statusBy: {type:String},
+  statusDate: {type: Date},
+  neverCountered: {type:Boolean},
+  private: {type:Boolean},
+
   ack: {type:Boolean, optional:true},
   ackBy: {type:String, optional:true},
-  private: {type:Boolean},
-  completed: {type:Boolean, optional:true},
-  archived: {type:Boolean, optional:true},
-  creator: {type:String},
 
-  area: {type: String, optional:true},
-  value: {type: String, optional:true},
+  archived: {type:Boolean, optional:true},
+
+  completed: {type:Boolean, optional:true},
+  completedDate : {type: Date},
+
+  dueDate : {type: Date},
   reward: {type: String, optional:true},
   forfeit: {type: String, optional:true},
-  dueDate : {type: Date},
+  area: {type: String, optional:true},
+  value: {type: String, optional:true},
   userIds : {type: [String] , optional:true}
 });
 
@@ -64,6 +72,7 @@ export const addTask = new ValidatedMethod({
     task.name = taskName;
     task.status = "DRAFT";
     task.statusBy = null;
+    task.statusDate = null;
 
     task.ack = false;      // acknowledgement for status channge
     task.ackBy = null;
@@ -74,16 +83,20 @@ export const addTask = new ValidatedMethod({
     task.forfeit = null;
     task.dueDate = null;
 
-    task.edited = false;     // used for counter-offers
-    task.editedBy = null;
-    task.neverCountered = true;  // for UI to display label as Edit or Offer
-
     task.private = true;
     task.completed = false;
+    task.completedDate = null;
     task.archived = false;
+
     task.creator = Meteor.userId();
     task.createDate = new Date();
     task.userIds = [];
+
+    task.edited = false;     // used for counter-offers
+    task.editedBy = null;
+    task.editedDate = task.createDate;
+    task.neverCountered = true;  // for UI to display label as Edit or Offer
+
 
     let _id = Tasks.insert(task);
     return _id;
@@ -110,10 +123,46 @@ export const updateStatus = new ValidatedMethod({
           $set: {
             'status': newStatus,
             'statusBy' : Meteor.userId(),
+            'statusDate' : new Date(),
             'ack' : false,
             'ackBy' : null
           }
         });
+  }
+});
+
+
+
+export const revokeTask = new ValidatedMethod({
+  name: 'revokeTask',
+
+  validate: new SimpleSchema({
+      taskId: { type: String }
+    }).validator(),
+
+
+  run({ taskId }) {
+    console.log("revokeTask method task=" + taskId );
+
+    const task = taskHelper.getMyTask(taskId);
+
+    let newStatus= statusHelper.status.REVOKED;
+    if ( task.status==statusHelper.status.PENDING ) {
+      newStatus= statusHelper.status.CANCELLED;
+    }
+
+    Tasks.update({
+          _id: taskId
+    }, {
+          $set: {
+            'status': newStatus,
+            'statusBy' : Meteor.userId(),
+            'statusDate' : new Date(),
+            'ack' : false,
+            'ackBy' : null,
+            'neverCountered' : true
+          }
+    });
   }
 });
 
@@ -142,6 +191,7 @@ export const updateTask = new ValidatedMethod({
         dueDate: task.dueDate,
         edited: true,
         editedBy:  Meteor.userId(),
+        editedDate : new Date(),
         neverCountered : task.neverCountered,
         ack : false,
         ackBy : null
@@ -168,6 +218,7 @@ export const updateTaskName = new ValidatedMethod({
         name: taskName,
         edited: true,
         editedBy:  Meteor.userId(),
+        editedDate:  new Date()
       }
     });
   }
@@ -234,6 +285,8 @@ export const updateDueDate = new ValidatedMethod({
       }, {
         $set: {
           dueDate: dueDate,
+          editedBy:  Meteor.userId(),
+          editedDate: new Date()
         }
       });
     } else {
@@ -256,7 +309,6 @@ export const shareMany = new ValidatedMethod({
     console.log("shareMany userIds=");
     console.log(otherUserId);
 
-
       const origTask = taskHelper.getMyTask(taskId); // will throw Exception if no permission
 
       Tasks.update(taskId, {
@@ -265,8 +317,6 @@ export const shareMany = new ValidatedMethod({
           'statusBy' : Meteor.userId(),
           'ack' : false,
           'ackBy' : null,
-          'edited': true,
-          'editedBy' : Meteor.userId(),
           'private' : false
         },
         $addToSet: {  userIds: {$each: otherUserId } }
@@ -313,7 +363,8 @@ export const markAsCompleted = new ValidatedMethod({
       _id: taskId
     }, {
       $set: {
-        'completed': true
+        completed : true,
+        completedDate:  new Date()
       }
     });
     }

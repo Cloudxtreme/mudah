@@ -6,23 +6,31 @@
 
           <div ng-click="taskDetail.hide()" class="white padding" style="float:right">Close</div>
           <div style="clear:both"></div>
-          <img ng-src="{{taskDetail.creatorPhoto}}" width="200px" height="200px">
+          <img class="taskPhoto" ng-src="{{taskDetail.creatorPhoto}}" width="200px" height="200px">
           <div class="padding bg-blue">
             <h3 class="yellow">{{taskDetail.creator.profile.name}}</h3>
             <div class="yellow">{{taskDetail.task.name}}</div>
+
+
+            <div class="white" style="float:left"  ng-if="taskDetail.task.area!=null">{{taskDetail.task.area}}</div>
+            <div class="white" style="float:right" ng-if="taskDetail.task.value!=null">Value {{taskDetail.task.value}}</div>
+            <div style="clear:both"></div>
+
+            <div ng-if="taskDetail.task.reward!=null">
+              <div class="white padding-top">Reward</div>
+              <div class="yellow">{{taskDetail.task.reward}}</div>
+            </div>
+            <div ng-if="taskDetail.task.forfeit!=null">
+              <div class="white padding-top">Forfeit</div>
+              <div class="yellow">{{taskDetail.task.forfeit}}</div>
+            </div>
+            <user-list user-ids="taskDetail.task.userIds"></user-list>
             <div class="padding-top">
-              <div class="aqua" style="float:left">Due {{taskDetail.task.dueDate | amDateFormat:'D.M.YYYY HH:MM:SS'}}</div>
-              <div class="white" style="float:right">{{taskDetail.task.area}}</div>
+              <div class="white padding-top">Due</div>
+              <div class="aqua" style="float:left"><due-date date="taskDetail.task.dueDate" before-color="white" after-color="yellow"></due-date></div>
+              <div class="white" style="float:right">{{taskDetail.task.status}}</div>
             </div>
             <div style="clear:both"></div>
-            <div class="white" style="float:left">{{taskDetail.task.status}}</div>
-            <div class="white" style="float:right">Value {{taskDetail.task.value}}</div>
-
-            <div class="yellow" style="clear:both">Reward</div>
-            <div class="white">{{taskDetail.task.reward}}</div>
-            <div class="yellow" style="clear:both">Forfeit</div>
-            <div class="white">{{taskDetail.task.forfeit}}</div>
-            <user-list user-ids="taskDetail.task.userIds"></user-list>
 
           </div>
 

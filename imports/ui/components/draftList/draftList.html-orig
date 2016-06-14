@@ -1,0 +1,74 @@
+<ion-view title="draftList">
+
+  <ion-content class="has-header  myDraftList">
+    <div ng-show="draftList.showCreate">
+      <i ng-click="draftList.hideCreate()" class="icon padding-right ion-ios-close-outline assertive" style="float:right"></i>
+      <form name="createForm" class="padding-left" style="clear:both">
+        <ion-input class="item-input">
+          <textarea msd-elastic chat-input id="createInputField" ng-model="draftList.taskName" placeholder="describe your Promise"
+            on-return="draftList.create()" on-blur="draftList.create()">
+          </textarea>
+        </ion-input>
+
+        <a ng-show="draftList.taskName.length>0" ng-click="draftList.openTaskEdit()" class="padding byline">Set By When - Reward - Forfeit</a>
+      </form>
+    </div>
+    <div ng-show="draftList.showEdit">
+      <i ng-click="draftList.hideEdit()" class="icon padding-right ion-ios-close-outline assertive" style="float:right"></i>
+      <form name="editForm" class="padding-left" style="clear:both">
+
+        <ion-input class="item-input">
+          <textarea msd-elastic chat-input id="editInputField" ng-model="draftList.editTask.name"  placeholder="describe your Promise"
+            on-focus="draftList.focusEdit()" on-blur="draftList.update()" on-return="draftList.update()">
+          </textarea>
+        </ion-input>
+
+      </form>
+    </div>
+    <ion-refresher on-refresh="draftList.action()" on-pulling="draftList.onPulling()" pulling-text="{{draftList.pullingText}}">
+    </ion-refresher>
+    <ion-item on-swipe-up="draftList.onSwipeUp()" class="text-center white" ng-class="draftList.showEdit ? 'bg-purple' : 'bg-fuchsia'">{{draftList.helpMessage}}<i class="padding silver ion-arrow-down-c"></i>
+    </ion-item>
+
+
+    <empty-list list="draftList.tasks" text="You do not have any draft Promises"></empty-list>
+    <ion-list>
+      <!--
+        <ion-item ng-repeat="task in draftList.tasks" class="item-text-wrap" ng-click="draftList.openEdit(task)">
+-->
+      <ion-item ng-repeat="task in draftList.tasks track by task._id" ng-click="draftList.openEdit($event,task)" class="item-text-wrap" ng-class="draftList.isSelected(task) ? 'active' : ''">
+        <span>
+          <i class="icon ion-checkmark-circled purple" ng-click="draftList.hideEdit()" ng-show="draftList.isSelected(task)"></i>
+          <a href="#" class="draftname" ng-click="draftList.editName($event,task)">{{task.name}}</a>
+        </span>
+
+        <status-icons task="task"></status-icons>
+
+        <div>
+          <div ng-show="draftList.hasDueDate(task)" class="assertive">{{task.dueDate | amDateFormat:'D.M.YYYY HH:MM:SS'}}
+            <font ng-class="draftList.statusHelper.isOverdue(task) ? 'assertive' : 'balanced'">(<span am-time-ago="task.dueDate"></span>)</font>
+          </div>
+          <div style="font-size:80%">
+            <font class="royal">By When - Reward - Forfeit - Actions</font>
+          </div>
+        </div>
+
+        <task-accept task="task"></task-accept>
+        <task-delete task="task"></task-delete>
+        <task-share task="task"></task-share>
+        <task-offline task="task"></task-offline>
+
+        <!--
+<ion-option-button ng-disabled="true" class="button-royal">Share</ion-option-button>
+<ion-option-button ng-disabled="true" class="button-calm">Request</ion-option-button>
+<task-delete task="task"></task-delete>
+-->
+        <!--
+        <ion-option-button class="button-positive">Teatime</ion-option-button>
+      -->
+      </ion-item>
+    </ion-list>
+
+
+  </ion-content>
+</ion-view>

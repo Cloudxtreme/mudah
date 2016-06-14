@@ -2,7 +2,7 @@
   <font class="positive">{{statusIcons.task.status}}</font>
   <span ng-show="statusIcons.task.status=='ACTIVE'">ENSHRINED</span>
   <span ng-show="statusIcons.statusHelper.isPendingAck(statusIcons.task)">Pending Ack</span>
-  <span ng-show="statusIcons.statusHelper.isAcknowledged(statusIcons.task)">Acked by:<font class="navy">{{statusIcons.lastAck()}}</font></span>
+  <span ng-if="statusIcons.statusHelper.isAcknowledged(statusIcons.task)">Acked by:<font class="navy">{{statusIcons.lastAck()}}</font></span>
   <span ng-if="statusIcons.isOfferStage()">
     <i class="icon ion-ios-loop-strong positive" ng-show="statusIcons.isEdited()"></i>
     by:<font class="positive">{{statusIcons.lastEditor()}}</font>

@@ -16,8 +16,6 @@ class TaskUnrevoke {
     this.uiService = uiService;
     this.$timeout = $timeout;
     $reactive(this).attach($scope);
-
-
   }
 
   action() {
@@ -56,20 +54,14 @@ class TaskUnrevoke {
 
 
   show() {
-    /*
-    if ( statusHelper.isSharedTask(this.task) && statusHelper.allow(this.task, name) ) {
-        return true;
-    }
-    */
+
     todayDate = new Date();
-    if ( statusHelper.allow( this.task, name) &&
-          (this.task.dueDate==null || this.task.dueDate > todayDate ))  {
+    if ( statusHelper.allow( this.task, name) && statusHelper.isNotOverdue(this.task) )  {
       if ( this.task.status==statusHelper.status.CANCELLED ) {
           this.buttonLabel = "Restore";
       } else {
           this.buttonLabel = "Unrevoke";
       }
-
       return true;
     }
 

@@ -36,7 +36,7 @@ class StatusHelper {
 
     this.acceptedStatus['taskOffer'] = [this.status.PENDING];
     this.acceptedStatus['taskComplete'] = [this.status.DONE,this.status.NOTDONE,this.status.REVOKED];
-    this.acceptedStatus['taskDelete'] = [this.status.DRAFT, this.status.CANCELLED, this.status.DECLINED];
+    this.acceptedStatus['taskDelete'] = [this.status.DRAFT, this.status.CANCELLED,this.status.REVOKED, this.status.DECLINED];
     this.acceptedStatus['taskDone'] = [this.status.ACTIVE];
     this.acceptedStatus['taskEdit'] = [this.status.DRAFT, this.status.PENDING];
     this.acceptedStatus['taskNotDone'] = [this.status.ACTIVE];
@@ -141,7 +141,7 @@ class StatusHelper {
   }
 
   isAcknowledged(task) {
-    return task.ack;
+    return (task!=null && task.ack);
   }
 
   wasEditedByThirdParty(task) {
@@ -157,7 +157,7 @@ class StatusHelper {
   }
 
   isPendingAck(task) {
-    if ( task.ack==false && this.needAcknowledgement(task) ) {
+    if ( task!=null && task.ack==false && this.needAcknowledgement(task) ) {
       return true;
     }
     return false;

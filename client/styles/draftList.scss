@@ -1,9 +1,17 @@
-a.draftname {
-  text-decoration: none;
-  color: #444;
+
+.draftareadiv {
+  padding-left:16px;
 }
 
-.selected {
-    background-color: #0000FF;
-    color: #00ff00;
+
+.hideSelected {
+    //background-color: #0000FF;
+    //color: #00ff00;
+    display:none;
+}
+
+textarea.draftarea {
+  width:100%;
+  font-size:16px;
+  color:#ff00ff;
 }

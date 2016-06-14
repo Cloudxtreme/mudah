@@ -23,7 +23,7 @@ class ChatsAdd {
     this.uiService = uiService;
 
     $reactive(this).attach($scope);
-  
+
     this.selected = [];
 
     console.log("mode = ", this.mode);
@@ -137,7 +137,7 @@ function chatsAddService($rootScope, $state, uiService) {
 
   // mode = "share" or "request"
   function openModal(taskId, taskName, mode) {
-    var modal = "<chats-add task-id='" + taskId + "' + task-name='" + taskName + "' + mode='" + mode + "'></chats-add>";
+    var modal = "<chats-add task-id='" + taskId + "' task-name='" + taskName + "' mode='" + mode + "'></chats-add>";
     console.log(modal);
     uiService.openModal(modal);
   }

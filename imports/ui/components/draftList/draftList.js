@@ -1,6 +1,7 @@
 import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import uiRouter from 'angular-ui-router';
+import { Meteor } from 'meteor/meteor';
 
 import { Counts } from 'meteor/tmeasday:publish-counts';
 
@@ -18,6 +19,7 @@ import { addTask } from '/imports/api/methods/taskMethods';
 import { name as EmptyList } from '/imports/ui/directives/emptyList';
 import { rtrim } from 'underscore.string';
 import { isBlank } from 'underscore.string';
+import { clone as _clone } from 'underscore';
 
 const name = 'draftList';
 
@@ -155,14 +157,27 @@ class DraftList {
   }
 
   openEdit($event, task) {
-    this.hideCreate();
-    this.hideEdit();
     this.uiService.stopFurtherClicks($event);
     this.taskEditService.openModal(task);
+
+    // do the hides() after 'task' is used, as its details will be initialised
+    this.hideCreate();
+    this.hideEdit();
+  }
+
+  saveAndOpenTaskEdit() {
+    this.call('addTask', {
+      taskName: this.taskName,
+    }, function(err,_id) {
+        this.hideCreate();
+        //console.log("added _id=", _id);
+        let task = taskHelper.getMyTask(_id);
+        this.taskEditService.openModal(task);
+    });
   }
 
   hasDueDate(task) {
-    return (task.dueDate!=null);
+    return ( task!=null && task.dueDate!=null);
   }
 
   editName($event,task) {
@@ -172,8 +187,7 @@ class DraftList {
     this.showEditHelp();
     this.markTask(task);
 
-    this.editTask = {};
-    this.editTask._id = task._id;
+    this.editTask = _clone( task );
     this.editTask.name = task.name + " ";  // this will place the cursor at end of taskName
 
     this.focusField('#editInputField');
@@ -201,6 +215,10 @@ class DraftList {
 
   isSelected(task) {
     return task.selected;
+  }
+
+  isShowIcons() {
+    return Meteor.settings.public.features.draftlist_icons;
   }
 
   onSwipeUp() {
@@ -231,16 +249,7 @@ class DraftList {
       });
   }
 
-  openTaskEdit() {
-    this.call('addTask', {
-      taskName: this.taskName,
-    }, function(err,_id) {
-        this.hideCreate();
-        //console.log("added _id=", _id);
-        let task = taskHelper.getMyTask(_id);
-        this.taskEditService.openModal(task);
-    });
-  }
+
 
 }
 

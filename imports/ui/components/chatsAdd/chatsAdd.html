@@ -1,17 +1,33 @@
-<ion-modal-view>
-  <ion-header-bar>
-  <h1 class="title">{{chatsAdd.taskName}}</h1>
-  <div class="buttons">
-    <button ng-disabled="chatsAdd.selected.length==0" class="button button-assertive" ng-click="chatsAdd.action()">Share Request</button>
+<ion-modal-view class="bg-transparent">
+<!--
+    <ion-header-bar class="bg-navy">
+        <h1 class="title white">{{chatsAdd.taskName}}</h1>
+        <div class="buttons">
+          <button ng-disabled="chatsAdd.selected.length==0" class="button button-assertive" ng-click="chatsAdd.action()">Share</button>
+        </div>
+    </ion-header-bar>
+-->
+
+  <ion-view class="bg-transparent">
+    <ion-content scroll="false" class="has-header">
+<td-card class="bg-navy taskDetail">
+  <div class="tdshareheader">
+      <span class="white tdtitle">{{chatsAdd.taskName}}</span>
+      <span class="buttons tdsharebutton padding">
+        <button ng-disabled="chatsAdd.selected.length==0" class="button button-small button-assertive" ng-click="chatsAdd.action()">Share</button>
+      </span>
   </div>
-  </ion-header-bar>
-  <ion-content class="has-header">
-    <div class="list">
-    <div ng-repeat="user in chatsAdd.users" class="item item-avatar" ng-click="chatsAdd.clicked(user)" ng-class="{ active: user.selected }">
-        <img  ng-src="{{chatsAdd.getPhotoUrl(user)}}"/>
-        <h2>{{user.profile.name}}</h2>
-    </div>
-    </div>
+  <ion-scroll zooming="true" direction="y" style="height: 400px">
+        <div class="list padding">
+          <div ng-repeat="user in chatsAdd.users" class="item item-avatar bg-aqua" ng-click="chatsAdd.clicked(user)" ng-class="{ active: user.selected }">
+              <img  ng-src="{{chatsAdd.getPhotoUrl(user)}}"/>
+              <h2>{{user.profile.name}}</h2>
+          </div>
+        </div>
+  </ion-scroll>
+</td-card>
 
   </ion-content>
+</ion-view>
+
 </ion-modal-view>

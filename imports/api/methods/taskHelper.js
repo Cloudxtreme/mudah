@@ -44,11 +44,14 @@ class TaskHelper {
     return task;
   }
 
-  getDraftList(userId) {
+  getDefaultSortBy() {
     const sortBy = {
-      dueDate: 1,
-      createDate: -1
+      editedDate: -1
     };
+    return sortBy;
+  }
+
+  getDraftList(userId) {
 
     return Tasks.find( {
       $and: [
@@ -56,7 +59,7 @@ class TaskHelper {
         {creator : userId }
         ]
     }, {
-      sort :sortBy
+      sort : this.getDefaultSortBy()
     });
   }
 
@@ -71,6 +74,9 @@ class TaskHelper {
       }, {
         creator: userId
       }]
+    },
+    {
+      sort : this.getDefaultSortBy()
     });
   }
 
@@ -109,7 +115,10 @@ class TaskHelper {
           $ne: userId
         }
       }]
-    });
+      },
+      {
+        sort : this.getDefaultSortBy()
+      });
   }
 
   replaceProfilePhoto(downloadUrl) {

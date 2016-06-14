@@ -10,15 +10,23 @@ const name = 'dueDate';
 class DueDate {
   constructor($scope) {
     'ngInject';
+
+    this.beforeColor  = 'red';  // class name
+    this.afterColor = 'green';
   }
 
   show() {
+     if ( this.date != null ) {
+      this.isOverDue = statusHelper.isOverdueDate(this.date);
+      if ( this.isOverDue ) {
+        this.dueDateColor = this.beforeColor;
+      } else {
+        this.dueDateColor = this.afterColor;
+      }
+    }
     return (this.date!=null);
   }
 
-  isOverDue() {
-    return statusHelper.isOverdueDate(this.date);
-  }
 
 }
 
@@ -30,7 +38,9 @@ export default angular.module(name, [
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   bindings: {
-    date: '<'
+    date: '<',
+    beforeColor: '@',
+    afterColor: '@'
   },
   controllerAs: name,
   controller: DueDate
