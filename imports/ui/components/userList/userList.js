@@ -26,6 +26,14 @@ class UserList {
     let user = taskHelper.getUser(userId);
     return user.profile.name;
   }
+
+  onDrag(userId) {
+    console.log("----dragging name = ", this.getName(userId));
+  }
+
+  onDrop(userId) {
+    console.log("----  ----> dropped ! name = ", this.getName(userId));
+  }
 }
 
 

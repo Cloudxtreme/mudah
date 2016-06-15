@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Counts } from 'meteor/tmeasday:publish-counts';
 
 import { Tasks } from './collection';
-import { Messages } from './collection'; 
+import { Messages } from './collection';
 
 if (Meteor.isServer) {
   Meteor.publish('tasks', function(listType) {
@@ -106,7 +106,7 @@ Meteor.publish('messages', function(taskId) {
 
   if (task) {
     console.log("You have permission to view this task !!");
-    return Messages.find({ chatId: taskId},  {fields:{chatId:1,text: 1,timestamp:1,userId:1}});
+    return Messages.find({ taskId: taskId},  {fields:{taskId:1,text: 1,timestamp:1,userId:1}});
   } else {
     console.log("ERROR !! Not your TASK !!");
   }

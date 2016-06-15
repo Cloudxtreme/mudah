@@ -48,29 +48,25 @@ class ChatsAdd {
     var index = this.selected.indexOf(user);
     if (index > -1) {
       this.selected.splice(index, 1);
-      this.selectedUserIds.splice(index, 1);
       user.selected = false;
     } else {
       this.selected.push(user);
-      this.selectedUserIds.push(user._id);
       user.selected = true;
     }
 
     console.log("selected count=", this.selected.length);
 
-    this.displayUserIds = _clone(this.selectedUserIds);
-    this.displayUserIds.reverse();
+    this.displayUsers = _clone(this.selected);
+    this.displayUsers.reverse();
 
-    /*
-    console.log("ORIG=");
-    console.log(this.selectedUserIds);
-    console.log("REVERSE=");
-    console.log( this.displayUserIds);
-    */
   }
 
-  getPhotoUrl() {
-    return this.uiService.getProfilePhoto(user);
+  remove(user) {
+    var index = this.selected.indexOf(user);
+    if (index > -1) {
+      this.selected.splice(index, 1);
+      user.selected = false;
+    }
   }
 
   action() {

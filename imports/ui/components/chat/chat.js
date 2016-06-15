@@ -36,17 +36,14 @@ class Chat {
 
     this.task = chatService.getTask();
 
-    //console.log("------> clear last message");
-    //this.task.lastMessage = {};
+    this.taskId = this.task._id;
+    this.cacheUsers(this.taskId);
 
-    this.chatId = this.task._id;
-    this.cacheUsers(this.chatId);
-
-    this.subscribe('messages', () => [ this.chatId  ]);
+    this.subscribe('messages', () => [ this.taskId  ]);
 
     this.helpers({
       messages() {
-        return Messages.find({ chatId: this.chatId });
+        return Messages.find({ taskId: this.taskId });
       }
     });
 
@@ -118,14 +115,14 @@ class Chat {
   }
 
   sendMessage() {
-    console.log("sendMessage() chatId=" + this.chatId);
+    console.log("sendMessage() taskId=" + this.taskId);
 
     if (_.isEmpty(this.message)) return;
 
     this.call('newMessage',
       {
         text: this.message,
-        chatId: this.chatId
+        taskId: this.taskId
       }, function(err, res) {
         if (err) {
           alert(err);

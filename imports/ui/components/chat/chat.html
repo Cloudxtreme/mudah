@@ -6,22 +6,21 @@
     <div class="message-list">
       <div ng-repeat="message in chat.messages" class="message-wrapper">
         <div class="message" ng-class="message.userId === $root.currentUser._id ? 'message-mine' : 'message-other'">
-          <p><img ng-src="{{chat.getPhotoUrl(message.userId)}}" class="chat-picture">
+          <div><img ng-src="{{chat.getPhotoUrl(message.userId)}}" class="chat-picture">
               <b class="maroon">{{ chat.getName(message.userId) }}</b>
-          </p>
+          </div>
           <div class="text">{{ message.text }}</div>
-          <!--
           <div class="message-timestamp">{{ message.timestamp | amDateFormat: 'DD.MM.YYYY HH:MM:SS' }}</div>
-        -->
+
+          <!--
           <div class="message-timestamp" am-time-ago="message.timestamp"></div>
+        -->
         </div>
 
     </div>
   </div>
   </ion-content>
   <ion-footer-bar keyboard-attach class="bar-stable footer-chat item-input-inset">
-    <button class="button button-clear button-icon button-positive icon ion-ios-upload-outline"></button>
-
     <label class="item-input-wrapper">
       <input chat-input
               ng-model="chat.message"
@@ -29,17 +28,14 @@
               type="text"
               on-return="chat.sendMessage(); chat.closeKeyboard()"
               on-focus="chat.inputUp()"
+              placeholder="Type a message..."
               on-blur="chat.inputDown()"/>
     </label>
 
-    <span ng-if="chat.message.length > 0">
-      <button ng-click="chat.sendMessage()" class="button button-clear button-positive">Send</button>
-    </span>
-    <span ng-if="!chat.message || chat.message.length === 0">
-      <button ng-click="chat.sendPicture()" class="button button-clear button-icon button-positive icon ion-ios-camera-outline"></button>
-      <i class="buttons-seperator icon ion-android-more-vertical"></i>
-      <button class="button button-clear button-icon button-positive icon ion-ios-mic-outline"></button>
-    </span>
+    <button ng-click="chat.sendMessage()"  class="button button-clear button-positive">Send</button>
+
   </ion-footer-bar>
+
+
 </ion-view>
 </ion-modal-view>

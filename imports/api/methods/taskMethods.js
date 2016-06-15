@@ -390,21 +390,21 @@ export const newMessage = new ValidatedMethod({
 
   validate: new SimpleSchema({
       text: {type:String},
-      chatId : {type:String}
+      taskId : {type:String}
     }).validator(),
 
-  run({ text,chatId }) {
-    const origTask = taskHelper.getPermittedTask(chatId); // will throw Exception if no permission
+  run({ text,taskId }) {
+    const origTask = taskHelper.getPermittedTask(taskId); // will throw Exception if no permission
 
     let message = {};
-    message.text = text;
-    message.chatId = chatId;
-    message.timestamp = new Date();
-    message.userId = Meteor.userId();
+      message.text = text;
+      message.taskId = taskId;
+      message.timestamp = new Date();
+      message.userId = Meteor.userId();
 
     const messageId = Messages.insert(message);
 
-    Tasks.update(message.chatId, { $set: { lastMessage: message } });
+    Tasks.update(message.taskId, { $set: { lastMessage: message } });
    }
 });
 

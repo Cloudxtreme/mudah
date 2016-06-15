@@ -15,12 +15,16 @@
             <ion-input class="item item-input">
               <textarea readonly ng-model="chatsAdd.task.name" class="tdtitlename"></textarea>
             </ion-input>
+            <div class="padding">
+            <ion-scroll zooming="true" direction="y" style="width: 300px; height: 60px">
 
-            <ion-scroll zooming="true" direction="y" style="width: 300px; height: 60px" class="padding">
-              <user-list class="padding" ng-if="chatsAdd.selected.length>0" user-ids="chatsAdd.displayUserIds"></user-list>
+              <span ng-repeat="user in chatsAdd.displayUsers track by user._id">
+                  <img  class="friend-picture" ng-src="{{chatsAdd.getPhotoUrl(user)}}" title="{{user.profile.name}}" ng-click="chatsAdd.remove(user)"/>
+              </span>
+
               <div ng-if="chatsAdd.selected.length==0" class="padding white">Add your friends...</div>
             </ion-scroll>
-
+          </div>
 
           </div>
 
