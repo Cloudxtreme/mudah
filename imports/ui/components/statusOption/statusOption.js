@@ -25,11 +25,7 @@ class StatusOption {
 
     if (this.task) {
       compService = this.getComponentService(this.component);
-      if (compService!=null ) {
-        compService.doUpdate(this.task);
-      } else {
-        this.updateStatus(this.component, this.task);
-      }
+
 
       this.redirect(this.component, this.task);
     }
@@ -74,13 +70,6 @@ class StatusOption {
     };
   }
 
-  redirect(component, task) {
-    // redirect to 'details' screen
-    nextState = statusHelper.getNextState(component);
-    if (nextState!=null) {
-      this.uiService.goState(nextState, { "taskId": task._id});
-    }
-  }
 }
 
 

@@ -41,6 +41,8 @@
 .bg-gray { background-color: #AAAAAA; }
 .bg-silver { background-color: #DDDDDD; }
 .bg-black { background-color: #111111; }
+.bg-pink { background-color: #ff00ff; }
+
 /* Colors */
 .navy { color: #001F3F; }
 .blue { color: #0074D9; }
@@ -59,6 +61,8 @@
 .silver { color: #DDDDDD; }
 .gray { color: #AAAAAA; }
 .black { color: #111111; }
+.pink { color: #ff00ff; }
+
 /* Border colors
 
    Use with another border utility that sets border-width and style
@@ -81,6 +85,8 @@
 .border--gray { border-color: #AAAAAA; }
 .border--silver { border-color: #DDDDDD; }
 .border--black { border-color: #111111; }
+.border--pink { border-color: #ff00ff; }
+
 /* Fills for SVG */
 .fill-navy { fill: #001F3F; }
 .fill-blue { fill: #0074D9; }
@@ -99,6 +105,8 @@
 .fill-gray { fill: #AAAAAA; }
 .fill-silver { fill: #DDDDDD; }
 .fill-black { fill: #111111; }
+.fill_pink { fill: #ff00ff; }
+
 /* Strokes for SVG */
 .stroke-navy { stroke: #001F3F; }
 .stroke-blue { stroke: #0074D9; }
@@ -117,3 +125,4 @@
 .stroke-gray { stroke: #AAAAAA; }
 .stroke-silver { stroke: #DDDDDD; }
 .stroke-black { stroke: #111111; }
+.stroke-pink { stroke: #ff00ff; }

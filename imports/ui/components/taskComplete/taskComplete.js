@@ -20,7 +20,12 @@ class TaskComplete {
 
 
   action() {
-  
+    if ( this.$rootScope.modal ) {
+      this.$rootScope.modal.hide();
+      this.$rootScope.modal.remove();
+    }
+
+
     this.call('markAsCompleted', {taskId:this.task._id},
       function(err, res)  {
         if (err) {
@@ -31,6 +36,7 @@ class TaskComplete {
         }
     });
   }
+
   isButton() {
     return statusHelper.isButton(this.buttonStyle);
   }

@@ -15,15 +15,17 @@ const name = 'chatsAdd';
 
 class ChatsAdd {
 
-  constructor($scope, $rootScope, $reactive, $state, uiService) {
+  constructor($scope, $rootScope, $reactive, $state, uiService, chatsAddService) {
     'ngInject';
 
     this.$state = $state;
     this.$rootScope = $rootScope;
     this.uiService = uiService;
 
+
     $reactive(this).attach($scope);
 
+    this.task = chatsAddService.getTask();
     this.selected = [];
 
     console.log("mode = ", this.mode);
@@ -76,9 +78,9 @@ class ChatsAdd {
     }
 
     if  (this.mode=='share') {
-      this.doShare(this.taskId, userIds);
+      this.doShare(this.task._id, userIds);
     } else {
-      this.doRequest(this.taskId, userIds);
+      this.doRequest(this.task._id, userIds);
     }
 
   }
@@ -105,41 +107,35 @@ class ChatsAdd {
     return this.uiService.getProfilePhoto(user);
   }
 
-  getOAuthSource(user) {
-    if (user.services.facebook) {
-      return "via Facebook";
-    }
-    if (user.services.google) {
-      return "via Google";
-    }
-  }
-
-  handleError(err) {
-    this.$log.error('New chat creation error ', err);
-
-    this.$ionicPopup.alert({
-      title: err.reason || 'New chat creation failed',
-      template: 'Please try again',
-      okType: 'button-positive button-clear'
-    });
-  }
 
 }
 
 
 function chatsAddService($rootScope, $state, uiService) {
   'ngInject';
+  let currTask=null;
 
   var service = {
-    openModal: openModal
+    openShare: openShare,
+    setTask: setTask,
+    getTask : getTask
   }
   return service;
 
-  // mode = "share" or "request"
-  function openModal(taskId, taskName, mode) {
-    var modal = "<chats-add task-id='" + taskId + "' task-name='" + taskName + "' mode='" + mode + "'></chats-add>";
+
+  function openShare(task) {
+    setTask(task);
+    var modal = "<chats-add mode='share'></chats-add>";
     console.log(modal);
     uiService.openModal(modal);
+  }
+
+  function setTask(task) {
+    currTask = task;
+  }
+
+  function getTask() {
+    return currTask;
   }
 }
 
@@ -155,8 +151,6 @@ export default angular.module(name, [
   .component(name, {
     templateUrl: `imports/ui/components/${name}/${name}.html`,
     bindings: {
-      taskId: '@',
-      taskName: '@',
       mode: '@'
     },
     controllerAs: name,

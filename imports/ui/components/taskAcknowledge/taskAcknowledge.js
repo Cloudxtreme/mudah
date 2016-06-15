@@ -23,7 +23,7 @@ class TaskAcknowledge {
 
     if (statusHelper.isOffline() ) { return false};
 
-    if ( this.task.statusBy != Meteor.userId() && this.task.ack == false  && statusHelper.needAcknowledgement(this.task) ) {
+    if (  statusHelper.needAcknowledgement(this.task) && this.task.statusBy != Meteor.userId()  ) {
         return true;
     } else {
       return false;

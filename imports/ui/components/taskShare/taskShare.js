@@ -38,7 +38,7 @@ class TaskShare {
       if (this.taskEditService.isDirty(this.task) ) {
         this.taskEditService.saveEditedTask(this.task);
       }
-      this.chatsAddService.openModal(this.task._id, this.task.name, "share");
+      this.chatsAddService.openShare(this.task);
     }
 
   }

@@ -7,24 +7,31 @@
     max-width:50px;
 }
 
+
 .tdshareheader {
-  height:54px;
+  height:112px;
 }
 
-.tdtitle {
-    position: absolute;
-    top: 10px;
-    left: 16px;
-    max-width: 200px;
-    max-height: 44px;
-    overflow: scroll;
+.tdbuttonbar {
+  height:60px;
 }
 
-span.buttons.tdsharebutton {
+.buttons.tdsharebutton {
   position:absolute;
-  top:2px;
-  right:2px;
+  top:16px;
+  right:8px;
 }
+
+.tdtitlename {
+    max-width:   95%;
+}
+
+.tddetailname {
+  height:60px;
+  overflow-y:scroll;
+}
+
+
 
 td-card {
     position: absolute;

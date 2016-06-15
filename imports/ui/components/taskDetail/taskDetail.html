@@ -9,8 +9,8 @@
           <img class="taskPhoto" ng-src="{{taskDetail.creatorPhoto}}" width="200px" height="200px">
           <div class="padding bg-blue">
             <h3 class="yellow">{{taskDetail.creator.profile.name}}</h3>
-            <div class="yellow">{{taskDetail.task.name}}</div>
 
+            <div class="yellow tddetailname">{{taskDetail.task.name}}</div>
 
             <div class="white" style="float:left"  ng-if="taskDetail.task.area!=null">{{taskDetail.task.area}}</div>
             <div class="white" style="float:right" ng-if="taskDetail.task.value!=null">Value {{taskDetail.task.value}}</div>
@@ -27,7 +27,7 @@
             <user-list user-ids="taskDetail.task.userIds"></user-list>
             <div class="padding-top">
               <div class="white padding-top">Due</div>
-              <div class="aqua" style="float:left"><due-date date="taskDetail.task.dueDate" before-color="white" after-color="yellow"></due-date></div>
+              <div class="aqua" style="float:left"><due-date date="taskDetail.task.dueDate" color="white" before-color="white" after-color="yellow"></due-date></div>
               <div class="white" style="float:right">{{taskDetail.task.status}}</div>
             </div>
             <div style="clear:both"></div>

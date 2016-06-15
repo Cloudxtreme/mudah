@@ -71,16 +71,6 @@ class StatusHelper {
     return this.nextStatus[component];;
   }
 
-  getNextState(component) {
-    console.log("getNextState comp=" + component);
-
-    if ( this.nextState.indexOf(component) >= 0 ) {
-        nextState = "tab." + component; //something like tab.taskChat as defined in  $stateProvider
-        console.log("getNextState() component=" + component + " nextState=" + nextState);
-        return nextState;
-    }
-    return null;
-  }
 
   allow(task, component) {
 
@@ -90,7 +80,8 @@ class StatusHelper {
         return false;
       }
 
-      if ( acceptedStatus.indexOf(task.status) >= 0  ) {
+      //if ( acceptedStatus.indexOf(task.status) >= 0  ) {
+      if ( this.isMember(task.status, acceptedStatus) ) {
           return true;
       }
 
@@ -157,7 +148,7 @@ class StatusHelper {
   }
 
   isPendingAck(task) {
-    if ( task!=null && task.ack==false && this.needAcknowledgement(task) ) {
+    if ( task.ack==false && this.needAcknowledgement(task) ) {
       return true;
     }
     return false;
@@ -165,7 +156,8 @@ class StatusHelper {
 
   needAcknowledgement(task) {
     acceptedStatus = this.acceptedStatus['taskAcknowledge'];
-    if ( task.ack == false && this.isSharedTask(task) && acceptedStatus.indexOf(task.status)>=0 ) {
+    //if ( task.ack == false && this.isSharedWithMe(task) && acceptedStatus.indexOf(task.status)>=0 ) {
+    if ( this.isMember(task.status, acceptedStatus) && task.ack == false && this.isSharedTask(task)  ) {
       return true;
     }
     return false;
@@ -173,10 +165,18 @@ class StatusHelper {
 
   canShareOnSocialMedia(task) {
     acceptedStatus = this.acceptedStatus['taskSocial'];
-    if ( acceptedStatus.indexOf(task.status)>=0 ) {
+    //if ( acceptedStatus.indexOf(task.status)>=0 ) {
+    if (  this.isMember(task.status, acceptedStatus) ) {
       return true;
     }
     return false;
+  }
+
+  isMember(key, valueArray) {
+      if ( valueArray.indexOf(key) >= 0 ) {
+        return true;
+      }
+      return false;
   }
 
   hasPermission(task) {
