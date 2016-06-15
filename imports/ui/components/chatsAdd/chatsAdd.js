@@ -10,6 +10,7 @@ import {name as Avatar} from "../avatar/avatar";
 import {statusHelper} from '/imports/ui/helpers/statusHelper';
 import {name as pxModalHeader} from '/imports/ui/directives/pxModalHeader';
 import {shareMany} from '/imports/api/methods/taskMethods.js';
+import {clone as _clone } from 'underscore';
 
 const name = 'chatsAdd';
 
@@ -28,13 +29,9 @@ class ChatsAdd {
     this.task = chatsAddService.getTask();
     this.selected = [];
 
+    this.selectedUserIds = [];
+
     console.log("mode = ", this.mode);
-
-    this.autorun(() => {
-      let x = this.getReactively('this.selected');
-      console.log('Autorun!! selected count=', x.length );
-
-    });
 
     this.helpers({
       users() {
@@ -51,13 +48,25 @@ class ChatsAdd {
     var index = this.selected.indexOf(user);
     if (index > -1) {
       this.selected.splice(index, 1);
+      this.selectedUserIds.splice(index, 1);
       user.selected = false;
     } else {
       this.selected.push(user);
+      this.selectedUserIds.push(user._id);
       user.selected = true;
     }
 
     console.log("selected count=", this.selected.length);
+
+    this.displayUserIds = _clone(this.selectedUserIds);
+    this.displayUserIds.reverse();
+
+    /*
+    console.log("ORIG=");
+    console.log(this.selectedUserIds);
+    console.log("REVERSE=");
+    console.log( this.displayUserIds);
+    */
   }
 
   getPhotoUrl() {

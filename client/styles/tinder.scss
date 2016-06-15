@@ -9,7 +9,7 @@
 
 
 .tdshareheader {
-  height:112px;
+  height:162px;
 }
 
 .tdbuttonbar {
@@ -26,11 +26,11 @@
     max-width:   95%;
 }
 
+
 .tddetailname {
   height:60px;
   overflow-y:scroll;
 }
-
 
 
 td-card {
@@ -91,6 +91,11 @@ td-card  textarea  {
     vertical-align: middle;
     font-size: 18px;
     line-height: 16px;
+}
+
+
+textarea[disabled] {
+  background-color: inherit;
 }
 
 
