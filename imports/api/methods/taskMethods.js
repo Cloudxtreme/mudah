@@ -6,7 +6,7 @@ import { Accounts } from 'meteor/accounts-base';
 
 import AWS from 'aws-sdk';
 
-import _ from 'underscore';
+import {clone as _clone } from 'underscore';
 
 // Schema docs : https://atmospherejs.com/aldeed/simple-schema
 // beware performance issue with Friends array : http://guide.meteor.com/collections.html#schema-design
@@ -26,6 +26,7 @@ TaskSchema = new SimpleSchema({
   statusDate: {type: Date},
   neverCountered: {type:Boolean},
   private: {type:Boolean},
+  request: {type:Boolean},
 
   ack: {type:Boolean, optional:true},
   ackBy: {type:String, optional:true},
@@ -68,35 +69,7 @@ export const addTask = new ValidatedMethod({
   run({ taskName}) {
     console.log("insert method task=" + taskName );
 
-    task = {};
-    task.name = taskName;
-    task.status = "DRAFT";
-    task.statusBy = null;
-    task.statusDate = null;
-
-    task.ack = false;      // acknowledgement for status channge
-    task.ackBy = null;
-
-    task.area = null;
-    task.value=null;
-    task.reward = null;
-    task.forfeit = null;
-    task.dueDate = null;
-
-    task.private = true;
-    task.completed = false;
-    task.completedDate = null;
-    task.archived = false;
-
-    task.creator = Meteor.userId();
-    task.createDate = new Date();
-    task.userIds = [];
-
-    task.edited = false;     // used for counter-offers
-    task.editedBy = null;
-    task.editedDate = task.createDate;
-    task.neverCountered = true;  // for UI to display label as Edit or Offer
-
+    task = initTask(taskName);
 
     let _id = Tasks.insert(task);
     return _id;
@@ -132,6 +105,58 @@ export const updateStatus = new ValidatedMethod({
 });
 
 
+export const acceptTask = new ValidatedMethod({
+  name: 'acceptTask',
+
+  validate: new SimpleSchema({
+      taskId: { type: String }
+    }).validator(),
+
+
+  run({ taskId }) {
+    console.log("acceptTask method task=" + taskId );
+
+      const task = taskHelper.getPermittedTask(taskId);
+      console.log("task.request=", task.request);
+      console.log("task.isPromise()=", task.isPromise());
+
+      if ( task.isPromise() ) {
+        Tasks.update({
+            _id: taskId
+          }, {
+            $set: {
+              'status': statusHelper.status.ACTIVE,
+              'statusBy' : Meteor.userId(),
+              'statusDate' : new Date(),
+              'ack' : false,
+              'ackBy' : null
+            }
+          });
+      } else {
+        // turn a Request into a Promise
+        console.log("turn a request into a promise");
+
+        let newUserIds = [ task.creator ]; // turn the original Creator into a Participant
+
+        Tasks.update({
+            _id: taskId
+          }, {
+            $set: {
+              'request': false,
+              'creator' : Meteor.userId(),
+              'owner' : Meteor.userId(),
+              'userIds' : newUserIds,
+              'status': statusHelper.status.ACTIVE,
+              'statusBy' : Meteor.userId(),
+              'statusDate' : new Date(),
+              'ack' : false,
+              'ackBy' : null
+            }
+          });
+      }
+  }
+});
+
 
 export const revokeTask = new ValidatedMethod({
   name: 'revokeTask',
@@ -155,12 +180,15 @@ export const revokeTask = new ValidatedMethod({
           _id: taskId
     }, {
           $set: {
-            'status': newStatus,
-            'statusBy' : Meteor.userId(),
-            'statusDate' : new Date(),
-            'ack' : false,
-            'ackBy' : null,
-            'neverCountered' : true
+            status: newStatus,
+            statusBy : Meteor.userId(),
+            statusDate : new Date(),
+            edited: true,               // so that, the other person has to Accept/Decline
+            editedBy:  Meteor.userId(),
+            editedDate : new Date(),
+            ack : false,
+            ackBy : null,
+            neverCountered : true
           }
     });
   }
@@ -192,9 +220,7 @@ export const updateTask = new ValidatedMethod({
         edited: true,
         editedBy:  Meteor.userId(),
         editedDate : new Date(),
-        neverCountered : task.neverCountered,
-        ack : false,
-        ackBy : null
+        neverCountered : task.neverCountered
       }
     });
   }
@@ -297,8 +323,8 @@ export const updateDueDate = new ValidatedMethod({
 
 
 
-export const shareMany = new ValidatedMethod({
-  name: 'shareMany',
+export const shareTask = new ValidatedMethod({
+  name: 'shareTask',
 
   validate: new SimpleSchema({
       taskId: {type:String},
@@ -306,7 +332,7 @@ export const shareMany = new ValidatedMethod({
     }).validator(),
 
   run({ taskId,newStatus, otherUserId }) {
-    console.log("shareMany userIds=");
+    console.log("shareTask userIds=");
     console.log(otherUserId);
 
       const origTask = taskHelper.getMyTask(taskId); // will throw Exception if no permission
@@ -322,6 +348,41 @@ export const shareMany = new ValidatedMethod({
         $addToSet: {  userIds: {$each: otherUserId } }
       });
 
+  }
+});
+
+
+export const requestTask = new ValidatedMethod({
+  name: 'requestTask',
+
+  validate: new SimpleSchema({
+      taskId: {type:String},
+      userIds: {type:[String]}
+    }).validator(),
+
+  run({ taskId,newStatus, userIds }) {
+
+    const origTask = taskHelper.getMyTask(taskId); // will throw Exception if no permission
+
+    const newTask = _clone(origTask);
+      delete newTask._id;
+      newTask.status = statusHelper.status.PENDING;
+      newTask.statusBy = Meteor.userId();
+
+    for (x=0;x< userIds.length;x++) {
+      // make selected friend a Participant
+      const friend = userIds[x];
+        newTask.userIds=[ friend ];
+        newTask.private=false;
+        newTask.request=true;
+
+
+      // create new task
+        let _id = Tasks.insert(newTask);
+        console.log("new id=", _id);
+    }
+    console.log("delete orig Task");
+    Tasks.remove({"_id" : origTask._id});
   }
 });
 
@@ -486,3 +547,39 @@ export const deleteProfilePhotoFromS3 = new ValidatedMethod({
     }
    }
 });
+
+// ----- Helpers -----
+function initTask(taskName) {
+
+  task = {};
+  task.name = taskName;
+  task.status = "DRAFT";
+  task.statusBy = null;
+  task.statusDate = null;
+  task.request = false;
+
+  task.ack = false;      // acknowledgement for status channge
+  task.ackBy = null;
+
+  task.area = null;
+  task.value=null;
+  task.reward = null;
+  task.forfeit = null;
+  task.dueDate = null;
+
+  task.private = true;
+  task.completed = false;
+  task.completedDate = null;
+  task.archived = false;
+
+  task.creator = Meteor.userId();
+  task.createDate = new Date();
+  task.userIds = [];
+
+  task.edited = true;     // used for counter-offers
+  task.editedBy = Meteor.userId();
+  task.editedDate = task.createDate;
+  task.neverCountered = true;  // for UI to display label as Edit or Offer
+
+  return task;
+}

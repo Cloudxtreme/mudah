@@ -11,16 +11,20 @@ import { taskHelper } from '/imports/api/methods/taskHelper';
 import { name as TaskDetail } from '../taskDetail/taskDetail';
 import { name as EmptyList } from '/imports/ui/directives/emptyList';
 import { name as UserPromise } from '/imports/ui/directives/userPromise';
+import { name as PromiseView } from '/imports/ui/components/promiseView/promiseView';
+import { name as RequestView } from '/imports/ui/components/requestView/requestView';
 
 const name = 'watchList';
 
 class WatchList {
-  constructor($scope, $reactive, uiService, taskDetailService, chatService) {
+  constructor($scope, $reactive, uiService, taskDetailService, chatService,promiseViewService, requestViewService)  {
     'ngInject';
 
     $reactive(this).attach($scope);
     this.uiService = uiService;
     this.taskDetailService = taskDetailService;
+    this.promiseViewService = promiseViewService;
+    this.requestViewService = requestViewService;
     this.chatService = chatService;
 
     this.load();
@@ -47,7 +51,14 @@ class WatchList {
 
   openDetail($event, task) {
     this.uiService.stopFurtherClicks($event);
-    this.taskDetailService.openModal(task, this.taskDetailService.watchListOptions);
+    if ( task.isRequest() ) {
+      //this.taskDetailService.openModal(task, this.taskDetailService.promiseListOptions);
+      this.requestViewService.openModal(task);
+    } else {
+      this.promiseViewService.openModal(task, "watchListOptions");
+    }
+
+    // this.taskDetailService.openModal(task, this.taskDetailService.watchListOptions);
   }
 }
 
@@ -59,7 +70,9 @@ export default angular.module(name, [
   TaskDetail,
   EmptyList,
   WatchListOptions,
-  UserPromise
+  UserPromise,
+  PromiseView,
+  RequestView
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   controllerAs: name,
@@ -73,7 +86,7 @@ function config($stateProvider) {
     .state('tab.watchList', {
       url: '/watchList',
       views: {
-        'tab-watch': {
+        'tab-request': {
           template: '<watch-list></watch-list>'
         }
       },

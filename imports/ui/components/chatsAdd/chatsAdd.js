@@ -1,6 +1,5 @@
 import angular from 'angular';
 import angularMeteor from 'angular-meteor';
-import uiRouter from 'angular-ui-router'; // needed for Unit Tests to work
 
 import {Meteor} from 'meteor/meteor';
 
@@ -9,7 +8,8 @@ import './chatsAdd.html';
 import {name as Avatar} from "../avatar/avatar";
 import {statusHelper} from '/imports/ui/helpers/statusHelper';
 import {name as pxModalHeader} from '/imports/ui/directives/pxModalHeader';
-import {shareMany} from '/imports/api/methods/taskMethods.js';
+import {shareTask} from '/imports/api/methods/taskMethods.js';
+import {requestTask} from '/imports/api/methods/taskMethods.js';
 import {clone as _clone } from 'underscore';
 
 const name = 'chatsAdd';
@@ -29,9 +29,12 @@ class ChatsAdd {
     this.task = chatsAddService.getTask();
     this.selected = [];
 
-    this.selectedUserIds = [];
-
     console.log("mode = ", this.mode);
+    if ( this.mode=='share') {
+      this.buttonLabel="Share";
+    } else {
+      this.buttonLabel="Request";
+    }
 
     this.helpers({
       users() {
@@ -92,7 +95,7 @@ class ChatsAdd {
 
   doShare(taskId, userIds) {
     console.log("----doShare()----");
-    shareMany.call({
+    shareTask.call({
       taskId: taskId,
       otherUserId: userIds
     }, (err, res) => {
@@ -106,6 +109,16 @@ class ChatsAdd {
 
   doRequest(taskId, userIds) {
     console.log("-----doRequest()----");
+    requestTask.call({
+      taskId: taskId,
+      userIds: userIds
+    }, (err, res) => {
+      if (err) {
+        alert(err);
+      } else {
+        // success!
+      }
+    });
   }
 
   getPhotoUrl(user) {
@@ -122,17 +135,27 @@ function chatsAddService($rootScope, $state, uiService) {
 
   var service = {
     openShare: openShare,
+    openRequest: openRequest,
     setTask: setTask,
     getTask : getTask
   }
   return service;
 
+  function open(modal,task) {
+    setTask(task);
+    uiService.openModal(modal);
+  }
 
   function openShare(task) {
-    setTask(task);
     var modal = "<chats-add mode='share'></chats-add>";
     console.log(modal);
-    uiService.openModal(modal);
+    open(modal,task);
+  }
+
+  function openRequest(task) {
+    var modal = "<chats-add mode='request'></chats-add>";
+    console.log(modal);
+    open(modal,task);
   }
 
   function setTask(task) {
@@ -148,10 +171,8 @@ function chatsAddService($rootScope, $state, uiService) {
 // create a module
 export default angular.module(name, [
     angularMeteor,
-    uiRouter,
     pxModalHeader,
-    Avatar,
-    //'ngAvatar'
+    Avatar
   ])
   .component(name, {
     templateUrl: `imports/ui/components/${name}/${name}.html`,

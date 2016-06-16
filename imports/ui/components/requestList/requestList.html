@@ -1,0 +1,21 @@
+<ion-view>
+  <ion-nav-title>
+    Request List
+   </ion-nav-title>
+  <ion-content class="has-header">
+    <h3 class="padding" style="display:inline">Watching</h3><div class="red" style="display:inline">Promises I am watching & Requests for me to do something</div>
+    <empty-list list="requestList.tasks" text="You do not have any Requests and you are not watching any Promises"></empty-list>
+    <ion-list>
+      <ion-item ng-repeat="task in requestList.tasks  track by task._id" class="item-text-wrap" ng-click="requestList.openDetail($event,task)">
+        <user-promise task="task"></user-promise>
+        <ion-option-button ng-show="false">Teatime</ion-option-button> <!--BUG : do not remove or watch options won't show -->
+
+        <request-view-options task="task" button-style="option"></request-view-options>
+
+      </ion-item>
+
+    </ion-list>
+
+
+  </ion-content>
+</ion-view>

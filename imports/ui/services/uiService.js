@@ -191,7 +191,7 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
     }
 
     function getFacebookPhotoUrl(user, size) {
-      if (size==undefined) { size="large";}
+      if (size==undefined) { size="small";}
       return "https://graph.facebook.com/" + user.services.facebook.id + "/picture?type=" + size;
     }
 
@@ -203,7 +203,7 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
         if (user==undefined || user.services==undefined) return;
 
         if ( user.services.facebook ) {
-          return getFacebookPhotoUrl(user, "small");
+          return getFacebookPhotoUrl(user, "large");
         }
 
         if ( user.services.google ) {

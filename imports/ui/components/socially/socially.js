@@ -20,7 +20,7 @@ import { name as ChangePassword } from '../changePassword/changePassword';
 import { name as Integritometer } from '../integritometer/integritometer';
 import { name as DraftList } from '../draftList/draftList';
 import { name as PromiseList } from '../promiseList/promiseList';
-import { name as WatchList } from '../watchList/watchList';
+import { name as RequestList } from '../requestList/requestList';
 import { name as Notifications } from '../notifications/notifications';
 import { name as CompletedList } from '../completedList/completedList';
 import { name as KudosList } from '../kudosList/kudosList';
@@ -60,7 +60,7 @@ export default angular.module(name, [
   Integritometer,
   DraftList,
   PromiseList,
-  WatchList,
+  RequestList,
   Notifications,
   CompletedList,
   KudosList,

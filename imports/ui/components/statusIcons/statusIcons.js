@@ -179,6 +179,10 @@ class StatusIcons {
     }
     return false;
   }
+
+  isShowRewardsForfeit() {
+    return Meteor.settings.public.features.reward_forfeit;
+  }
 }
 
 

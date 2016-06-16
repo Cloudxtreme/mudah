@@ -4,25 +4,27 @@ import uiRouter from 'angular-ui-router';
 
 import { Counts } from 'meteor/tmeasday:publish-counts';
 
-import './notifications.html';
+import './requestList.html';
 
-import { name as StatusIcons } from '../statusIcons/statusIcons';
-import { name as WatchListOptions } from '../watchListOptions/watchListOptions';
 import { taskHelper } from '/imports/api/methods/taskHelper';
-import { statusHelper } from '/imports/ui/helpers/statusHelper';
 import { name as TaskDetail } from '../taskDetail/taskDetail';
 import { name as EmptyList } from '/imports/ui/directives/emptyList';
+import { name as UserPromise } from '/imports/ui/directives/userPromise';
+import { name as PromiseView } from '/imports/ui/components/promiseView/promiseView';
+import { name as RequestView } from '/imports/ui/components/requestView/requestView';
 
-const name = 'notifications';
+const name = 'requestList';
 
-class Notifications {
-  constructor($scope, $reactive, uiService, taskDetailService) {
+class RequestList {
+  constructor($scope, $reactive, uiService, taskDetailService, chatService,promiseViewService, requestViewService)  {
     'ngInject';
 
+    $reactive(this).attach($scope);
     this.uiService = uiService;
     this.taskDetailService = taskDetailService;
-
-    $reactive(this).attach($scope);
+    this.promiseViewService = promiseViewService;
+    this.requestViewService = requestViewService;
+    this.chatService = chatService;
 
     this.load();
   }
@@ -32,7 +34,7 @@ class Notifications {
     this.subscribe('tasks', () => [
       //  limit: parseInt(this.perPage),
       //  skip: parseInt((this.getReactively('page') - 1) * this.perPage),
-        'watchList'
+        'requestList'
     ]);
 
     this.helpers({
@@ -48,7 +50,13 @@ class Notifications {
 
   openDetail($event, task) {
     this.uiService.stopFurtherClicks($event);
-    this.taskDetailService.openModal(task, this.taskDetailService.watchListOptions);
+    if ( task.isRequest() ) {
+      this.requestViewService.openModal(task);
+    } else {
+      this.promiseViewService.openModal(task, "requestViewOptions");
+    }
+
+    // this.taskDetailService.openModal(task, this.taskDetailService.requestListOptions);
   }
 }
 
@@ -57,25 +65,26 @@ class Notifications {
 export default angular.module(name, [
   angularMeteor,
   uiRouter,
-  StatusIcons,
   TaskDetail,
   EmptyList,
-  WatchListOptions
+  UserPromise,
+  PromiseView,
+  RequestView
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   controllerAs: name,
-  controller: Notifications
+  controller: RequestList
 })
 .config(config);
 
 function config($stateProvider) {
   'ngInject';
   $stateProvider
-    .state('tab.notifications', {
-      url: '/notifications',
+    .state('tab.requestList', {
+      url: '/requestList',
       views: {
-        'tab-notifications': {
-          template: '<notifications></notifications>'
+        'tab-request': {
+          template: '<request-list></request-list>'
         }
       },
       resolve: {

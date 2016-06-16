@@ -1,0 +1,58 @@
+<ion-modal-view class="bg-transparent">
+
+  <ion-view class="bg-transparent">
+    <ion-content class="has-header">
+
+<td-card class="bg-navy requestView">
+
+  <div class="padding">
+    <div class="white" style="float:left">
+      <h3 class="white">Request</h3></div>
+    <div class="white" style="float:right" ng-click="requestView.hide()">R-Close</div>
+    <div style="clear:both"></div>
+  </div>
+<!--
+  <img class="taskPhoto" ng-src="{{requestView.creatorPhoto}}">
+-->
+  <div class="padding" ng-class="requestView.task.isRequest ? 'bg-maroon' : 'bg-blue'">
+    <div class="white padding-top">Sender</div>
+    <avatar  user="requestView.creator"></avatar>
+
+    <div class="white padding-top">Receipients</div>
+    <user-list user-ids="requestView.task.userIds"></user-list>
+
+    <div class="yellow tddetailname">{{requestView.task.name}}</div>
+
+    <div class="white" style="float:left" ng-if="requestView.task.hasArea()">{{requestView.task.area}}</div>
+    <div class="white" style="float:right" ng-if="requestView.task.hasValue()">Value {{requestView.task.value}}</div>
+    <div style="clear:both"></div>
+
+    <div ng-if="requestView.task.hasReward()">
+      <div class="white padding-top">Reward</div>
+      <div class="yellow">{{requestView.task.reward}}</div>
+    </div>
+    <div ng-if="requestView.task.hasForfeit()">
+      <div class="white padding-top">Forfeit</div>
+      <div class="yellow">{{requestView.task.forfeit}}</div>
+    </div>
+
+    <div class="padding-top">
+      <div class="white padding-top">Due</div>
+      <div class="aqua" style="float:left">
+        <due-date date="requestView.task.dueDate" color="white" before-color="white" after-color="yellow"></due-date>
+      </div>
+      <div class="white" style="float:right">{{requestView.task.status}}</div>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+
+  <div class="padding text-center">
+    <request-view-options task="requestView.task" button-style="button"></request-view-options>
+  </div>
+</td-card>
+
+
+    </ion-content>
+  </ion-view>
+
+</ion-modal-view>

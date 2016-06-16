@@ -1,23 +1,18 @@
 <ion-view title="promiseList" view-title="hello world">
 
   <ion-content class="has-header">
-    <h3 class="padding" >Promises</h3>
+    <h3 class="padding" style="display:inline">My Promises</h3><div class="red" style="display:inline">Tasks I have to do & pending Requests I have made to others</div>
     <empty-list list="promiseList.tasks" text="You do not have any Promises"></empty-list>
     <ion-list>
-      <!--
-      <ion-item ng-repeat="task in promiseList.tasks" class="item-text-wrap" ui-sref="tab.taskEdit({ taskId: task._id })">
-      -->
+
       <ion-item ng-repeat="task in promiseList.tasks  track by task._id" class="item-text-wrap" ng-click="promiseList.openDetail($event,task)">
           <user-promise task="task"></user-promise>
-          <!--
-            {{task.name}}
-            <due-date date="task.dueDate"></due-date>
-            <status-icons task="task" edit-area="true" show-value="true"></status-icons>
-          -->
+
           <ion-option-button ng-show="false">Teatime</ion-option-button> <!--BUG : do not remove or watch options won't show -->
           <promise-list-options task="task" button-style="option"></promise-list-options>
 
       </ion-item>
+
     </ion-list>
 
 

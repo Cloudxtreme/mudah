@@ -9,6 +9,7 @@ import './draftList.html';
 
 import { Tasks } from '../../../api/tasks';
 import { name as TaskShare } from '../taskShare/taskShare';
+import { name as TaskRequest } from '../taskRequest/taskRequest';
 import { name as TaskDelete } from '../taskDelete/taskDelete';
 import { name as TaskEdit } from '../taskEdit/taskEdit';
 import { name as uiService } from '/imports/ui/services/uiService';
@@ -26,7 +27,7 @@ const name = 'draftList';
 var create=false;
 
 class DraftList {
-  constructor($scope, $reactive, $scope, $state, $timeout, uiService, taskEditService, dueDateEditService) {
+  constructor($scope, $reactive, $scope, $state, $timeout, uiService, taskEditService) {
     'ngInject';
 
     this.$scope = $scope;
@@ -34,9 +35,7 @@ class DraftList {
     this.$timeout = $timeout;
     this.uiService = uiService;
     this.taskEditService = taskEditService;
-    this.dueDateEditService = dueDateEditService;
-    this.statusHelper = statusHelper;
-
+  
     $reactive(this).attach($scope);
 
 
@@ -176,9 +175,6 @@ class DraftList {
     });
   }
 
-  hasDueDate(task) {
-    return ( task!=null && task.dueDate!=null);
-  }
 
   editName($event,task) {
     this.uiService.stopFurtherClicks($event);
@@ -261,6 +257,7 @@ export default angular.module(name, [
   TaskEdit,
   TaskDelete,
   TaskShare,
+  TaskRequest,
   uiService,
   ChatInputDirective,
   EmptyList

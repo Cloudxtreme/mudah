@@ -9,7 +9,7 @@
                   <b><due-date date="chatsAdd.task.dueDate" color="pink" before-color="maroon"></due-date></b>
                 </div>
                 <div class="buttons tdsharebutton">
-                  <button ng-disabled="chatsAdd.selected.length==0" class="button button-small button-assertive" ng-click="chatsAdd.action()">Share</button>
+                  <button ng-disabled="chatsAdd.selected.length==0" class="button button-small button-assertive" ng-click="chatsAdd.action()">{{chatsAdd.buttonLabel}}</button>
                 </div>
             </div>
             <ion-input class="item item-input">

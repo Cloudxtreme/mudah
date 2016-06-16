@@ -1,0 +1,58 @@
+<ion-modal-view class="bg-transparent">
+
+  <ion-view class="bg-transparent">
+    <ion-content class="has-header">
+
+<td-card class="bg-navy promiseView">
+
+  <div class="padding">
+    <div class="white" style="float:left">
+      <h3 class="white">Promise</h3></div>
+    <div class="white" style="float:right" ng-click="promiseView.hide()">Close</div>
+    <div style="clear:both"></div>
+  </div>
+
+  <img class="taskPhoto" ng-src="{{promiseView.creatorPhoto}}">
+
+  <div class="padding" ng-class="promiseView.task.isRequest ? 'bg-maroon' : 'bg-blue'">
+    <h3 class="yellow">{{promiseView.creator.profile.name}}</h3>
+    <div class="yellow tddetailname">{{promiseView.task.name}}</div>
+
+    <div class="white" style="float:left" ng-if="promiseView.task.hasArea()">{{promiseView.task.area}}</div>
+    <div class="white" style="float:right" ng-if="promiseView.task.hasValue()">Value {{promiseView.task.value}}</div>
+    <div style="clear:both"></div>
+
+    <div ng-if="promiseView.task.hasReward()">
+      <div class="white padding-top">Reward</div>
+      <div class="yellow">{{promiseView.task.reward}}</div>
+    </div>
+    <div ng-if="promiseView.task.hasForfeit()">
+      <div class="white padding-top">Forfeit</div>
+      <div class="yellow">{{promiseView.task.forfeit}}</div>
+    </div>
+    <user-list user-ids="promiseView.task.userIds"></user-list>
+    <div class="padding-top">
+      <div class="white padding-top">Due</div>
+      <div class="aqua" style="float:left">
+        <due-date date="promiseView.task.dueDate" color="white" before-color="white" after-color="yellow"></due-date>
+      </div>
+      <div class="white" style="float:right">{{promiseView.task.status}}</div>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+
+  <div class="padding text-center">
+
+  <promise-list-options ng-if="promiseView.task.isCreator()" task="promiseView.task" button-style="button"></promise-list-options>
+
+  <request-view-options ng-if="promiseView.task.isParticipant()" task="promiseView.task"  button-style="button">
+    ng-if="promiseView.service.isRequestViewOptions()"></request-view-options>
+
+  </div>
+</td-card>
+
+
+    </ion-content>
+  </ion-view>
+
+</ion-modal-view>

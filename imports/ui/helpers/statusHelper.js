@@ -9,7 +9,8 @@ db.inventory.find( {
     ]
 } )
 */
-import _ from 'underscore';
+import { contains as _contains } from 'underscore';
+import { words as _words } from 'underscore.string';
 
 class StatusHelper {
   constructor() {
@@ -44,23 +45,19 @@ class StatusHelper {
     this.acceptedStatus['taskUnrevoke'] = [this.status.REVOKED, this.status.CANCELLED];
 
     this.acceptedStatus['taskShare'] = [this.status.DRAFT];
+    this.acceptedStatus['taskRequest'] = [this.status.DRAFT];
 
     this.acceptedStatus['taskAcknowledge'] = [this.status.DECLINED, this.status.DONE,this.status.NOTDONE,
                                               this.status.REVOKED, this.status.CANCELLED];
     this.acceptedStatus['taskSocial'] = [this.status.ACTIVE, this.status.DONE, this.status.NOTDONE, this.status.REVOKED];
 
     this.nextStatus =  {};
-    this.nextStatus['taskAccept'] = this.status.ACTIVE;
     this.nextStatus['taskDecline'] = this.status.DECLINED;
-    this.nextStatus['taskSelfAccept'] = this.status.ACTIVE;
 
     this.nextStatus['taskDone'] = this.status.DONE;
     this.nextStatus['taskNotDone'] = this.status.NOTDONE;
 
-    this.nextStatus['taskShare'] = this.status.PENDING;
 
-    // these tasks have full-screen Views you need to call to capture more details
-    this.nextState = ['taskChat', 'taskOffer', 'taskDone', 'taskDelete', 'taskShare'];
   }
 
   getNextStatus(component, currStatus) {
@@ -105,7 +102,7 @@ class StatusHelper {
   }
 
   isParticipant(task) {
-     if (task && _.contains(task.userIds, Meteor.userId()) ) {
+     if (task && _contains(task.userIds, Meteor.userId()) ) {
        return true;
      }
      return false;
@@ -198,6 +195,12 @@ class StatusHelper {
     return ( task.dueDate==null);
   }
 
+  getFirstName(name) {
+    if (name!=null) {
+      return _words(creator.profile.name)[0];
+    }
+      return "No name";
+  }
 }
 
 export const statusHelper = new StatusHelper();

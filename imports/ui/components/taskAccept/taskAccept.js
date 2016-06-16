@@ -5,7 +5,7 @@ import './taskAccept.html';
 import { name as TaskEdit } from '../taskEdit/taskEdit';
 
 import {  statusHelper } from '../../helpers/statusHelper';
-import {updateStatus} from '/imports/api/methods/taskMethods';
+import {acceptTask} from '/imports/api/methods/taskMethods';
 
 const name = 'taskAccept';
 
@@ -34,11 +34,8 @@ class TaskAccept {
       this.taskEditService.saveEditedTask(this.task);
     }
 
-    newStatus = statusHelper.getNextStatus(name, this.task.status);
-
-    updateStatus.call({
-        taskId: this.task._id,
-        newStatus: newStatus
+    acceptTask.call({
+        taskId: this.task._id
       }, (err, res) => {
         if (err) {
           console.log("Error .....back in client");
@@ -48,6 +45,7 @@ class TaskAccept {
         }
     });
   }
+
 
   isButton() {
     //console.log("task accept button=", this.buttonStyle);
@@ -71,11 +69,6 @@ class TaskAccept {
         return true;
       }
     } else {
-      /* not required
-      if (this.task.status==statusHelper.status.REVOKED && this.task.creator===Meteor.userId() ) {
-        return true; // your own task that has been un-shared. you can take it on for yourself
-      }
-      */
       if (this.task.status == statusHelper.status.PENDING && statusHelper.wasEditedByThirdParty(this.task)) {
         return true;
       }

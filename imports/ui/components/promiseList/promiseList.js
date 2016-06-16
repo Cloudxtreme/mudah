@@ -9,20 +9,22 @@ import { name as PromiseListOptions } from '../promiseListOptions/promiseListOpt
 import { name as StatusIcons } from '../statusIcons/statusIcons';
 import { taskHelper } from '/imports/api/methods/taskHelper';
 import { statusHelper } from '../../helpers/statusHelper';
-import { name as dueDate } from '../dueDate/dueDate';
 import { name as EmptyList } from '/imports/ui/directives/emptyList';
 import { name as UserPromise } from '/imports/ui/directives/userPromise';
-
+import { name as PromiseView } from '/imports/ui/components/promiseView/promiseView';
+import { name as RequestView } from '/imports/ui/components/requestView/requestView';
 import './promiseList.html';
 
 const name = 'promiseList';
 
 class PromiseList {
-  constructor($scope, $rootScope, $reactive, uiService,taskDetailService) {
+  constructor($scope, $rootScope, $reactive, uiService,taskDetailService, promiseViewService, requestViewService) {
     'ngInject';
 
     this.uiService = uiService;
     this.taskDetailService=taskDetailService;
+    this.promiseViewService = promiseViewService;
+    this.requestViewService = requestViewService;
 
     this.load($scope, $reactive);
 
@@ -73,7 +75,12 @@ class PromiseList {
 
   openDetail($event, task) {
     this.uiService.stopFurtherClicks($event);
-    this.taskDetailService.openModal(task, this.taskDetailService.promiseListOptions);
+    if ( task.isRequest() ) {
+      //this.taskDetailService.openModal(task, this.taskDetailService.promiseListOptions);
+      this.requestViewService.openModal(task);
+    } else {
+      this.promiseViewService.openModal(task, "promiseListOptions");
+    }
   }
 
 }
@@ -84,11 +91,12 @@ export default angular.module(name, [
   angularMeteor,
   uiRouter,
   StatusIcons,
-  dueDate,
   TaskDetail,
   PromiseListOptions,
   EmptyList,
-  UserPromise
+  UserPromise,
+  PromiseView,
+  RequestView
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   controllerAs: name,

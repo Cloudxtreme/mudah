@@ -32,9 +32,7 @@
           </textarea>
 
           <div ng-click="draftList.openEdit($event, draftList.editTask)" style="cursor: pointer;">
-            <div ng-if="draftList.hasDueDate(draftList.editTask)" class="assertive">{{draftList.editTask.dueDate | amDateFormat:'D.M.YYYY HH:MM:SS'}}
-              <font ng-class="draftList.statusHelper.isOverdue(draftList.editTask) ? 'assertive' : 'balanced'">(<span am-time-ago="draftList.editTask.dueDate"></span>)</font>
-            </div>
+            <due-date date="draftList.editTask.dueDate"></due-date>
             <div style="font-size:80%">
               <font class="royal">By When - Reward - Forfeit - Actions</font>
             </div>
@@ -53,9 +51,7 @@
           <h2 ng-click="draftList.editName($event,task)">{{task.name}}</h2>
         </span>
         <div>
-          <div ng-show="draftList.hasDueDate(task)" class="assertive">{{task.dueDate | amDateFormat:'D.M.YYYY HH:MM:SS'}}
-            <font ng-class="draftList.statusHelper.isOverdue(task) ? 'assertive' : 'balanced'">(<span am-time-ago="task.dueDate"></span>)</font>
-          </div>
+          <due-date date="task.dueDate"></due-date>
           <div style="font-size:80%">
             <font class="royal">By When - Reward - Forfeit - Actions</font>
           </div>
@@ -66,6 +62,7 @@
         <task-accept task="task"></task-accept>
         <task-delete task="task"></task-delete>
         <task-share task="task"></task-share>
+        <task-request task="task"></task-request>
         <task-offline task="task"></task-offline>
 
         <!--

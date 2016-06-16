@@ -1,19 +1,18 @@
 import angular from 'angular';
 import angularMeteor from 'angular-meteor';
-import uiRouter from 'angular-ui-router';
 
 import { Meteor } from 'meteor/meteor';
 
-import './taskShare.html';
+import './taskRequest.html';
 
 import { Tasks } from '../../../api/tasks';
 import { name as chatsAdd } from '../chatsAdd/chatsAdd';
 import { name as TaskEdit } from '../taskEdit/taskEdit';
 import { statusHelper } from '../../helpers/statusHelper';
 
-const name = 'taskShare';
+const name = 'taskRequest';
 
-class TaskShare {
+class TaskRequest {
   constructor($scope, uiService, chatsAddService, taskEditService) {
     'ngInject';
 
@@ -36,18 +35,16 @@ class TaskShare {
       if (this.taskEditService.isDirty(this.task) ) {
         this.taskEditService.saveEditedTask(this.task);
       }
-      this.chatsAddService.openShare(this.task);
+      this.chatsAddService.openRequest(this.task);
     }
 
   }
 
   show() {
-    //  ||   statusHelper.noDueDate(this.task)
-
     if (statusHelper.isOffline()|| statusHelper.allow(this.task, name)==false ) {
+      console.log("dont allow..", name);
       return false
     };
-
 
     return true;
   }
@@ -62,10 +59,11 @@ class TaskShare {
 }
 
 
+
+
 // create a module
 export default angular.module(name, [
   angularMeteor,
-  uiRouter,
   chatsAdd,
   TaskEdit
 ]).component(name, {
@@ -76,5 +74,5 @@ export default angular.module(name, [
     close: '@'
   },
   controllerAs: name,
-  controller: TaskShare
+  controller: TaskRequest
 })

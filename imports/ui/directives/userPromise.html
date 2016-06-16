@@ -2,11 +2,11 @@
   <img ng-src="{{ userPromise.photoUrl }}" ng-click="userPromise.openChat($event)"/>
   <div class="item-avatar-name">{{userPromise.name}}</div>
   <h2>{{userPromise.task.name}}</h2>
-  <p>
+  <div>
     <due-date date="userPromise.task.dueDate"></due-date>
     <status-icons task="userPromise.task"></status-icons>
     <!--
     <user-list user-ids="userPromise.task.userIds"></user-list>
   -->
-  </p>
+</div>
 </div>

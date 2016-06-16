@@ -16,6 +16,7 @@ class Avatar {
 
     $reactive(this).attach($scope);
     this.uiService = uiService;
+
   }
 
   canEditPhoto() {

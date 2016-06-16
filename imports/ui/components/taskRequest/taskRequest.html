@@ -1,0 +1,7 @@
+<span ng-if="!taskRequest.isButton()">
+  <ion-option-button  class="button-energized" ng-show="taskRequest.show()"  ng-click="taskRequest.action()">Request</ion-option-button>
+</span>
+
+<span ng-if="taskRequest.isButton()">
+  <button class="button button-energized" ng-disabled="taskRequest.disable()" ng-show="taskRequest.show()" ng-click="taskRequest.action()">Request</button>
+</span>

@@ -6,3 +6,8 @@ db.tasks.update({"_id" : "RP9huh4xF5uGJpCCf"}, {$set : { "dueDate" : ISODate("20
 Show Status
 ------------
 db.tasks.find({},{status:1,statusDate:1, edited:1, editedDate:1, ack:1, ackBy:1, neverCountered:1});
+
+
+users
+------
+db.users.find({}, {"profile.name":1});

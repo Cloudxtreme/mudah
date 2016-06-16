@@ -3,19 +3,17 @@
     Watch List
    </ion-nav-title>
   <ion-content class="has-header">
-    <h3 class="padding">Watching</h3>
+    <h3 class="padding">Watching / Requests</h3>
     <empty-list list="watchList.tasks" text="You are not watching any Promises"></empty-list>
     <ion-list>
       <ion-item ng-repeat="task in watchList.tasks  track by task._id" class="item-text-wrap" ng-click="watchList.openDetail($event,task)">
         <user-promise task="task"></user-promise>
+        <ion-option-button ng-show="false">Teatime</ion-option-button> <!--BUG : do not remove or watch options won't show -->
 
         <!--
-          {{task.name}}
-          <due-date date="task.dueDate"></due-date>
-          <status-icons task="task" show-area="true" edit-value="true"></status-icons>
-        -->
-        <ion-option-button ng-show="false">Teatime</ion-option-button> <!--BUG : do not remove or watch options won't show -->
         <watch-list-options task="task" button-style="option"></watch-list-options>
+      -->
+        <request-view-options task="task" button-style="option"></request-view-options>
 
       </ion-item>
 

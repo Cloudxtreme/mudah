@@ -5,14 +5,12 @@ import './taskDelete.html';
 
 import { statusHelper } from '/imports/ui/helpers/statusHelper';
 import { deleteTask } from '/imports/api/methods/taskMethods';
-import { name as TaskEdit } from '../taskEdit/taskEdit';
 const name = 'taskDelete';
 
 class TaskDelete {
   constructor($scope, $rootScope, uiService, taskEditService ) {
     'ngInject';
     this.uiService = uiService;
-    this.taskEditService = taskEditService;
     this.$rootScope = $rootScope;
   }
 
@@ -41,7 +39,7 @@ class TaskDelete {
   show() {
     if (statusHelper.isOffline() ) { return false};
 
-    if ( statusHelper.allow(this.task, name) || statusHelper.isCompleted(this.task) ) {
+    if ( this.task.isCreator() && (statusHelper.allow(this.task, name) || statusHelper.isCompleted(this.task)) ) {
         return true;
     }
     return false;
@@ -57,8 +55,7 @@ class TaskDelete {
 
 // create a module
 export default angular.module(name, [
-  angularMeteor,
-  TaskEdit
+  angularMeteor
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   bindings: {

@@ -12,6 +12,7 @@ import { name as WatchListOptions } from '../watchListOptions/watchListOptions';
 import { taskHelper } from '/imports/api/methods/taskHelper';
 import { name as UserList } from '/imports/ui/components/userList/userList';
 
+
 const name = 'taskDetail';
 
 class TaskDetail {
@@ -28,6 +29,14 @@ class TaskDetail {
     this.creator = taskHelper.getUser(this.task.creator);
     this.creatorPhoto = uiService.getProfilePhoto(this.creator);
 
+    creator = taskHelper.getUser(this.task.creator);
+    firstName = statusHelper.getFirstName(creator.profile.name);
+
+    if ( this.task.isRequest==true) {
+      this.typeLabel= firstName + "'s Request";
+    } else {
+      this.typeLabel=  firstName + "'s Promise";
+    }
   }
 
 

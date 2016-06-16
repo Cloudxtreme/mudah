@@ -102,7 +102,7 @@ class TaskHelper {
     });
   }
 
-  getWatchList(userId) {
+  getRequestList(userId) {
     return Tasks.find({
       $and: [{
         status: {
