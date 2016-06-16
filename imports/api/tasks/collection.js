@@ -43,6 +43,12 @@ Tasks.helpers({
   },
   hasForfeit() {
     return (this.forfeit!=null);
+  },
+  getRequestUserId() {
+    if ( this.userIds!= null) {
+      return this.userIds[0]; // always ONE only
+    }
+    return null;
   }
 });
 

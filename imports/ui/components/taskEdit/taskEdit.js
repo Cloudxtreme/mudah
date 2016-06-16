@@ -199,8 +199,7 @@ function TaskEditService(uiService) {
   }
 
   function saveEditedTask(task) {
-    console.log("saveEditedTask..");
-
+    
     let saveTask = {};
     saveTask._id = task._id;
     saveTask.name = task.name;

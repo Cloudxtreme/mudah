@@ -4,6 +4,7 @@ import angularMeteor from 'angular-meteor';
 import { statusHelper } from '/imports/ui/helpers/statusHelper';
 import { taskHelper } from '/imports/api/methods/taskHelper';
 import { name as RequestViewOptions } from '/imports/ui/components/requestViewOptions/requestViewOptions';
+import { name as ShowUser } from '/imports/ui/components/showUser/showUser';
 
 import './requestView.html';
 
@@ -14,23 +15,15 @@ class RequestView {
     'ngInject';
 
     $reactive(this).attach($scope);
-    this.requestViewService = requestViewService;
+    this.service = requestViewService;
 
+    this.task = this.service.getTask();
 
-    this.task = requestViewService.getTask();
+    this.fromUser    = taskHelper.getUser(this.task.creator);
 
-    this.creator = taskHelper.getUser(this.task.creator);
-    this.creatorPhoto = uiService.getProfilePhoto(this.creator);
-
-    creator = taskHelper.getUser(this.task.creator);
-    firstName = statusHelper.getFirstName(creator.profile.name);
-
-    this.typeLabel=  firstName + "'s Request";
-  }
-
-
-  hide() {
-      this.requestViewService.closeModal();
+    console.log("From user = ", this.fromUser.profile.name);
+    
+    this.toUser = taskHelper.getUser(this.task.getRequestUserId() ); // there's always only 1 receipient
   }
 
 }
@@ -71,7 +64,8 @@ function RequestViewService(uiService) {
 // create a module
 export default angular.module(name, [
     angularMeteor,
-    RequestViewOptions
+    RequestViewOptions,
+    ShowUser
   ]).component(name, {
     templateUrl: `imports/ui/components/${name}/${name}.html`,
     controllerAs: name,

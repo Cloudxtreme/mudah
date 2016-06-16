@@ -30,11 +30,13 @@
       <div class="white padding-top">Forfeit</div>
       <div class="yellow">{{promiseView.task.forfeit}}</div>
     </div>
-    <user-list user-ids="promiseView.task.userIds"></user-list>
+    <div class="padding-top">
+      <user-list user-ids="promiseView.task.userIds"></user-list>
+    </div>
     <div class="padding-top">
       <div class="white padding-top">Due</div>
       <div class="aqua" style="float:left">
-        <due-date date="promiseView.task.dueDate" color="white" before-color="white" after-color="yellow"></due-date>
+        <due-date date="promiseView.task.dueDate" color="yellow" before-color="yellow" after-color="yellow"></due-date>
       </div>
       <div class="white" style="float:right">{{promiseView.task.status}}</div>
     </div>
