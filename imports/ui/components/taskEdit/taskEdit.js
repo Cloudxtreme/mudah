@@ -73,8 +73,30 @@ class TaskEdit {
     return statusHelper.isCreator(this.task);
   }
 
-  hide() {
-      this.taskEditService.closeModal();
+
+  destroy() {
+    console.log("destroy--- ");
+    this.taskEditService.closeModal();
+  }
+
+  share() {
+    console.log("share... !! ");
+    if ( this.task.hasDueDate()  ) {
+      if (this.taskEditService.isDirty(this.task) ) {
+        this.taskEditService.saveEditedTask(this.task);
+      }
+      this.chatsAddService.openShare(this.task);
+    }
+  }
+
+  request() {
+    console.log(" request ");
+    if ( this.task.hasDueDate()  ) {
+      if (this.taskEditService.isDirty(this.task) ) {
+        this.taskEditService.saveEditedTask(this.task);
+      }
+      this.chatsAddService.openRequest(this.task);
+    }
   }
 }
 
@@ -175,23 +197,23 @@ function TaskEditService(uiService) {
   }
 
   function compareString(a,b) {
-    console.log("---> String a=" + a + "*  b=" + b + "*" );
+    //console.log("---> String a=" + a + "*  b=" + b + "*" );
     return (a===b);
   }
 
   function compareDate(a,b) {
-    console.log("---> Date a=" + a + "*  b=" + b + "*" );
+    //console.log("---> Date a=" + a + "*  b=" + b + "*" );
 
     if (a!=null && b!=null) {
-      console.log("date match = " +  a.getTime() == b.getTime() );
+      //console.log("date match = " +  a.getTime() == b.getTime() );
       return ( a.getTime() == b.getTime() );
     }
     if (a!=null && b==null) {
-      console.log("date dont match");
+      //console.log("date dont match");
       return false;
     }
     if (a==null && b!=null) {
-      console.log("date dont match");
+      //console.log("date dont match");
       return false;
     }
 
@@ -199,7 +221,7 @@ function TaskEditService(uiService) {
   }
 
   function saveEditedTask(task) {
-    
+
     let saveTask = {};
     saveTask._id = task._id;
     saveTask.name = task.name;

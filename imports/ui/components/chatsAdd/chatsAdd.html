@@ -2,8 +2,9 @@
 
   <ion-view class="bg-transparent">
     <ion-content scroll="false" class="has-header">
-        <td-card class="bg-aqua taskEdit">
-          <div class="tdshareheader">
+      <td-cards>
+        <td-card  class="bg-aqua taskEdit" on-destroy="chatsAdd.destroy()" on-swipe-left="chatsAdd.action()" on-swipe-right="chatsAdd.action()">
+        <div class="tdshareheader">
             <div class="tdbuttonbar padding">
                 <div class="padding-top">
                   <b><due-date date="chatsAdd.task.dueDate" color="pink" before-color="maroon"></due-date></b>
@@ -37,6 +38,12 @@
                 </div>
           </ion-scroll>
         </td-card>
+
+        <td-card style="visibility:hidden">
+          <div>Need this extra td-card otherwise the first td-card won't "fly away"</div>
+        </td-card>
+
+      </td-cards>
 
   </ion-content>
 </ion-view>

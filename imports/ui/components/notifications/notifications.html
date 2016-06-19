@@ -1,18 +1,32 @@
-<ion-view>
-  <ion-content class="has-header">
-    <h3 class="padding">Notifications</h3>
-    <empty-list list="notifications.tasks" text="Coming soon.."></empty-list>
-    <!--
-    <ion-list>
-        <ion-item ng-repeat="task in watchList.tasks" class="item-text-wrap" ng-click="watchList.openDetail($event,task)">
-        {{task.name}}
-        <due-date date="task.dueDate"></due-date>
-        <status-icons task="task" show-area="true"></status-icons>
+<ion-view class="bg-transparent">
+    <ion-content class="has-header navy" scroll="false">
 
-        <watch-list-options task="task" button-style="option"></watch-list-options>
-      </ion-item>
-    </ion-list>
-  -->
+    <h3 class="padding" style="display:inline">Notifications</h3>
+    <empty-list list="notifications.tasks" text="You do not have any Notifications"></empty-list>
+
+
+    <td-cards>
+      <td-card  class="bg-aqua taskDetail"  ng-repeat="task in notifications.tasks"
+          on-swipe-left="notifications.swipeLeft($index)"   on-swipe-right="notifications.swipeRight($index)"
+          on-destroy="notifications.destroyed($index)">
+
+        <div class="no-text"><i class="icon ion-thumbsdown"></i></div>
+        <div class="yes-text"><i class="icon ion-thumbsup"></i></div>
+
+          <ion-item class="item-text-wrap">
+            <user-promise task="task"></user-promise>
+            <promise-list-options task="task" button-style="button"></promise-list-options>
+          </ion-item>
+
+
+      </td-card>
+
+      <td-card>
+        <div class="card" style="height:100px">No more cards.</div>
+        <button class="button button-block  button-energized" ng-click="notifications.refreshCards()">Reload</button>
+      </td-card>
+
+    </td-cards>
 
 
   </ion-content>

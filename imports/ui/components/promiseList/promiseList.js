@@ -13,6 +13,7 @@ import { name as EmptyList } from '/imports/ui/directives/emptyList';
 import { name as UserPromise } from '/imports/ui/directives/userPromise';
 import { name as PromiseView } from '/imports/ui/components/promiseView/promiseView';
 import { name as RequestView } from '/imports/ui/components/requestView/requestView';
+
 import './promiseList.html';
 
 const name = 'promiseList';

@@ -3,12 +3,13 @@
   <ion-view class="bg-transparent">
     <ion-content class="has-header">
 
-<td-card class="bg-navy promiseView">
+<td-cards>
+<td-card class="bg-navy promiseView"  on-destroy="promiseView.destroy()" on-swipe-left="promiseView.accept()" on-swipe-right="promiseView.reject()">
 
   <div class="padding">
     <div class="white" style="float:left">
       <h3 class="white">Promise</h3></div>
-    <div class="white" style="float:right" ng-click="promiseView.hide()">Close</div>
+    <div class="white" style="float:right" ng-click="promiseView.service.closeModal()">Close</div>
     <div style="clear:both"></div>
   </div>
 
@@ -52,6 +53,12 @@
 
   </div>
 </td-card>
+
+<td-card style="visibility:hidden">
+  <div>Need this extra td-card otherwise the first td-card won't "fly away"</div>
+</td-card>
+
+</td-cards>
 
 
     </ion-content>

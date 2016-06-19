@@ -41,6 +41,9 @@ Tasks.helpers({
   hasReward() {
     return (this.reward!=null);
   },
+  hasDueDate() {
+      return (this.dueDate!=null);
+  },
   hasForfeit() {
     return (this.forfeit!=null);
   },

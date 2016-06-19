@@ -2,53 +2,74 @@ import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import uiRouter from 'angular-ui-router';
 
+
 import { Counts } from 'meteor/tmeasday:publish-counts';
+import { name as TaskDetail } from '../taskDetail/taskDetail';
+import { name as PromiseListOptions } from '../promiseListOptions/promiseListOptions';
+import { name as StatusIcons } from '../statusIcons/statusIcons';
+import { taskHelper } from '/imports/api/methods/taskHelper';
+import { statusHelper } from '../../helpers/statusHelper';
+import { name as EmptyList } from '/imports/ui/directives/emptyList';
+import { name as UserPromise } from '/imports/ui/directives/userPromise';
+import { name as PromiseView } from '/imports/ui/components/promiseView/promiseView';
+import { name as RequestView } from '/imports/ui/components/requestView/requestView';
+
 
 import './notifications.html';
-
-import { name as StatusIcons } from '../statusIcons/statusIcons';
-import { name as WatchListOptions } from '../watchListOptions/watchListOptions';
-import { taskHelper } from '/imports/api/methods/taskHelper';
-import { statusHelper } from '/imports/ui/helpers/statusHelper';
-import { name as TaskDetail } from '../taskDetail/taskDetail';
-import { name as EmptyList } from '/imports/ui/directives/emptyList';
-
 const name = 'notifications';
 
 class Notifications {
-  constructor($scope, $reactive, uiService, taskDetailService) {
+  constructor($scope, $rootScope, $reactive, $timeout, $location, uiService, promiseViewService, requestViewService) {
     'ngInject';
 
     this.uiService = uiService;
-    this.taskDetailService = taskDetailService;
+    this.promiseViewService = promiseViewService;
+    this.requestViewService = requestViewService;
+    this.$location = $location;
 
     $reactive(this).attach($scope);
 
-    this.load();
+    if ( this.show() ) {
+      this.subscribe('tasks', () => [
+          'promiseList'
+      ]);
+
+      this.helpers({
+        tasks() {
+            return taskHelper.getActiveList(Meteor.userId());
+        }
+      });
+    };
   }
 
-  load() {
-
-    this.subscribe('tasks', () => [
-      //  limit: parseInt(this.perPage),
-      //  skip: parseInt((this.getReactively('page') - 1) * this.perPage),
-        'watchList'
-    ]);
-
-    this.helpers({
-      tasks() {
-        //return Tasks.find({}, {
-        return taskHelper.getRequestList(Meteor.userId());
-      },
-      tasksCount() {
-        return Counts.get('numberOfTasks');
-      }
-    });
+  show() {
+    return Meteor.settings.public.features.allow_tinder_swipe;
   }
 
-  openDetail($event, task) {
-    this.uiService.stopFurtherClicks($event);
-    this.taskDetailService.openModal(task, this.taskDetailService.watchListOptions);
+
+  getPhoto(userId) {
+    currUser = taskHelper.getUser(userId);
+    return this.uiService.getProfilePhoto(currUser);
+  }
+
+  destroyed(index) {
+    this.tasks.splice(index, 1);
+    console.log("AFTER card destroyed length=", this.tasks.length);
+  };
+
+
+  swipeLeft(index) {
+    console.log("swipe LEFT <-----");
+  }
+
+  swipeRight(index) {
+    console.log("swipe -----> RIGHT");
+  }
+
+  refreshCards() {
+    // make a unique url so that page refreshes
+    const tmp = '/tab/notice/' + new Date().getTime() ;
+    this.$location.path( tmp);
   }
 }
 
@@ -59,22 +80,25 @@ export default angular.module(name, [
   uiRouter,
   StatusIcons,
   TaskDetail,
+  PromiseListOptions,
   EmptyList,
-  WatchListOptions
+  UserPromise,
+  PromiseView,
+  RequestView
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   controllerAs: name,
   controller: Notifications
 })
-.config(config);
+  .config(config);
 
 function config($stateProvider) {
   'ngInject';
   $stateProvider
-    .state('tab.notifications', {
-      url: '/notifications',
+    .state('tab.notice', {
+      url: '/notice/:date',
       views: {
-        'tab-notifications': {
+        'tab-notice': {
           template: '<notifications></notifications>'
         }
       },

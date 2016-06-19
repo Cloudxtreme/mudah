@@ -226,6 +226,7 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
         $ionicLoading.hide();
       }
     }
+
 }
 
 

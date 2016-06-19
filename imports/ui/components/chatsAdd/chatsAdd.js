@@ -29,6 +29,8 @@ class ChatsAdd {
     this.task = chatsAddService.getTask();
     this.selected = [];
 
+    this.service = chatsAddService;
+
     console.log("mode = ", this.mode);
     if ( this.mode=='share') {
       this.buttonLabel="Share";
@@ -90,7 +92,6 @@ class ChatsAdd {
     } else {
       this.doRequest(this.task._id, userIds);
     }
-
   }
 
   doShare(taskId, userIds) {
@@ -125,6 +126,10 @@ class ChatsAdd {
     return this.uiService.getProfilePhoto(user);
   }
 
+  destroy() {
+    console.log("destroy--- ");
+    this.service.closeModal();
+  }
 
 }
 
@@ -137,7 +142,8 @@ function chatsAddService($rootScope, $state, uiService) {
     openShare: openShare,
     openRequest: openRequest,
     setTask: setTask,
-    getTask : getTask
+    getTask : getTask,
+    closeModal : closeModal
   }
   return service;
 
@@ -164,6 +170,10 @@ function chatsAddService($rootScope, $state, uiService) {
 
   function getTask() {
     return currTask;
+  }
+
+  function closeModal() {
+    uiService.hideModal();
   }
 }
 

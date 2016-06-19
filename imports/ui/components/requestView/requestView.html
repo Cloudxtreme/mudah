@@ -1,57 +1,68 @@
 <ion-modal-view class="bg-transparent">
 
   <ion-view class="bg-transparent">
-    <ion-content class="has-header">
+    <ion-content class="has-header" scroll="false">
 
-<td-card class="bg-navy requestView">
+      <td-cards>
+        <td-card  class="bg-navy requestView" on-destroy="requestView.destroy()" on-swipe-left="requestView.accept()" on-swipe-right="requestView.reject()">
 
-  <div class="padding">
-    <div class="white" style="float:left">
-      <h3 class="white">Request</h3></div>
-    <div class="white" style="float:right" ng-click="requestView.service.closeModal()">Close</div>
-    <div style="clear:both"></div>
-  </div>
+          <div class="no-text"><i class="icon ion-thumbsdown"></i></div>
+          <div class="yes-text"><i class="icon ion-thumbsup"></i></div>
 
-  <div class="padding" ng-class="requestView.task.isRequest ? 'bg-maroon' : 'bg-blue'">
-    <div class="fromuser">
-      <div class="white padding">From</div>
-      <show-user  user="requestView.fromUser" color="white"></show-user>
-    </div>
-    <div class="touser">
-      <div class="white padding">To</div>
-      <show-user  user="requestView.toUser" color="white"></show-user>
-    </div>
+          <div class="padding">
+            <div class="white" style="float:left">
+              <h3 class="white">Request</h3></div>
+            <div class="white" style="float:right" ng-click="requestView.requestViewService.closeModal()">Close</div>
+            <div style="clear:both"></div>
+          </div>
 
-    <div class="yellow padding-top tddetailname">{{requestView.task.name}}</div>
+          <div class="padding" ng-class="requestView.task.isRequest ? 'bg-maroon' : 'bg-blue'">
 
-    <div class="white" style="float:left" ng-if="requestView.task.hasArea()">{{requestView.task.area}}</div>
-    <div class="white" style="float:right" ng-if="requestView.task.hasValue()">Value {{requestView.task.value}}</div>
-    <div style="clear:both"></div>
+            <div class="touser">
+              <div class="white">To</div>
+              <show-user user="requestView.toUser" color="white"></show-user>
+            </div>
+            <div class="fromuser">
+              <div class="white">From</div>
+              <show-user user="requestView.fromUser" color="white"></show-user>
+            </div>
 
-    <div ng-if="requestView.task.hasReward()">
-      <div class="white padding-top">Reward</div>
-      <div class="yellow">{{requestView.task.reward}}</div>
-    </div>
-    <div ng-if="requestView.task.hasForfeit()">
-      <div class="white padding-top">Forfeit</div>
-      <div class="yellow">{{requestView.task.forfeit}}</div>
-    </div>
 
-    <div class="padding-top">
-      <div class="white padding-top">Due</div>
-      <div class="aqua" style="float:left">
-        <due-date date="requestView.task.dueDate" color="yellow" before-color="yellow" after-color="yellow"></due-date>
-      </div>
-      <div class="white" style="float:right">{{requestView.task.status}}</div>
-    </div>
-    <div style="clear:both"></div>
-  </div>
+            <div class="yellow padding-top tddetailname">{{requestView.task.name}}</div>
 
-  <div class="padding text-center">
-    <request-view-options task="requestView.task" button-style="button"></request-view-options>
-  </div>
-</td-card>
+            <div class="white" style="float:left" ng-if="requestView.task.hasArea()">{{requestView.task.area}}</div>
+            <div class="white" style="float:right" ng-if="requestView.task.hasValue()">Value {{requestView.task.value}}</div>
+            <div style="clear:both"></div>
 
+            <div ng-if="requestView.task.hasReward()">
+              <div class="white padding-top">Reward</div>
+              <div class="yellow">{{requestView.task.reward}}</div>
+            </div>
+            <div ng-if="requestView.task.hasForfeit()">
+              <div class="white padding-top">Forfeit</div>
+              <div class="yellow">{{requestView.task.forfeit}}</div>
+            </div>
+
+            <div class="padding-top">
+              <div class="white padding-top">Due</div>
+              <div class="aqua" style="float:left">
+                <due-date date="requestView.task.dueDate" color="yellow" before-color="yellow" after-color="yellow"></due-date>
+              </div>
+              <div class="white" style="float:right">{{requestView.task.status}}</div>
+            </div>
+            <div style="clear:both"></div>
+          </div>
+
+          <div class="padding text-center">
+            <request-view-options task="requestView.task" button-style="button"></request-view-options>
+          </div>
+        </td-card>
+
+        <td-card style="visibility:hidden">
+          <div>Need this extra td-card otherwise the first td-card won't "fly away"</div>
+        </td-card>
+
+      </td-cards>
 
     </ion-content>
   </ion-view>

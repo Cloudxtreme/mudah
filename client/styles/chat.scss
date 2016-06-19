@@ -1,3 +1,4 @@
+
 .chat-picture {
   max-width: 40px;
   max-height: 40px;
@@ -13,12 +14,12 @@
   vertical-align:middle;
   border-style: solid;
   border-width: 1px;
-  border-color: #000;
+  border-color: black;
   border-radius: 50%;
 }
 
 .chat {
-  background-color: #DDDDDD;
+  background-color: silver;
   background-repeat: no-repeat;
   background-size: 100%;
 }
@@ -47,12 +48,12 @@
 
   &.message-mine {
     float: right;
-    background-color: #ededed;
+    background-color: gray;
   }
 
   &.message-other {
     float: left;
-    background-color: #FFF;
+    background-color: white;
   }
 
   &.message-other::before, &.message-mine::before {

@@ -16,7 +16,8 @@
 
     <ion-refresher on-refresh="draftList.action()" on-pulling="draftList.onPulling()" pulling-text="{{draftList.pullingText}}">
     </ion-refresher>
-    <ion-item on-swipe-up="draftList.onSwipeUp()" class="text-center white" ng-class="draftList.showEdit ? 'bg-purple' : 'bg-fuchsia'">{{draftList.helpMessage}}<i class="padding silver ion-arrow-down-c"></i>
+    <ion-item on-swipe-up="draftList.onSwipeUp()" ng-click="draftList.action()"
+          class="text-center white" ng-class="draftList.showEdit ? 'bg-purple' : 'bg-fuchsia'">{{draftList.helpMessage}}<i class="padding silver ion-arrow-down-c"></i>
     </ion-item>
 
 

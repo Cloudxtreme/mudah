@@ -34,15 +34,16 @@
   font-size:16px;
 }
 
-.touser {
+.fromuser {
   display:inline-block;
 }
 
-.fromuser {
+.touser {
   display:inline-block;
   position:absolute;
   right:16px;
 }
+
 
 td-card {
     position: absolute;
@@ -57,6 +58,8 @@ td-card {
     border-style:solid;
     border-width:1px;
 }
+
+
 
 .taskDetail {
   border: 1px solid #001F3F !important;
@@ -130,4 +133,17 @@ td-card .item-stacked-label .input-label, .item-stacked-label .icon {
     display: inline-block;
     padding-bottom: 5px;
     vertical-align: middle;
+}
+
+
+.sender-picture {
+  max-width: 40px;
+  max-height: 40px;
+  margin: 5px auto;
+  display:block;
+  vertical-align:middle;
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+  border-radius: 50%;
 }

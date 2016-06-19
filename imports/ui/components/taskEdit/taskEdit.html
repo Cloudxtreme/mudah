@@ -2,10 +2,11 @@
 
   <ion-view class="bg-transparent">
     <ion-content class="has-header">
-      <td-card class="bg-aqua taskEdit">
+      <td-cards>
+      <td-card  class="bg-aqua taskEdit" on-destroy="taskEdit.destroy()" on-swipe-left="taskEdit.share()" on-swipe-right="taskEdit.request()">
         <div class="list">
 
-          <div ng-click="taskEdit.hide()" class="white padding" style="float:right">Close</div>
+          <div ng-click="taskEdit.taskEditService.closeModal();" class="white padding" style="float:right">Close</div>
 
           <form name="editForm" style="clear:both">
             <ion-input class="item item-input item-stacked-label">
@@ -52,6 +53,11 @@
         </div>
 
       </td-card>
+      <td-card style="visibility:hidden">
+        <div>Need this extra td-card otherwise the first td-card won't "fly away"</div>
+      </td-card>
+
+    </td-cards>
 
     </ion-content>
   </ion-view>

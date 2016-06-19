@@ -6,6 +6,7 @@ import { taskHelper } from '/imports/api/methods/taskHelper';
 import { name as RequestViewOptions } from '/imports/ui/components/requestViewOptions/requestViewOptions';
 import { name as ShowUser } from '/imports/ui/components/showUser/showUser';
 
+
 import './requestView.html';
 
 const name = 'requestView';
@@ -15,17 +16,30 @@ class RequestView {
     'ngInject';
 
     $reactive(this).attach($scope);
-    this.service = requestViewService;
+    this.requestViewService = requestViewService;
+    this.uiService = uiService;
 
-    this.task = this.service.getTask();
+    this.task = this.requestViewService.getTask();
 
     this.fromUser    = taskHelper.getUser(this.task.creator);
 
     console.log("From user = ", this.fromUser.profile.name);
-    
+
     this.toUser = taskHelper.getUser(this.task.getRequestUserId() ); // there's always only 1 receipient
   }
 
+  destroy() {
+    console.log("destroy--- ");
+    this.requestViewService.closeModal();
+  }
+
+  accept() {
+    console.log("accept... !! ");
+  }
+
+  reject() {
+    console.log(" reject ");
+  }
 }
 
 

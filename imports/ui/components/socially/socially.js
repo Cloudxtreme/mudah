@@ -8,6 +8,8 @@ import 'angular-sanitize';
 import 'angular-moment';
 import 'ionic-scripts';
 
+import  '/imports/ui/3rdparty/ionic-tinder-cards-2/ionic.tdcards2';
+
 import { name as Tabs } from '../tabs/tabs';
 import { name as Sidemenu } from '../sidemenu/sidemenu';
 
@@ -49,10 +51,9 @@ class Socially {
 
 }
 
-// create a module
-export default angular.module(name, [
+const dependencies=
+[
   angularMeteor,
-//  ngMaterial,
   uiRouter,
   Guest,
   Tabs,
@@ -74,6 +75,47 @@ export default angular.module(name, [
 //  'accounts.ui',
   'ngAnimate',
   'ionic'
+];
+
+if ( Meteor.settings.public.features.allow_tinder_swipe ) {
+  console.log("-- enable Tinder --");
+  dependencies.push(  'ionicTinder2');
+}
+
+export default angular.module(name, dependencies ).component(name, {
+  templateUrl: `imports/ui/components/${name}/${name}.html`,
+  controllerAs: name,
+  controller: Socially
+})
+  .config(config)
+  .run(run);
+
+// create a module
+/*
+export default angular.module(name, [
+  angularMeteor,
+  uiRouter,
+  Guest,
+  Tabs,
+  Sidemenu,
+  Integritometer,
+  DraftList,
+  PromiseList,
+  RequestList,
+  Notifications,
+  CompletedList,
+  KudosList,
+  MeteorStatus,
+  VerifyLoginEmail,
+  ResetUserPassword,
+  ChangePassword,
+  EditProfile,
+  Photo,
+  'angularMoment',
+//  'accounts.ui',
+  'ngAnimate',
+  'ionic',
+  'ionicTinder2'
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   controllerAs: name,
@@ -81,6 +123,7 @@ export default angular.module(name, [
 })
   .config(config)
   .run(run);
+*/
 
 function config($locationProvider, $urlRouterProvider) {
   'ngInject';

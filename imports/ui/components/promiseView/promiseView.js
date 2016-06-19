@@ -29,10 +29,18 @@ class PromiseView {
   }
 
 
-  hide() {
-      this.service.closeModal();
+  destroy() {
+    console.log("destroy--- ");
+    this.service.closeModal();
   }
 
+  accept() {
+    console.log("accept... !! ");
+  }
+
+  reject() {
+    console.log(" reject ");
+  }
 }
 
 
