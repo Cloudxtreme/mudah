@@ -19,9 +19,9 @@ class TaskAccept {
 
   action() {
     if ( this.close ) {
+      console.log("--close the Modals---");
       this.uiService.hideOptions(this.isButton(), true, true); // close the Edit Modal
-    } else {
-      this.uiService.hideOptions(this.isButton() ); // close Modal,depending on config
+      this.uiService.hideOptions(this.isButton(),true ); // close Modal,depending on config
     }
 
     if (  statusHelper.noDueDate(this.task) ) {  // call from list button-option
@@ -44,6 +44,8 @@ class TaskAccept {
           // success!
         }
     });
+
+
   }
 
 

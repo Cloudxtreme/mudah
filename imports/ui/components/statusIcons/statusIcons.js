@@ -36,11 +36,9 @@ class StatusIcons {
   }
 
   showChat() {
-    if (Meteor.settings.public.features.chat==true) {
-      return true;
-    }
-    return false;
+    return Meteor.settings.public.features.chat;
   }
+
   getAreaLabel() {
     if (this.task.area==null) {
       return "Set Area";

@@ -136,16 +136,14 @@ export const acceptTask = new ValidatedMethod({
         // turn a Request into a Promise
         console.log("turn a request into a promise");
 
-        let newUserIds = [ task.creator ]; // turn the original Creator into a Participant
-
         Tasks.update({
             _id: taskId
           }, {
             $set: {
               'request': false,
-              'creator' : Meteor.userId(),
-              'owner' : Meteor.userId(),
-              'userIds' : newUserIds,
+              'creator' : task.userIds[0],  // the participant becomes the 'creator/owner'
+              'owner' :  task.userIds[0],  
+              'userIds' : [ task.creator ], // turn the original Creator into a Participant,
               'status': statusHelper.status.ACTIVE,
               'statusBy' : Meteor.userId(),
               'statusDate' : new Date(),

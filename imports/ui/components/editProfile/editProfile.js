@@ -70,7 +70,7 @@ function config($stateProvider) {
   $stateProvider.state('tab.editprofile', {
     url: '/editprofile',
     views: {
-      'tab-notifications': {
+      'tab-notice': {
         template: '<edit-profile></edit-profile>'
       }
     },

@@ -28,6 +28,12 @@ class ChangePassword {
   }
 
   action() {
+    if ( this.oldpassword==this.credentials.password) {
+      this.error={};
+      this.error.message = "You cannot reuse the same password";
+      return;
+    }
+
     Accounts.changePassword(this.oldpassword, this.credentials.password,
       this.$bindToContext((err) => {
         if (err) {
@@ -64,7 +70,7 @@ function config($stateProvider) {
 $stateProvider.state('tab.changepassword', {
   url: '/changepassword',
   views: {
-    'tab-notifications': {
+    'tab-notice': {
       template: '<change-password></change-password>'
     }
   },

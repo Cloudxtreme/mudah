@@ -1,9 +1,9 @@
 <ion-view>
-  <ion-nav-title>
-    Request List
-   </ion-nav-title>
   <ion-content class="has-header">
-    <h3 class="padding" style="display:inline">Watching</h3><div class="red" style="display:inline">Promises I am watching & Requests for me to do something</div>
+    <ion-item>
+      <div style="display:inline;padding-right:5px">Watching</div><div class="red" style="display:inline">Promises I am watching & Requests for me to do something</div>
+    </ion-item>
+
     <empty-list list="requestList.tasks" text="You do not have any Requests and you are not watching any Promises"></empty-list>
     <ion-list>
       <ion-item ng-repeat="task in requestList.tasks  track by task._id" class="item-text-wrap" ng-click="requestList.openDetail($event,task)">

@@ -102,7 +102,7 @@ $stateProvider
   .state('tab.photo', {
     url: '/photo',
     views: {
-      'tab-notifications': {
+      'tab-notice': {
         template: '<photo></photo>'
       }
     },

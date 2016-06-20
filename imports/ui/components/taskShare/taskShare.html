@@ -1,7 +1,16 @@
+<!--
 <span ng-if="!taskShare.isButton()">
-  <ion-option-button  class="button-royal" ng-show="taskShare.show()"  ng-click="taskShare.action()">Share</ion-option-button>
+  <ion-option-button  class="button-energized" ng-show="taskShare.show()"  ng-click="taskShare.action()">Share</ion-option-button>
 </span>
 
 <span ng-if="taskShare.isButton()">
-<button class="button button-royal" ng-disabled="taskShare.disable()" ng-show="taskShare.show()" ng-click="taskShare.action()">Share</button>
+<button class="button button-energized" ng-disabled="taskShare.disable()" ng-show="taskShare.show()" ng-click="taskShare.action()">Share</button>
+</span>
+-->
+<span ng-if="!taskShare.isButton()">
+  <ion-option-button  ng-disabled="true" class="button-energized">Share</ion-option-button>
+</span>
+
+<span ng-if="taskShare.isButton()">
+<button  class="button button-energized" ng-disabled="true">Share</button>
 </span>

@@ -2,6 +2,7 @@ import angularMeteor from 'angular-meteor';
 import 'angular-animate';
 import 'angular-sanitize';
 import 'ionic-scripts';
+import { Meteor } from 'meteor/meteor';
 
 var modalStack = [];
 
@@ -35,6 +36,7 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
       isWebView : isWebView,
       isOnline: isOnline,
       isOffline : isOffline,
+      isDisabled : isDisabled,
       goHomepage: goHomepage,
       goGuestpage: goGuestpage,
       getFacebookPhotoUrl : getFacebookPhotoUrl,
@@ -106,15 +108,18 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
     }
 
     function hideEditModal(modal) {
-      $rootScope.editModal.hide();
-      $rootScope.editModal.remove();
+      if ($rootScope.editModal!=null ) {
+        $rootScope.editModal.hide();
+        $rootScope.editModal.remove();
+      }
     }
 
     function hideModal() {
       console.log("hide Modal");
-
+      if ($rootScope.modal!=null ) {
         $rootScope.modal.hide();
         $rootScope.modal.remove();
+      }
         if (peekModal()) {
           console.log("uiService : there's a modal is the stack, show it");
           $rootScope.modal = popModal();
@@ -126,8 +131,10 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
       if (flag==undefined) {
         flag = Meteor.settings.public.features.hideOptions;
       }
+      console.log("hide options = ", flag);
       if ( flag==true) {
         if ( isButton ) {
+          console.log("hide modal....");
           if ( isEditModal ) {
             hideEditModal();
           } else {
@@ -135,7 +142,8 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
           }
 
         } else {
-          $ionicListDelegate.closeOptionsButtons;
+          console.log("close options buttons....");
+          closeOptionButtons();
         }
       }
     }
@@ -182,6 +190,17 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
       return !Meteor.status().connected;
     }
 
+    function isDisabled(feature) {
+     return  !isEnabled(feature);
+    }
+
+    function isEnabled(feature) {
+      console.log("feature " + feature + " = ", Meteor.settings.public.features[feature]);
+     return  Meteor.settings.public.features[feature]
+    }
+
+
+
     function goHomepage() {
         $state.go('tab.promiseList');
     }
@@ -226,6 +245,7 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
         $ionicLoading.hide();
       }
     }
+
 
 }
 

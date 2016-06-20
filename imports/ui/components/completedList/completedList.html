@@ -1,7 +1,13 @@
 <ion-view title="completedList">
 
   <ion-content class="has-header">
-    <h3 class="padding">Completed Promises</h3>
+    <ion-item>
+      <div style="display:inline;padding-right:5px">Completed Promises</div>
+      <!--
+      <div class="red" style="display:inline">Contains DONE Promises and other Archived Promises</div>
+    -->
+    </ion-item>
+
     <empty-list list="completedList.tasks" text="You do not have any completed Promises"></empty-list>
 
     <ion-list>

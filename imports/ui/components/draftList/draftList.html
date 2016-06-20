@@ -16,6 +16,7 @@
 
     <ion-refresher on-refresh="draftList.action()" on-pulling="draftList.onPulling()" pulling-text="{{draftList.pullingText}}">
     </ion-refresher>
+
     <ion-item on-swipe-up="draftList.onSwipeUp()" ng-click="draftList.action()"
           class="text-center white" ng-class="draftList.showEdit ? 'bg-purple' : 'bg-fuchsia'">{{draftList.helpMessage}}<i class="padding silver ion-arrow-down-c"></i>
     </ion-item>
@@ -33,7 +34,7 @@
           </textarea>
 
           <div ng-click="draftList.openEdit($event, draftList.editTask)" style="cursor: pointer;">
-            <due-date date="draftList.editTask.dueDate"></due-date>
+            <due-date date="draftList.editTask.dueDate" color="navy"></due-date>
             <div style="font-size:80%">
               <font class="royal">By When - Reward - Forfeit - Actions</font>
             </div>
@@ -52,7 +53,7 @@
           <h2 ng-click="draftList.editName($event,task)">{{task.name}}</h2>
         </span>
         <div>
-          <due-date date="task.dueDate"></due-date>
+          <due-date date="task.dueDate" color="blue"></due-date>
           <div style="font-size:80%">
             <font class="royal">By When - Reward - Forfeit - Actions</font>
           </div>
@@ -61,13 +62,12 @@
 
 
         <task-accept task="task"></task-accept>
-        <task-delete task="task"></task-delete>
         <task-share task="task"></task-share>
         <task-request task="task"></task-request>
+        <task-delete task="task"></task-delete>
         <task-offline task="task"></task-offline>
 
         <!--
-<ion-option-button ng-disabled="true" class="button-royal">Share</ion-option-button>
 <ion-option-button ng-disabled="true" class="button-calm">Request</ion-option-button>
 <task-delete task="task"></task-delete>
 -->

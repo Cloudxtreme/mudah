@@ -52,7 +52,11 @@ class CompletedList {
 
   openDetail($event, task) {
     this.uiService.stopFurtherClicks($event);
-    this.taskDetailService.openModal(task, this.taskDetailService.promiseListOptions);
+    if ( task.isRequest() ) {
+      this.requestViewService.openModal(task);
+    } else {
+      this.promiseViewService.openModal(task, "promiseListOptions");
+    }
   }
 }
 

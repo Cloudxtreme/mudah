@@ -10,9 +10,7 @@
         <ion-item menu-close ui-sref="tab.changepassword">Change Password</ion-item>
       </div>
 
-      <div ng-if="sidemenu.settings.public.features.completedList">
-        <ion-item menu-close ng-show="sidemenu.isLoggedIn" ui-sref="tab.completedList">Completed Promises</ion-item>
-      </div>
+      <ion-item menu-close ng-show="sidemenu.isLoggedIn" ui-sref="tab.completedList">Completed Promises</ion-item>
       <div ng-if="sidemenu.settings.public.features.kudosList">
         <ion-item menu-close ng-show="sidemenu.isLoggedIn" ui-sref="tab.kudosList">Completed Watches/Kudos</ion-item>
       </div>

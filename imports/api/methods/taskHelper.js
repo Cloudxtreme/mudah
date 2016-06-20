@@ -46,7 +46,7 @@ class TaskHelper {
 
   getDefaultSortBy() {
     const sortBy = {
-      editedDate: -1
+      createDate: -1
     };
     return sortBy;
   }
@@ -59,7 +59,9 @@ class TaskHelper {
         {creator : userId }
         ]
     }, {
-      sort : this.getDefaultSortBy()
+      sort :  {
+          editedDate : -1
+        }
     });
   }
 
