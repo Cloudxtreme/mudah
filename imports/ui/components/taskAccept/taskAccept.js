@@ -66,12 +66,12 @@ class TaskAccept {
       return false
     };
 
-    if (statusHelper.isPrivateTask(this.task)) {
+    if ( this.task.isPrivate() ) {
       if (this.task.status == statusHelper.status.DRAFT) {
         return true;
       }
     } else {
-      if (this.task.status == statusHelper.status.PENDING && statusHelper.wasEditedByThirdParty(this.task)) {
+      if (this.task.status == statusHelper.status.PENDING && statusHelper.isMyTurnToRespond(this.task)) {
         return true;
       }
     }

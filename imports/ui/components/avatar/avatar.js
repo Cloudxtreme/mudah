@@ -6,6 +6,7 @@ import { Meteor } from 'meteor/meteor';
 import './avatar.html';
 import { name as FacebookPhotoFilter } from '../../filters/facebookPhotoFilter';
 import { name as DisplayNameFilter } from '../../filters/displayNameFilter';
+import { name as EditProfilePhoto } from '../editProfilePhoto/editProfilePhoto';
 
 const name = 'avatar';
 
@@ -29,7 +30,7 @@ class Avatar {
   }
 
   editPhoto() {
-    this.uiService.goState("tab.photo");
+    this.uiService.openModal("<edit-profile-photo></edit-profile-photo>");
   }
 
   getPhotoUrl() {
@@ -47,15 +48,12 @@ class Avatar {
     }
   }
 
-  editPhoto() {
-    this.uiService.goState("tab.photo");
-  }
-
 }
 
 // create a module
 export default angular.module(name, [
   angularMeteor
+  //EditProfilePhoto
 ])
 .component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,

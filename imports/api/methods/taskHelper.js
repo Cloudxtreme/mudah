@@ -4,8 +4,8 @@ import {  statusHelper} from '../../ui/helpers/statusHelper';
 import { deleteProfilePhoto } from '/imports/api/methods/taskMethods';
 
 import _ from 'underscore';
-import { ltrim } from 'underscore.string';
-
+import { ltrim as _ltrim } from 'underscore.string';
+import { isBlank as _isBlank }  from 'underscore.string';
 /*-------
 * HELPERS
 --------*/
@@ -123,30 +123,46 @@ class TaskHelper {
       });
   }
 
-  replaceProfilePhoto(downloadUrl) {
-    console.log("taskHelper replaceProfilePhoto");
+  replacePhoto(params) {
+    console.log("taskHelper replacePhoto");
 
-    let user = Meteor.users.findOne( Meteor.userId() );
-    if (user) {
-      let photo = user.profile.photo;
-      let url = Meteor.settings.AWSLink;
-      let dataKey = ltrim(photo, url);
+    let photo=null;
+    let photoId=null;
 
-      console.log("trimmed key=", dataKey);
+console.log("replace photo-");
+console.log(params);
 
-      // update new profile photo url
-      Meteor.users.update(Meteor.userId(), {$set: {"profile.photo": downloadUrl}} );
+    if ( params.photoType=='profile') {
+      user = Meteor.users.findOne( Meteor.userId() );
+      photo = user.profile.photo;
+        // update new profile photo url
+      Meteor.users.update(Meteor.userId(), {$set: {"profile.photo": params.newUrl}} );
+    } else {
+      task = this.getMyTask( params.taskId);
+      photo = task.photo;
+      Meteor.call('updateTaskPhoto',{taskId: params.taskId, photo: params.newUrl},
+        function(err) {
+          if ( err ) {
+            console.log("can't update task photo err=", err);
+          }
+      });
+    }
 
-      // delete from S3
-      Meteor.call('deleteProfilePhotoFromS3',{userId: Meteor.userId(), dataKey: dataKey},
+    // ---- delete from S3 ---
+    let url = Meteor.settings.AWSLink;
+    photoId = _ltrim(photo, url);   // clip out the datakey from the long URL
+
+    console.log("trimmed key=", photoId);
+    if ( photoId.length>0 ) {
+      Meteor.call('deletePhotoFromS3',{dataKey: photoId},
         function(err) {
           if ( err ) {
             console.log("can't delete err=", err);
           }
-		  });
-
+      });
     }
   }
+
 
   getUser(userId) {
     if (userId != null) {

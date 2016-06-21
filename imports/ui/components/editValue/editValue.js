@@ -1,24 +1,24 @@
 import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 
-import './valueEdit.html';
+import './editValue.html';
 
 import { statusHelper } from '../../helpers/statusHelper';
 import moment from 'moment';
 import { updateValue } from '../../../api/methods/taskMethods.js';
 
 
-const name = 'valueEdit';
+const name = 'editValue';
 
-class  ValueEdit {
-  constructor($scope, $reactive, valueEditService) {
+class  EditValue {
+  constructor($scope, $reactive, editValueService) {
     'ngInject';
 
-    this.valueEditService= valueEditService;
+    this.editValueService= editValueService;
 
     $reactive(this).attach($scope);
 
-    this.currTask = this.valueEditService.getTask();
+    this.currTask = this.editValueService.getTask();
 
     console.log("area _id=", this.currTask._id);
   }
@@ -42,12 +42,12 @@ class  ValueEdit {
 
 
   closeModal() {
-    this.valueEditService.closeModal();
+    this.editValueService.closeModal();
   }
 }
 
 
-function valueEditService(uiService) {
+function editValueService(uiService) {
   'ngInject';
   currTask=null;
 
@@ -62,7 +62,7 @@ function valueEditService(uiService) {
 
   function openModal(task) {
     setTask(task);
-    var modal = "<value-edit></value-edit>";
+    var modal = "<edit-value></edit-value>";
     uiService.openModal(modal);
   }
 
@@ -88,6 +88,6 @@ export default angular.module(name, [
     task: '<'
   },
   controllerAs: name,
-  controller: ValueEdit
+  controller: EditValue
 })
-.factory( statusHelper.getServiceName(name), valueEditService);
+.factory( statusHelper.getServiceName(name), editValueService);

@@ -2,7 +2,7 @@
 
   <ion-view class="bg-transparent">
     <ion-content class="has-header">
-
+      <td-cards>
       <td-card drag="false" class="tdSelect">
        <form name="valueForm">
          <ion-input class="item item-input item-select">
@@ -10,7 +10,7 @@
              Value
            </div>
 
-           <select  ng-model="valueEdit.currTask.value" ng-change="valueEdit.action()">
+           <select  ng-model="editValue.currTask.value" ng-change="editValue.action()">
              <option value="1">Ermm...</option>
              <option value="2">Waking Up</option>
              <option value="3">Good Stuff</option>
@@ -23,6 +23,7 @@
 
        </form>
      </td-card>
+   </td-cards>
      </ion-content>
    </ion-view>
  </ion-modal-view>

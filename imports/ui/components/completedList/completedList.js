@@ -11,17 +11,19 @@ import { name as TaskDelete } from '../taskDelete/taskDelete';
 import { name as StatusIcons } from '../statusIcons/statusIcons';
 import { taskHelper } from '/imports/api/methods/taskHelper';
 import { statusHelper } from '../../helpers/statusHelper';
-import { name as TaskDetail } from '../taskDetail/taskDetail';
 import { name as PromiseListOptions } from '../promiseListOptions/promiseListOptions';
 import { name as EmptyList } from '/imports/ui/directives/emptyList';
+import { name as PromiseView } from '/imports/ui/components/promiseView/promiseView';
+import { name as RequestView } from '/imports/ui/components/requestView/requestView';
 
 const name = 'completedList';
 
 class CompletedList {
-  constructor($scope, $reactive, taskDetailService, uiService) {
+  constructor($scope, $reactive, uiService, promiseViewService, requestViewService) {
     'ngInject';
 
-    this.taskDetailService = taskDetailService;
+    this.promiseViewService = promiseViewService;
+    this.requestViewService = requestViewService;
     this.uiService = uiService;
     $reactive(this).attach($scope);
 
@@ -67,9 +69,10 @@ export default angular.module(name, [
   uiRouter,
   TaskDelete,
   StatusIcons,
-  TaskDetail,
   PromiseListOptions,
-  EmptyList
+  EmptyList,
+  PromiseView,
+  RequestView
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   controllerAs: name,

@@ -23,6 +23,18 @@ Tasks.helpers({
      }
      return false;
   },
+  isPrivate() {
+    return this.private;
+  },
+  isShared() {
+      return (this.userIds.length > 0 );
+  },
+  isSingleShare() {
+    return ( this.userIds.length == 1 );
+  },
+  isGroupShare() {
+    return ( this.userIds.length > 1 );
+  },
   isMyRequest() {
     return ( this.isCreator && this.isRequest );
   },
@@ -31,6 +43,15 @@ Tasks.helpers({
   },
   isWatcher() {
       return ( this.isParticipant && this.isPromise );
+  },
+  isCompleted() {
+      return ( this.completed );
+  },
+  hasComment() {
+    return (this.comment!=null && this.comment.length>0);
+  },
+  hasPhoto() {
+    return (this.photo!=null);
   },
   hasArea() {
     return (this.area!=null);

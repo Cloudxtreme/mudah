@@ -5,7 +5,7 @@ import { Meteor } from 'meteor/meteor';
 import { statusHelper } from '../../helpers/statusHelper';
 import { name as dueDate } from '../dueDate/dueDate';
 import { name as AreaEdit } from '../areaEdit/areaEdit';
-import { name as ValueEdit } from '../valueEdit/valueEdit';
+import { name as EditValue } from '../editValue/editValue';
 import 'angular-moment';
 
 
@@ -13,13 +13,13 @@ const name = 'statusIcons';
 import "./statusIcons.html";
 
 class StatusIcons {
-  constructor($scope, $reactive,  uiService, areaEditService, valueEditService) {
+  constructor($scope, $reactive,  uiService, areaEditService, editValueService) {
     'ngInject';
 
     this.uiService = uiService;
     this.statusHelper = statusHelper; // so that it can be used in HTML
     this.areaEditService = areaEditService;
-    this.valueEditService = valueEditService;
+    this.editValueService = editValueService;
 
     $reactive(this).attach($scope);
 
@@ -32,7 +32,7 @@ class StatusIcons {
 
   openValue($event,task) {
     this.uiService.stopFurtherClicks($event);
-    this.valueEditService.openModal(task);
+    this.editValueService.openModal(task);
   }
 
   showChat() {
@@ -128,6 +128,9 @@ class StatusIcons {
 
   canEditValue() {
     if (  statusHelper.isCreator(this.task) ) {
+      if ( this.task.isPrivate() ) {
+        return true;
+      }
       return false;
     }
     return true;
@@ -190,7 +193,7 @@ export default angular.module(name, [
   'angularMoment',
   dueDate,
   AreaEdit,
-  ValueEdit
+  EditValue
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   bindings: {

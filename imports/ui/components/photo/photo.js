@@ -8,14 +8,16 @@ const name = 'photo';
 
 
 var slingUploader = new Slingshot.Upload("myFileUploads");
+var latestUrl="";
 
 class Photo {
-  constructor($scope, $reactive, uiService) {
+  constructor($scope, $reactive, $timeout, uiService) {
     'ngInject';
 
     console.log("photo component");
 
     this.uiService = uiService;
+    this.$timeout = $timeout;
 
     $reactive(this).attach($scope);
 
@@ -35,6 +37,7 @@ class Photo {
     });
 
     this.message='';
+
   }
 
   allow() {
@@ -45,6 +48,14 @@ class Photo {
       this.error.message = "You logged in via Google or Facebook, please update your Profile photo there";
       return false;
     }
+  }
+
+  isProfilePhoto() {
+    return (this.photoType == 'profile' || this.photoType==null);
+  }
+
+  isTaskPhoto() {
+    return (this.photoType == 'task');
   }
 
 
@@ -60,20 +71,35 @@ class Photo {
      return;
    }
 
-   processImage(file, 300, 300, function(dataURI) {
+   params={};
+   params.photoType = this.photoType;
 
-      var blob = dataURItoBlob(dataURI);
+   if (this.task!=null) {
+     params.taskId = this.task._id;
+   }
 
-     slingUploader.send(blob, function (error, downloadUrl) {
-       console.log("downloadUrl = ", downloadUrl);
-       //   Meteor.users.update(Meteor.userId(), {$push: {"profile.files": {'name': file.name, 'url': downloadUrl}}});
-        taskHelper.replaceProfilePhoto(downloadUrl);
+   myTimeout = this.$timeout;
+
+   processImage(file, 300, 300, function(dataURI, params, myTimeout ) {
+
+     var blob = dataURItoBlob(dataURI);
+
+     slingUploader.send(blob, function (error, newUrl) {
+       console.log("newUrl = ", newUrl);
+
+        this.params.newUrl = newUrl;
+        taskHelper.replacePhoto(this.params);
+
+        this.myTimeout(function() {
+          console.log("refresh screen");
+        },100);
      })
    });
+
   }
 
-
 }
+
 
 function dataURItoBlob(dataURI) {
   // separate out the mime component
@@ -91,29 +117,10 @@ export default angular.module(name, [
   angularMeteor
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,
+  bindings: {
+    task: '<',
+    photoType: '@'   // profile OR task
+  },
   controllerAs: name,
   controller: Photo
 })
-.config(config);
-
-function config($stateProvider) {
-'ngInject';
-$stateProvider
-  .state('tab.photo', {
-    url: '/photo',
-    views: {
-      'tab-notice': {
-        template: '<photo></photo>'
-      }
-    },
-    resolve: {
-      currentUser($q) {
-        if (Meteor.userId() === null) {
-          return $q.reject('AUTH_REQUIRED');
-        } else {
-          return $q.resolve();
-        }
-      }
-    }
-  });
-}

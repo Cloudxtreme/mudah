@@ -94,7 +94,7 @@ class StatusHelper {
   }
 
   isSharedTask(task) {
-      return !this.isPrivateTask(task);
+      return (task.userIds.length > 0 );
   }
 
   isCreator(task) {
@@ -132,7 +132,7 @@ class StatusHelper {
     return (task!=null && task.ack);
   }
 
-  wasEditedByThirdParty(task) {
+  isMyTurnToRespond(task) {
     return (task.edited && task.editedBy !=Meteor.userId() );
   }
 

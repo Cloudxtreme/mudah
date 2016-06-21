@@ -9,25 +9,33 @@
   <div class="padding">
     <div class="white" style="float:left">
       <h3 class="white">Promise</h3></div>
-    <div class="white" style="float:right" ng-click="promiseView.service.closeModal()">Close</div>
-    <div style="clear:both"></div>
+      <button  style="float:right" class="button button-small button-assertive"  ng-click="promiseView.service.closeModal()">Close</button>
+      <div style="clear:both"></div>
   </div>
 
-  <img class="taskPhoto" ng-src="{{promiseView.creatorPhoto}}">
+  <img ng-show="promiseView.task.photo==null" class="taskPhoto" ng-src="{{promiseView.creatorPhoto}}">
+  <img ng-show="promiseView.task.hasPhoto()" class="taskPhoto" ng-src="{{promiseView.task.photo}}">
+  <div>
+    <i ng-click="promiseView.togglePhotoUpload()" style="float:right" class="icon padding-right ion-ios-camera-outline white" ></i>
+    <div style="clear:both">
+      <photo  ng-show="promiseView.photoUpload==true" photo-type="task" task="promiseView.task"></photo>
+    </div>
+  </div>
 
   <div class="padding" ng-class="promiseView.task.isRequest ? 'bg-maroon' : 'bg-blue'">
+    <edit-comment task="promiseView.task"></edit-comment>
     <h3 class="yellow">{{promiseView.creator.profile.name}}</h3>
     <div class="yellow tddetailname">{{promiseView.task.name}}</div>
 
-    <div class="white" style="float:left" ng-if="promiseView.task.hasArea()">{{promiseView.task.area}}</div>
-    <div class="white" style="float:right" ng-if="promiseView.task.hasValue()">Value {{promiseView.task.value}}</div>
+    <div class="white" style="float:left" ng-show="promiseView.task.hasArea()">{{promiseView.task.area}}</div>
+    <div class="white" style="float:right" ng-show="promiseView.task.hasValue()">Value {{promiseView.task.value}}</div>
     <div style="clear:both"></div>
 
-    <div ng-if="promiseView.task.hasReward()">
+    <div ng-show="promiseView.task.hasReward()">
       <div class="white padding-top">Reward</div>
       <div class="yellow">{{promiseView.task.reward}}</div>
     </div>
-    <div ng-if="promiseView.task.hasForfeit()">
+    <div ng-show="promiseView.task.hasForfeit()">
       <div class="white padding-top">Forfeit</div>
       <div class="yellow">{{promiseView.task.forfeit}}</div>
     </div>

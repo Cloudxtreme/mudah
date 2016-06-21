@@ -23,7 +23,7 @@ class TaskDecline {
   show() {
     if (statusHelper.isOffline() ) { return false};
 
-    if ( this.task.status == statusHelper.status.PENDING && statusHelper.isSharedTask(this.task)  && statusHelper.wasEditedByThirdParty(this.task) ) {
+    if ( this.task.status == statusHelper.status.PENDING && this.task.isShared() && statusHelper.isMyTurnToRespond(this.task) ) {
         return true;
     }
     return false;

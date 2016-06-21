@@ -39,10 +39,11 @@ class TaskOffer {
   show() {
     if (statusHelper.isOffline() ) { return false};
 
-    if ( this.task.status == statusHelper.status.PENDING ||
-       ( statusHelper.isCreator(this.task) &&
-         (this.task.status == statusHelper.status.CANCELLED  || this.task.status == statusHelper.status.REVOKED) )) {
-      return true;
+    if ( this.task.status == statusHelper.status.PENDING || this.task.status == statusHelper.status.CANCELLED  || this.task.status == statusHelper.status.REVOKED ) {
+        if ( this.task.isSingleShare() || this.task.isCreator() ) {
+          console.log("is shared with ONE person only OR isCreator, - can edit/offer");
+          return true;
+        }
     }
 
     return false;

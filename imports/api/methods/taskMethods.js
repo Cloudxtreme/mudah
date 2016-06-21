@@ -32,6 +32,8 @@ TaskSchema = new SimpleSchema({
   ackBy: {type:String, optional:true},
 
   archived: {type:Boolean, optional:true},
+  photo: {type:String,optional:true},
+  comment: {type:String,optional:true},
 
   completed: {type:Boolean, optional:true},
   completedDate : {type: Date},
@@ -142,7 +144,7 @@ export const acceptTask = new ValidatedMethod({
             $set: {
               'request': false,
               'creator' : task.userIds[0],  // the participant becomes the 'creator/owner'
-              'owner' :  task.userIds[0],  
+              'owner' :  task.userIds[0],
               'userIds' : [ task.creator ], // turn the original Creator into a Participant,
               'status': statusHelper.status.ACTIVE,
               'statusBy' : Meteor.userId(),
@@ -503,19 +505,44 @@ export const updateProfileName = new ValidatedMethod({
    }
 });
 
-
-// delete Object : https://github.com/CulturalMe/meteor-slingshot/issues/50
-export const deleteProfilePhotoFromS3 = new ValidatedMethod({
-  name: 'deleteProfilePhotoFromS3',
+export const updateTaskComment = new ValidatedMethod({
+  name: 'updateTaskComment',
 
   validate: new SimpleSchema({
-      userId: {type: String, regEx: SimpleSchema.RegEx.Id},
+      taskId: {type:String, optional:false},
+      comment: {type:String, optional:false}
+    }).validator(),
+
+  run({  taskId,comment }) {
+      Tasks.update(taskId, {  $set: {  comment : comment  }    });
+   }
+});
+
+
+export const updateTaskPhoto = new ValidatedMethod({
+  name: 'updateTaskPhoto',
+
+  validate: new SimpleSchema({
+      taskId: {type:String, optional:false},
+      photo: {type:String, optional:false}
+    }).validator(),
+
+  run({  taskId,photo }) {
+      Tasks.update(taskId, {  $set: {  photo : photo  }    });
+   }
+});
+
+// delete Object : https://github.com/CulturalMe/meteor-slingshot/issues/50
+export const deletePhotoFromS3 = new ValidatedMethod({
+  name: 'deletePhotoFromS3',
+
+  validate: new SimpleSchema({
       dataKey: {type:String,optional:false}
     }).validator(),
 
-  run({  userId,dataKey }) {
+  run({  dataKey }) {
     if ( Meteor.isServer ) {
-      console.log("deleteProfilePhotoFromS3 dataKey=", dataKey);
+      console.log("deletePhotoFromS3 dataKey=", dataKey);
 
       AWS.config.update({
          accessKeyId: Meteor.settings.private.amazon.AWSAccessKeyId,
@@ -569,6 +596,8 @@ function initTask(taskName) {
   task.completed = false;
   task.completedDate = null;
   task.archived = false;
+  task.photo=null;
+  task.comment=null;
 
   task.creator = Meteor.userId();
   task.createDate = new Date();

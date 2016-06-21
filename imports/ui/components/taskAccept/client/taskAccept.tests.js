@@ -101,7 +101,7 @@ describe('TaskAccept', function() {
         spyOn(controller, 'show').and.callThrough();        // must use callThrough() when testing controllers !!!
         spyOn(statusHelper, 'isPrivateTask').and.returnValue(false);
         spyOn(statusHelper, 'isOffline').and.returnValue(false);  // mock
-        spyOn(controller, 'wasEditedByThirdParty').and.returnValue(true);
+        spyOn(controller, 'isMyTurnToRespond').and.returnValue(true);
 
         controller.task = task;
         let isShow = controller.show();

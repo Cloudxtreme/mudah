@@ -1,34 +1,41 @@
-<ion-view title="igloo">
+<div class="item">
+  <div ng-if="photo.error">
+    <label class="item assertive">
+      {{ photo.error.message }}
+    </label>
+  </div>
 
-  <ion-content class="has-header">
-    <h3 class="padding" >Profile Photo</h3>
-    <div ng-if="photo.error">
-      <label class="item assertive">
-        {{ photo.error.message }}
-      </label>
-    </div>
-
-
-    <form>
-      <ion-input class="item">
+  <form>
+      <ion-input>
         <input type="file" id="fileToUpload" accept="image/*">
-        <button class="button button-calm" ng-click="photo.action()">Upload</button>
       </ion-input>
-    </form>
+      <div class="padding">
+        <button class="button button-calm button-small" ng-click="photo.action()">Upload</button>
+      </div>
+      <div class="padding">
+        <div class="progress">
+          <div class="progressbar" style="width:{{photo.progress}}%">
+            <span>{{photo.progress}}% Complete</span>
+          </div>
+        </div>
+      </div>
+  </form>
 
 
-    <div class="item item-stacked-label">
-      <span>{{photo.progress}}% Complete</span>
-      <div class="progress">
-        <div class="progressbar" style="width:{{photo.progress}}%"></div>
-      </div>
+  <div ng-if="photo.isProfilePhoto()">
+    <div class="item item-avatar">
+      <img class="avatar-picture" src="{{photo.currentUser.profile.photo}}" />
+      <h2>{{photo.currentUser.profile.name}}</h2>
+      <p>{{photo.currentUser.profile.photo}}</p>
     </div>
-    <div ng-if="photo.currentUser.profile.photo">
-      <div class="item item-avatar">
-        <img class="avatar-picture" src="{{photo.currentUser.profile.photo}}"/>
-        <h2>{{photo.currentUser.profile.name}}</h2>
-        <p>{{photo.currentUser.profile.photo}}</p>
-      </div>
-    </div>
-  </ion-content>
-</ion-view>
+  </div>
+</div>
+<!--
+<div ng-if="photo.isTaskPhoto()">
+  <div class="item item-avatar">
+    <img class="avatar-picture" src="{{photo.task.photo}}" />
+    <h2>{{photo.task.name}}</h2>
+    <p>{{photo.task.photo}}</p>
+  </div>
+</div>
+-->

@@ -48,12 +48,12 @@
 
   &.message-mine {
     float: right;
-    background-color: gray;
+    background-color: white;
   }
 
   &.message-other {
     float: left;
-    background-color: white;
+    background-color: lightcyan;
   }
 
   &.message-other::before, &.message-mine::before {

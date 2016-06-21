@@ -5,7 +5,8 @@ import './promiseView.html';
 
 import { statusHelper } from '/imports/ui/helpers/statusHelper';
 import { taskHelper } from '/imports/api/methods/taskHelper';
-
+import { name as Photo } from '../photo/photo';
+import { name as EditComment } from '../editComment/editComment';
 
 const name = 'promiseView';
 
@@ -16,16 +17,12 @@ class PromiseView {
     $reactive(this).attach($scope);
     this.service = promiseViewService;
 
-
     this.task = promiseViewService.getTask();
 
     this.creator = taskHelper.getUser(this.task.creator);
     this.creatorPhoto = uiService.getProfilePhoto(this.creator);
 
-    creator = taskHelper.getUser(this.task.creator);
-    firstName = statusHelper.getFirstName(creator.profile.name);
-
-    this.typeLabel=  firstName + "'s Promise";
+    this.photoUpload = false;
   }
 
 
@@ -40,6 +37,13 @@ class PromiseView {
 
   reject() {
     console.log(" reject ");
+  }
+
+  togglePhotoUpload() {
+    console.log("togglePhotoUpload before=", this.photoUpload);
+    this.photoUpload = !this.photoUpload;
+
+      console.log("togglePhotoUpload after=", this.photoUpload);
   }
 }
 
@@ -101,7 +105,9 @@ function PromiseViewService(uiService) {
 
 // create a module
 export default angular.module(name, [
-    angularMeteor
+    angularMeteor,
+    Photo,
+    EditComment
   ]).component(name, {
     templateUrl: `imports/ui/components/${name}/${name}.html`,
     controllerAs: name,

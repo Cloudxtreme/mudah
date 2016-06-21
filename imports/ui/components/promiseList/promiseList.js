@@ -19,11 +19,10 @@ import './promiseList.html';
 const name = 'promiseList';
 
 class PromiseList {
-  constructor($scope, $rootScope, $reactive, uiService,taskDetailService, promiseViewService, requestViewService) {
+  constructor($scope, $rootScope, $reactive, uiService, promiseViewService, requestViewService) {
     'ngInject';
 
     this.uiService = uiService;
-    this.taskDetailService=taskDetailService;
     this.promiseViewService = promiseViewService;
     this.requestViewService = requestViewService;
 

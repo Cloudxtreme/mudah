@@ -1,4 +1,5 @@
 import angularMeteor from 'angular-meteor';
+import angular from 'angular';
 import 'angular-animate';
 import 'angular-sanitize';
 import 'ionic-scripts';
@@ -8,7 +9,7 @@ var modalStack = [];
 
 const name = 'uiService'
 
-function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDelegate, $ionicHistory, $ionicLoading) {
+function uiService($rootScope, $state, $timeout, $ionicModal, $ionicPopup, $ionicListDelegate, $ionicHistory, $ionicLoading) {
     'ngInject';
 
     //console.log("uiService.....");
@@ -42,7 +43,8 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
       getFacebookPhotoUrl : getFacebookPhotoUrl,
       getGooglePhotoUrl : getGooglePhotoUrl,
       getProfilePhoto : getProfilePhoto,
-      spinner : spinner
+      spinner : spinner,
+      focusField : focusField
     }
     return service;
 
@@ -195,8 +197,7 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
     }
 
     function isEnabled(feature) {
-      console.log("feature " + feature + " = ", Meteor.settings.public.features[feature]);
-     return  Meteor.settings.public.features[feature]
+      return  Meteor.settings.public.features[feature]
     }
 
 
@@ -246,6 +247,14 @@ function uiService($rootScope, $state, $ionicModal, $ionicPopup, $ionicListDeleg
       }
     }
 
+    function focusField(field) {
+      //let el = angular.element('#editInputField');
+      let el = angular.element(field);
+      el.focus();
+      $timeout(function() {
+        el.focus();
+      });
+    }
 
 }
 
