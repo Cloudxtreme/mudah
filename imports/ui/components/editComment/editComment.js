@@ -4,7 +4,7 @@ import uiRouter from 'angular-ui-router';
 import { Meteor } from 'meteor/meteor'
 
 import { statusHelper } from '/imports/ui/helpers/statusHelper';
-import { rtrim as _rtrim } from 'underscore.string';
+import { trim as _trim } from 'underscore.string';
 import './editComment.html';
 
 const name = 'editComment';
@@ -19,18 +19,32 @@ class EditComment {
     $reactive(this).attach($scope);
 
     this.showEdit = false;
+
+  }
+
+  init() {
+    if ( this.task.hasComment() ) {
+      this.label = this.task.comment;
+    } else {
+      this.label = "Say something...";
+    }
   }
 
   toggleEdit() {
     this.showEdit = !this.showEdit;
-    if (this.showEdit) {
+    if (this.showEdit==true) {
       this.oldComment = this.task.comment;
+      this.task.comment = this.task.comment + " ";  // this will place the cursor at end of taskName
       this.uiService.focusField("#commentField");
     }
   }
 
   show() {
-    return ( this.task.status== statusHelper.status.DONE || this.task.status== statusHelper.status.NOTDONE || this.task.isCompleted() );
+    if ( statusHelper.allow(this.task, name)  ) {
+      this.init();
+      return true;
+    }
+    return false;
   }
 
 
@@ -39,15 +53,24 @@ class EditComment {
     if  ( this.showEdit==false) { return; }
 
     this.showEdit=false;
-    if ( this.oldComment !== this.task.comment ) {
+    this.task.comment  = _trim(this.task.comment );
+
+    if ( this.isDirty() ) {
+      this.label = this.task.comment;
       this.updateComment(this.task);
       this.sendChatMessage(this.task);
-    } 
+    }
+
+    this.init();hotm
 
   }
 
+  isDirty() {
+    return ( this.oldComment !== this.task.comment ) ;
+  }
+
   updateComment(task) {
-    this.call('updateTaskComment',{taskId:task._id, comment: _rtrim(task.comment) });
+    this.call('updateTaskComment',{taskId:task._id, comment: task.comment });
   }
 
   sendChatMessage(task) {

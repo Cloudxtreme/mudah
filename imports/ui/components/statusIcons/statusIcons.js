@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 
 import { statusHelper } from '../../helpers/statusHelper';
 import { name as dueDate } from '../dueDate/dueDate';
-import { name as AreaEdit } from '../areaEdit/areaEdit';
+import { name as EditArea } from '../editArea/editArea';
 import { name as EditValue } from '../editValue/editValue';
 import 'angular-moment';
 
@@ -13,12 +13,12 @@ const name = 'statusIcons';
 import "./statusIcons.html";
 
 class StatusIcons {
-  constructor($scope, $reactive,  uiService, areaEditService, editValueService) {
+  constructor($scope, $reactive,  uiService, editAreaService, editValueService) {
     'ngInject';
 
     this.uiService = uiService;
     this.statusHelper = statusHelper; // so that it can be used in HTML
-    this.areaEditService = areaEditService;
+    this.editAreaService = editAreaService;
     this.editValueService = editValueService;
 
     $reactive(this).attach($scope);
@@ -27,7 +27,7 @@ class StatusIcons {
 
   openArea($event,task) {
     this.uiService.stopFurtherClicks($event);
-    this.areaEditService.openModal(task);
+    this.editAreaService.openModal(task);
   }
 
   openValue($event,task) {
@@ -192,7 +192,7 @@ export default angular.module(name, [
   angularMeteor,
   'angularMoment',
   dueDate,
-  AreaEdit,
+  EditArea,
   EditValue
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,

@@ -41,7 +41,6 @@ class TaskOffer {
 
     if ( this.task.status == statusHelper.status.PENDING || this.task.status == statusHelper.status.CANCELLED  || this.task.status == statusHelper.status.REVOKED ) {
         if ( this.task.isSingleShare() || this.task.isCreator() ) {
-          console.log("is shared with ONE person only OR isCreator, - can edit/offer");
           return true;
         }
     }

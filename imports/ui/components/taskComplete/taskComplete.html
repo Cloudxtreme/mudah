@@ -1,7 +1,7 @@
 <span ng-if="!taskComplete.isButton()">
-  <ion-option-button class="button-calm" ng-show="taskComplete.show()"  ng-click="taskComplete.action()">Archive</ion-option-button>
+  <ion-option-button class="button-calm" ng-show="taskComplete.show()"  ng-click="taskComplete.action()">{{taskComplete.label}}</ion-option-button>
 </span>
 
 <span ng-if="taskComplete.isButton()">
-  <button class="button button-calm"  ng-show="taskComplete.show()" ng-click="taskComplete.action()">Archive</button>
+  <button class="button button-calm"  ng-show="taskComplete.show()" ng-click="taskComplete.action()">{{taskComplete.label}}</button>
 </span>

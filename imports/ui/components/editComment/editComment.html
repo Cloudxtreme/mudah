@@ -1,17 +1,14 @@
 <div ng-show="editComment.show()">
-  <div ng-show="editComment.showEdit==false">
-    <div ng-show="editComment.task.hasComment()==true"
-      class="white" style="font-style:italic" ng-click="editComment.toggleEdit()">"{{editComment.task.comment}}"</div>
+<div ng-show="editComment.task.isCreator() && editComment.showEdit==false"
+  class="yellow" style="font-style:italic" ng-click="editComment.toggleEdit()">{{editComment.label}}</div>
 
-    <div ng-show="editComment.task.hasComment()==false"
-      class="yellow" style="font-style:italic" ng-click="editComment.toggleEdit()">Click here to say something...</div>
-  </div>
+<div ng-show="editComment.task.isCreator() && editComment.showEdit==true">
+      <form name="editForm">
+        <textarea chat-input msd-elastic id="commentField"   ng-model="editComment.task.comment" on-blur="editComment.action()" on-return="editComment.action()">
+        </textarea>
+      </form>
+</div>
 
-  <div ng-show="editComment.showEdit==true">
-    <form name="editForm">
-      <textarea chat-input msd-elastic id="commentField"   ng-model="editComment.task.comment" on-blur="editComment.action()" on-return="editComment.action()">
-      </textarea>
-    </form>
-  </div>
-
+<div ng-show="editComment.task.hasComment() && editComment.task.isParticipant()"
+    class="yellow" style="font-style:italic">"{{editComment.task.comment}}"</div>
 </div>

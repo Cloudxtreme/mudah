@@ -1,24 +1,24 @@
 import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 
-import './areaEdit.html';
+import './editArea.html';
 
 import { statusHelper } from '../../helpers/statusHelper';
 import moment from 'moment';
 import { updateDueDate } from '../../../api/methods/taskMethods.js';
 
 
-const name = 'areaEdit';
+const name = 'editArea';
 
-class AreaEdit {
-  constructor($scope, $reactive, areaEditService) {
+class EditArea {
+  constructor($scope, $reactive, editAreaService) {
     'ngInject';
 
-    this.areaEditService= areaEditService;
+    this.editAreaService= editAreaService;
 
     $reactive(this).attach($scope);
 
-    this.currTask = this.areaEditService.getTask();
+    this.currTask = this.editAreaService.getTask();
 
     console.log("area _id=", this.currTask._id);
   }
@@ -42,12 +42,12 @@ class AreaEdit {
 
 
   closeModal() {
-    this.areaEditService.closeModal();
+    this.editAreaService.closeModal();
   }
 }
 
 
-function areaEditService(uiService) {
+function editAreaService(uiService) {
   'ngInject';
   currTask=null;
 
@@ -62,7 +62,7 @@ function areaEditService(uiService) {
 
   function openModal(task) {
     setTask(task);
-    var modal = "<area-edit></area-edit>";
+    var modal = "<edit-area></edit-area>";
     uiService.openModal(modal);
   }
 
@@ -88,6 +88,6 @@ export default angular.module(name, [
     task: '<'
   },
   controllerAs: name,
-  controller: AreaEdit
+  controller: EditArea
 })
-.factory( statusHelper.getServiceName(name), areaEditService);
+.factory( statusHelper.getServiceName(name), editAreaService);

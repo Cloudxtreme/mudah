@@ -51,6 +51,8 @@ class StatusHelper {
                                               this.status.REVOKED, this.status.CANCELLED];
     this.acceptedStatus['taskSocial'] = [this.status.ACTIVE, this.status.DONE, this.status.NOTDONE, this.status.REVOKED];
 
+    this.acceptedStatus['editComment'] = [this.status.DONE,this.status.NOTDONE, this.status.REVOKED, this.status.CANCELLED];
+
     this.nextStatus =  {};
     this.nextStatus['taskDecline'] = this.status.DECLINED;
 

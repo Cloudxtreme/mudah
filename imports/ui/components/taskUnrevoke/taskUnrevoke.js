@@ -5,7 +5,6 @@ import './taskUnrevoke.html';
 
 import { Tasks } from '../../../api/tasks';
 import { statusHelper } from '../../helpers/statusHelper';
-import { updateStatus } from '../../../api/methods/taskMethods.js';
 
 const name = 'taskUnrevoke';
 
@@ -20,32 +19,7 @@ class TaskUnrevoke {
 
   action() {
     this.uiService.hideOptions(this.isButton());
-
-    if ( statusHelper.isSharedTask(this.task) ) {
-      // Call the Method
-      updateStatus.call({
-        taskId: this.task._id,
-        newStatus: statusHelper.status.PENDING
-      }, (err, res) => {
-        if (err) {
-          alert(err);
-        } else {
-          // success!
-        }
-      });
-    } else {
-      updateStatus.call({
-        taskId: this.task._id,
-        newStatus: statusHelper.status.ACTIVE
-      }, (err, res) => {
-        if (err) {
-          alert(err);
-        } else {
-          // success!
-        }
-      });
-    }
-
+    this.call('unrevokeTask', {taskId:this.task._id});
   }
 
   isButton() {

@@ -194,6 +194,38 @@ export const revokeTask = new ValidatedMethod({
   }
 });
 
+export const unrevokeTask = new ValidatedMethod({
+  name: 'unrevokeTask',
+
+  validate: new SimpleSchema({
+      taskId: { type: String }
+    }).validator(),
+
+  run({ taskId }) {
+
+      const task = taskHelper.getMyTask(taskId);
+
+      if ( task.isShared() ) {
+        newStatus = statusHelper.status.PENDING;
+      } else {
+        newStatus = statusHelper.status.ACTIVE;
+      }
+
+      Tasks.update({
+          _id: taskId
+        }, {
+          $set: {
+            status: newStatus,
+            statusBy : Meteor.userId(),
+            statusDate : new Date(),
+            ack : false,
+            ackBy : null,
+            comment: ""     //wipe out
+          }
+        });
+  }
+});
+
 
 export const updateTask = new ValidatedMethod({
   name: 'updateTask',
@@ -597,7 +629,7 @@ function initTask(taskName) {
   task.completedDate = null;
   task.archived = false;
   task.photo=null;
-  task.comment=null;
+  task.comment="";
 
   task.creator = Meteor.userId();
   task.createDate = new Date();
