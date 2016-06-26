@@ -10,7 +10,7 @@ import { name as StatusIcons } from '../statusIcons/statusIcons';
 import { taskHelper } from '/imports/api/methods/taskHelper';
 import { statusHelper } from '../../helpers/statusHelper';
 import { name as EmptyList } from '/imports/ui/directives/emptyList';
-import { name as UserPromise } from '/imports/ui/directives/userPromise';
+import { name as UserPromise } from '/imports/ui/components/userPromise/userPromise';
 import { name as PromiseView } from '/imports/ui/components/promiseView/promiseView';
 import { name as RequestView } from '/imports/ui/components/requestView/requestView';
 

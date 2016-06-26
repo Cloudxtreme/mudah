@@ -1,3 +1,13 @@
+<ion-scroll zooming="true" direction="xy" class="userlist">
+
 <span ng-repeat="userId in userList.userIds">
+  <!--
     <img  class="friend-picture" ng-src="{{userList.getPhotoUrl(userId)}}" title="{{userList.getName(userId)}}"/>
+  -->
+  <div class="userinfo">
+    <img class="sender-picture" ng-src="{{userList.getPhotoUrl(userId)}}" title="{{userList.getName(userId)}}"/>
+    <div class="username" ng-class="userList.color? userList.color : ''">{{userList.getName(userId)}}</div>
+  </div>
 </span>
+
+</ion-scroll>

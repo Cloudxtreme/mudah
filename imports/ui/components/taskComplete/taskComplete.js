@@ -46,7 +46,7 @@ class TaskComplete {
       return false
     };
 
-    if (this.task.completed == false && statusHelper.allow(this.task, name)) {
+    if ( this.task.isCreator() && this.task.completed == false && statusHelper.allow(this.task, name)) {
       if ( this.task.status==statusHelper.status.DONE ||this.task.status==statusHelper.status.NOTDONE ) {
         this.label="Complete";
       } else {

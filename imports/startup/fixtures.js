@@ -4,6 +4,7 @@ import { updateStatus } from '../api/methods/taskMethods';  // import the Method
 import { Email } from 'meteor/email'
 import { Accounts } from 'meteor/accounts-base';
 
+import { myFileUploads } from '/lib/slingCommon';
 
 Meteor.startup(() => {
 
@@ -112,7 +113,7 @@ Meteor.startup(() => {
     console.log("slingshot...");
 
 
-    Slingshot.createDirective("myFileUploads", Slingshot.S3Storage, {
+    Slingshot.createDirective(myFileUploads, Slingshot.S3Storage, {
       AWSAccessKeyId: Meteor.settings.private.amazon.AWSAccessKeyId,
       AWSSecretAccessKey: Meteor.settings.private.amazon.AWSSecretAccessKey,
       bucket: Meteor.settings.private.amazon.AWSBucket,

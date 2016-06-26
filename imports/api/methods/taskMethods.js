@@ -7,6 +7,7 @@ import { Accounts } from 'meteor/accounts-base';
 import AWS from 'aws-sdk';
 
 import {clone as _clone } from 'underscore';
+import {without as _without } from 'underscore';
 
 // Schema docs : https://atmospherejs.com/aldeed/simple-schema
 // beware performance issue with Friends array : http://guide.meteor.com/collections.html#schema-design
@@ -27,6 +28,8 @@ TaskSchema = new SimpleSchema({
   neverCountered: {type:Boolean},
   private: {type:Boolean},
   request: {type:Boolean},
+  requestId: {type:String},
+  requestSeqId: {type:Number},
 
   ack: {type:Boolean, optional:true},
   ackBy: {type:String, optional:true},
@@ -119,8 +122,6 @@ export const acceptTask = new ValidatedMethod({
     console.log("acceptTask method task=" + taskId );
 
       const task = taskHelper.getPermittedTask(taskId);
-      console.log("task.request=", task.request);
-      console.log("task.isPromise()=", task.isPromise());
 
       if ( task.isPromise() ) {
         Tasks.update({
@@ -400,21 +401,40 @@ export const requestTask = new ValidatedMethod({
       delete newTask._id;
       newTask.status = statusHelper.status.PENDING;
       newTask.statusBy = Meteor.userId();
+      newTask.private=false;
+      newTask.request=true;
+
+    if ( userIds.length == 1 ) {
+        Tasks.remove(origTask._id);
+    } else {
+        // request for Many users
+        newTask.requestId = origTask._id;
+
+        Tasks.update({  _id: origTask._id  }, {
+          $set: {
+            request:true,
+            requestId: newTask.requestId,
+            requestHeader:true,
+            requestSeqId: -1,    // header record for the requests
+            status: newTask.status,
+            userIds: userIds
+          }
+        });
+    }
 
     for (x=0;x< userIds.length;x++) {
       // make selected friend a Participant
       const friend = userIds[x];
         newTask.userIds=[ friend ];
-        newTask.private=false;
-        newTask.request=true;
-
+        newTask.requestSeqId = x; //for ordering the requests
 
       // create new task
         let _id = Tasks.insert(newTask);
         console.log("new id=", _id);
     }
-    console.log("delete orig Task");
-    Tasks.remove({"_id" : origTask._id});
+
+
+
   }
 });
 
@@ -473,10 +493,45 @@ export const deleteTask = new ValidatedMethod({
 
   run({ taskId }) {
     const origTask = taskHelper.getMyTask(taskId); // will throw Exception if no permission
+    const deleteUserId = origTask.getRequestUserId();
+
+    if (origTask.isRequest() ) {
+      removeUserFromTask.call({taskId: origTask.requestId, userId: deleteUserId })
+    }
+
     Tasks.remove(taskId);
+
    }
 });
 
+
+export const removeUserFromTask = new ValidatedMethod({
+  name: 'removeUserFromTask',
+
+  validate: new SimpleSchema({
+      taskId: {type:String},
+      userId: {type:String}
+    }).validator(),
+
+
+  run({ taskId, userId }) {
+
+    const task = taskHelper.getPermittedTask(taskId); // will throw Exception if no permission
+    const newUserIds = _without( task.userIds , userId);
+
+    if ( newUserIds.length==0) {
+        //delete the master record
+        Tasks.remove(taskId);
+    } else {
+        Tasks.update(taskId, {
+          $set: {
+            userIds : newUserIds
+          }
+        });
+    }
+
+  }
+});
 
 export const newMessage = new ValidatedMethod({
   name: 'newMessage',
@@ -614,14 +669,16 @@ function initTask(taskName) {
   task.statusBy = null;
   task.statusDate = null;
   task.request = false;
+  task.requestId=null;
+  task.requestHeader=false;
 
   task.ack = false;      // acknowledgement for status channge
   task.ackBy = null;
 
   task.area = null;
   task.value=null;
-  task.reward = null;
-  task.forfeit = null;
+  task.reward = "";
+  task.forfeit = "";
   task.dueDate = null;
 
   task.private = true;

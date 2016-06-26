@@ -1,0 +1,53 @@
+<div>
+  <div style="float:left">
+    DEV view
+    <font class="positive">{{statusIcons.task.status}}</font>
+    <span ng-show="statusIcons.task.status=='ACTIVE'">ENSHRINED</span>
+    <span ng-show="statusIcons.statusHelper.isPendingAck(statusIcons.task)">Pending Ack</span>
+    <span ng-if="statusIcons.statusHelper.isAcknowledged(statusIcons.task)">Acked by:<font class="navy">{{statusIcons.lastAck()}}</font></span>
+    <span ng-if="statusIcons.isOfferStage()">
+      <span ng-if="statusIcons.task.neverCountered">Offered</span>
+      <span ng-if="statusIcons.task.neverCountered==false">Countered</span>
+      <i class="icon ion-ios-loop-strong positive" ng-show="statusIcons.isEdited()"></i>
+      by:<font class="positive">{{statusIcons.lastEditor()}}</font>
+      <i  ng-if="statusIcons.myTurn" class="icon ion-ios-cart-outline padding-left positive" style="font-size:20px"></i>
+    </span>
+    <span ng-if="statusIcons.isShowRewardsForfeit()">
+      <span class="blue" ng-if="statusIcons.task.hasReward()"><b>Reward: </b>{{statusIcons.task.reward}}</span>
+      <span class="red" ng-if="statusIcons.task.hasForfeit()"><b>Forfeit: </b>{{statusIcons.task.forfeit}}</span>
+    </span>
+
+    <span ng-if="statusIcons.isShared()" class="royal">with - {{statusIcons.sharedWith()}}</span>
+    <i  ng-if="statusIcons.task.isRequest()" class="icon ion-radio-waves padding-left assertive"> Request</i>
+    <i class="icon ion-ios-box positive padding-right" ng-show="statusIcons.statusHelper.isCompleted(statusIcons.task)">COMPLETED</i>
+    <i class="icon ion-ios-locked" ng-show="statusIcons.statusHelper.isPrivateTask(statusIcons.task)"></i>
+    <i class="icon ion-ios-person royal" ng-show="statusIcons.statusHelper.isCreator(statusIcons.task)"></i>
+    <!--<span ng-show="statusIcons.isSharedWithMe()" class="royal">Creator:{{statusIcons.creatorName()}}</span>-->
+  </div>
+  <div style="float:right">
+    <span ng-if="statusIcons.canEditArea()" class="padding-right">
+    <a ng-click="statusIcons.openArea($event,statusIcons.task)">{{statusIcons.getAreaLabel()}}</a>
+  </span>
+    <span ng-if="!statusIcons.canEditArea()" class="padding-right">
+   {{statusIcons.task.area}}
+  </span>
+
+  <span ng-if="statusIcons.canEditValue()" class="padding-right">
+    <a ng-click="statusIcons.openValue($event,statusIcons.task)">{{statusIcons.getValueLabel()}}</a>
+  </span>
+    <span ng-if="!statusIcons.canEditValue()" class="padding-right">
+    Value {{statusIcons.task.value}}
+  </span>
+  </div>
+</div>
+<div style="clear:both">
+  <div ng-if="statusIcons.showChat()">
+    <div ng-if="statusIcons.hasMessage()" class="maroon byline">
+      <b>{{statusIcons.lastChatUser()}}</b>:
+      <font style="font-style:italic">{{statusIcons.task.lastMessage.text}}</font>
+
+      <span ng-show="!statusIcons.isRecentMessage()" class="gray">{{statusIcons.task.lastMessage.timestamp | amDateFormat: 'D.M.YYYY HH:MM:SS' }}</span>
+      <span ng-show="statusIcons.isRecentMessage()" class="gray" am-time-ago="statusIcons.task.lastMessage.timestamp"></span>
+    </div>
+  </div>
+</div>

@@ -20,10 +20,12 @@ angular-templates
 #sanjo:jasmine
 #velocity:html-reporter
 #velocity:console-reporter
+service-configuration
 accounts-password
 dotansimha:accounts-ui-angular
 accounts-facebook
 accounts-twitter
+accounts-google
 tmeasday:publish-counts
 check
 email
@@ -38,7 +40,5 @@ meteorhacks:kadira-profiler
 mdg:validated-method
 dispatch:mocha-phantomjs
 dispatch:mocha-browser
-service-configuration
-accounts-google
 edgee:slingshot
 ccorcos:clientside-image-manipulation

@@ -38,7 +38,7 @@ class TaskNotDone {
 
   show() {
     todayDate = new Date();
-    if ( statusHelper.allow(this.task, name) && statusHelper.isOverdue(this.task) ) {
+    if ( this.task.isCreator()  && statusHelper.allow(this.task, name) && statusHelper.isOverdue(this.task) ) {
       return true;
     }
     return false;

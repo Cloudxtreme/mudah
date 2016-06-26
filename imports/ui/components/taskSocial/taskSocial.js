@@ -26,7 +26,7 @@ class TaskSocial {
   show() {
     if (statusHelper.isOffline() ) { return false};
 
-    if ( statusHelper.canShareOnSocialMedia(this.task) ) {
+    if ( this.task.isCreator() && statusHelper.canShareOnSocialMedia(this.task) ) {
       return true;
     }
     return false;

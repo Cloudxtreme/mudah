@@ -1,0 +1,12 @@
+<div class="item-avatar">
+  <img ng-src="{{ userRequest.photoUrl }}" ng-click="userRequest.openChat($event)"/>
+  <div class="item-avatar-name">{{userRequest.name}}</div>
+  <h2>{{userRequest.task.name}}</h2>
+  <div>
+    <due-date date="userRequest.task.dueDate"></due-date>
+    <status-icons task="userRequest.task"></status-icons>
+    <!--
+    <user-list user-ids="userRequest.task.userIds"></user-list>
+  -->
+</div>
+</div>

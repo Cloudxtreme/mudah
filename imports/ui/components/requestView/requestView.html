@@ -4,7 +4,7 @@
     <ion-content class="has-header" scroll="false">
 
       <td-cards>
-        <td-card  class="bg-navy requestView" on-destroy="requestView.destroy()" on-swipe-left="requestView.accept()" on-swipe-right="requestView.reject()">
+        <td-card  class="bg-navy" on-destroy="requestView.destroy()" on-swipe-left="requestView.accept()" on-swipe-right="requestView.reject()">
 
           <div class="no-text"><i class="icon ion-thumbsdown"></i></div>
           <div class="yes-text"><i class="icon ion-thumbsup"></i></div>
@@ -27,8 +27,8 @@
               <show-user user="requestView.fromUser" color="white"></show-user>
             </div>
 
-
-            <div class="yellow padding-top tddetailname">{{requestView.task.name}}</div>
+            <textarea msd-elastic ng-model="requestView.task.name" class="taskName yellow">
+            </textarea>
 
             <div class="white" style="float:left" ng-if="requestView.task.hasArea()">{{requestView.task.area}}</div>
             <div class="white" style="float:right" ng-if="requestView.task.hasValue()">Value {{requestView.task.value}}</div>

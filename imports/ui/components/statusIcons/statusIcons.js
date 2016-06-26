@@ -11,6 +11,7 @@ import 'angular-moment';
 
 const name = 'statusIcons';
 import "./statusIcons.html";
+import "./dev_statusIcons.html";
 
 class StatusIcons {
   constructor($scope, $reactive,  uiService, editAreaService, editValueService) {
@@ -57,6 +58,12 @@ class StatusIcons {
       return ( this.task.edited  );
   }
 
+  hasCounterOffer() {
+    if (this.isOfferStage() && this.task.isSingleShare() && statusHelper.isMyTurnToRespond(this.task) && this.task.isCountered() ) {
+      return true;
+    }
+    return false;
+  }
   lastEditor() {
       if (this.task.editedBy === Meteor.userId() ) {
         this.myTurn = false;
@@ -127,13 +134,18 @@ class StatusIcons {
   }
 
   canEditValue() {
-    if (  statusHelper.isCreator(this.task) ) {
-      if ( this.task.isPrivate() ) {
-        return true;
+    if ( this.task.isSingleShare() ) {
+        if (  this.task.isParticipant()  ) {
+          return true;
+        }
+    } else {
+      // private or group share
+      if (  this.task.isCreator()  ) {
+          return true;
       }
-      return false;
     }
-    return true;
+
+    return false;
   }
 
   creatorName() {
@@ -195,7 +207,13 @@ export default angular.module(name, [
   EditArea,
   EditValue
 ]).component(name, {
-  templateUrl: `imports/ui/components/${name}/${name}.html`,
+  templateUrl: function() {
+    if ( Meteor.settings.public.features.dev_statusicons ) {
+      return `imports/ui/components/${name}/dev_${name}.html`;
+    } else {
+      return `imports/ui/components/${name}/${name}.html`;
+    }
+  },
   bindings: {
     task: '<'
   },

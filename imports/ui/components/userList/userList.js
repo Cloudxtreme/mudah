@@ -19,7 +19,7 @@ class UserList {
 
   getPhotoUrl(userId) {
     let user = taskHelper.getUser(userId);
-    return this.uiService.getProfilePhoto(user);
+    return this.uiService.getProfilePhoto(user, "small");
   }
 
   getName(userId) {
@@ -43,7 +43,8 @@ export default angular.module(name, [
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,
   bindings: {
-    userIds: '<'
+    userIds: '<',
+    color: '@'
   },
   controllerAs: name,
   controller: UserList

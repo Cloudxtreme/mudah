@@ -35,7 +35,7 @@ class StatusHelper {
     this.acceptedStatus['taskDecline'] = [this.status.PENDING];
 
 
-    this.acceptedStatus['taskOffer'] = [this.status.PENDING];
+    this.acceptedStatus['taskOffer'] = [this.status.PENDING,this.status.CANCELLED,this.status.REVOKED ];
     this.acceptedStatus['taskComplete'] = [this.status.DONE,this.status.NOTDONE,this.status.REVOKED];
     this.acceptedStatus['taskDelete'] = [this.status.DRAFT, this.status.CANCELLED,this.status.REVOKED, this.status.DECLINED];
     this.acceptedStatus['taskDone'] = [this.status.ACTIVE];
@@ -202,6 +202,18 @@ class StatusHelper {
       return _words(creator.profile.name)[0];
     }
       return "No name";
+  }
+
+  log(task) {
+    console.log("-------------------------");
+    console.log(" isSingleShare=", task.isSingleShare());
+    console.log(" isGroupShare=", task.isGroupShare());
+    console.log(" isCreator=", task.isCreator());
+    console.log(" isParticipant=", task.isParticipant());
+    console.log(" isMyTurnToRespond=", this.isMyTurnToRespond(task));
+
+    console.log(" isOfferStage=", this.isOfferStage(task));
+
   }
 }
 

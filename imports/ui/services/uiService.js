@@ -219,11 +219,13 @@ function uiService($rootScope, $state, $timeout, $ionicModal, $ionicPopup, $ioni
       return user.services.google.picture;
     }
 
-    function getProfilePhoto(user) {
+    function getProfilePhoto(user, photoSize) {
         if (user==undefined || user.services==undefined) return;
 
+        
         if ( user.services.facebook ) {
-          return getFacebookPhotoUrl(user, "large");
+          if (photoSize==null) { photoSize="large"; }
+          return getFacebookPhotoUrl(user, photoSize);
         }
 
         if ( user.services.google ) {

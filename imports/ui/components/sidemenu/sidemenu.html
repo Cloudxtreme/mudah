@@ -14,6 +14,11 @@
       <div ng-if="sidemenu.settings.public.features.kudosList">
         <ion-item menu-close ng-show="sidemenu.isLoggedIn" ui-sref="tab.kudosList">Completed Watches/Kudos</ion-item>
       </div>
+      <div ng-if="sidemenu.settings.public.features.sidemenu_misc">
+        <ion-item class="green" menu-close ng-show="sidemenu.isLoggedIn" ui-sref="tab.kudosList">Send Invites</ion-item>
+        <ion-item class="green" menu-close ng-show="sidemenu.isLoggedIn" ui-sref="tab.kudosList">Walkthrough</ion-item>
+        <ion-item class="green" menu-close ng-show="sidemenu.isLoggedIn" ui-sref="tab.kudosList">Contact Us</ion-item>
+      </div>
 
 
       <auth></auth>

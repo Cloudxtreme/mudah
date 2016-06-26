@@ -22,7 +22,7 @@
             <div ng-if="taskEdit.dateOnly==false">
               <div class="padding"></div>
               <ion-input class="item item-input">
-                <textarea msd-elastic ng-model="taskEdit.task.name" class="padding">
+                <textarea msd-elastic ng-model="taskEdit.task.name" class="requestView pink">
                 </textarea>
               </ion-input>
               <ion-input class="item item-input item-stacked-label">
@@ -37,9 +37,9 @@
 
             <div class="padding text-center buttonoptions">
               <button ng-disabled="editForm.dueDate.$invalid" class="button button-energized" ng-click="taskEdit.save()">Save</button>
-              <task-accept ng-show="taskEdit.showAllOptions" task="taskEdit.task" button-style="button" close="true"></task-accept>
               <task-share ng-show="taskEdit.showAllOptions" task="taskEdit.task" button-style="button" close="true"></task-share>
               <task-request ng-show="taskEdit.showAllOptions" task="taskEdit.task" button-style="button" close="true"></task-request>
+              <task-accept ng-show="taskEdit.showAllOptions" task="taskEdit.task" button-style="button" close="true"></task-accept>
               <task-delete ng-show="taskEdit.showAllOptions" task="taskEdit.task" button-style="button" close="true"></task-delete>
             </div>
 

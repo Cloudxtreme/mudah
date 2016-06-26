@@ -26,16 +26,23 @@
     max-width:   95%;
 }
 
+.userlist {
+    width:300px;
+    height:68px;
+}
 
-.tddetailname {
-  height:94px;
-  overflow-y:scroll;
+.userinfo {
+  display: inline-block;
+  width: 60px;
+  height: 70px;
+  text-align: center;
+  vertical-align: middle;
+  overflow: hidden;
   text-overflow: ellipsis;
-  font-size:16px;
 }
 
 .fromuser {
-  display:inline-block;
+    display: inline-block;
 }
 
 .touser {
@@ -44,6 +51,9 @@
   right:16px;
 }
 
+td-card .promiser {
+  font-size:22pt;
+}
 
 td-card {
     position: absolute;
@@ -61,9 +71,6 @@ td-card {
 
 
 
-.taskDetail {
-  border: 1px solid #001F3F !important;
-}
 .taskEdit {
   border: 1px solid #7FDBFF !important;
 }
@@ -74,6 +81,14 @@ td-card {
 .tdSelect .input-label {
     color: #000;
 }
+
+textarea.taskName {
+    width: 100%;
+    background-color: transparent;
+    height:78px !important;
+    overflow:scroll !important;
+}
+
 
 td-card img.taskPhoto {
     width: 100%;
@@ -101,9 +116,7 @@ td-card  input[type="text"], input[type="datetime"], input[type="datetime-local"
 td-card  textarea  {
     display: block;
     padding-top: 2px;
-    padding-left: 5px;
     height: 34px;
-    color: #ff00ff;
     vertical-align: middle;
     font-size: 18px;
     line-height: 16px;
@@ -137,8 +150,8 @@ td-card .item-stacked-label .input-label, .item-stacked-label .icon {
 
 
 .sender-picture {
-  max-width: 40px;
-  max-height: 40px;
+  width: 40px;
+  height: 40px;
   margin: 5px auto;
   display:block;
   vertical-align:middle;

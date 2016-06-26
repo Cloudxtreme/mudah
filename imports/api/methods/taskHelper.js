@@ -71,14 +71,23 @@ class TaskHelper {
         status: {
           $ne: 'DRAFT'
         }
-      }, {
+      },
+      {
         completed: false
-      }, {
+      },
+      {
+        request: false
+      },
+      {
         creator: userId
       }]
     },
     {
-      sort : this.getDefaultSortBy()
+      sort :  {
+          createDate : -1,
+          requestId: -1,
+          requestSeqId: 1
+        }
     });
   }
 
@@ -110,17 +119,33 @@ class TaskHelper {
         status: {
           $ne: 'DRAFT'
         }
-      }, {
-        completed: false
-      }, {
-        creator: {
-          $ne: userId
-        }
-      }]
       },
       {
-        sort : this.getDefaultSortBy()
-      });
+        completed: false
+      },
+      {
+        $or: [
+          {
+            $and: [
+              {userIds: userId},
+              {requestHeader: false}
+            ]
+          },
+          {
+            $and: [
+              {creator: userId},
+              {request: true}
+            ]
+          }
+        ]
+      }
+    ]},{
+      sort :  {
+          createDate : -1,
+          requestId: -1,
+          requestSeqId: 1
+        }
+    } );
   }
 
   replacePhoto(params) {
@@ -129,8 +154,6 @@ class TaskHelper {
     let photo=null;
     let photoId=null;
 
-console.log("replace photo-");
-console.log(params);
 
     if ( params.photoType=='profile') {
       user = Meteor.users.findOne( Meteor.userId() );

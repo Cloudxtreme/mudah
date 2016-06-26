@@ -8,11 +8,14 @@ import { contains as _contains } from 'underscore';
 import { words as _words } from 'underscore.string';
 
 Tasks.helpers({
+  isPromise() {
+    return ( this.request==false );
+  },
   isRequest() {
     return ( this.request );
   },
-  isPromise() {
-    return ( this.request==false );
+  isRequestHeader() {
+    return ( this.requestHeader==true );
   },
   isCreator() {
     return ( this.creator == Meteor.userId() );
@@ -35,6 +38,9 @@ Tasks.helpers({
   isGroupShare() {
     return ( this.userIds.length > 1 );
   },
+  isGroupRequest() {
+    return (this.requestId !=null );
+  },
   isMyRequest() {
     return ( this.isCreator && this.isRequest );
   },
@@ -46,6 +52,9 @@ Tasks.helpers({
   },
   isCompleted() {
       return ( this.completed );
+  },
+  isCountered() {
+    return ( this.neverCountered==false );
   },
   hasComment() {
     return (this.comment!=null && this.comment.length>0);
@@ -59,14 +68,14 @@ Tasks.helpers({
   hasValue() {
     return (this.value!=null);
   },
-  hasReward() {
-    return (this.reward!=null);
-  },
   hasDueDate() {
       return (this.dueDate!=null);
   },
+  hasReward() {
+    return (this.reward!=null && this.reward.length>0);
+  },
   hasForfeit() {
-    return (this.forfeit!=null);
+    return (this.forfeit!=null && this.forfeit.length>0);
   },
   getRequestUserId() {
     if ( this.userIds!= null) {

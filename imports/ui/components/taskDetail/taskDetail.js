@@ -98,7 +98,6 @@ function TaskDetailService(uiService) {
   function setTask(task) {
     currTask = task;  // point to the Task. Do not clone as task buttons won't be reactive
 
-    console.log("taskDetailService, set task");
     console.log(task);
   }
 

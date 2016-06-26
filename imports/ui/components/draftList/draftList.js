@@ -35,7 +35,7 @@ class DraftList {
     this.$timeout = $timeout;
     this.uiService = uiService;
     this.taskEditService = taskEditService;
-  
+
     $reactive(this).attach($scope);
 
 
@@ -214,7 +214,7 @@ class DraftList {
   }
 
   isShowIcons() {
-    return Meteor.settings.public.features.draftlist_icons;
+    return Meteor.settings.public.features.dev_statusicons;
   }
 
   onSwipeUp() {

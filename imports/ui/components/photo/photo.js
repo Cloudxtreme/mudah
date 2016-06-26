@@ -3,11 +3,12 @@ import angularMeteor from 'angular-meteor';
 import { taskHelper } from '/imports/api/methods/taskHelper';
 
 import './photo.html';
+import { myFileUploads } from '/lib/slingCommon';  // file size limit is set here
 
 const name = 'photo';
 
 
-var slingUploader = new Slingshot.Upload("myFileUploads");
+var slingUploader = new Slingshot.Upload(myFileUploads);
 var latestUrl="";
 
 class Photo {
@@ -36,6 +37,7 @@ class Photo {
       }
     });
 
+    this.error='';
     this.message='';
 
   }
@@ -64,12 +66,19 @@ class Photo {
       return;
     }
 
-   var input: any = document.getElementById('fileToUpload');
+   var input = document.getElementById('fileToUpload');
    var file = input.files[0];
 
    if ( file==null) {
      return;
    }
+
+   var error = slingUploader.validate(file);
+    if (error) {
+      console.error("validation failed");
+      this.error = error;
+      return;
+    }
 
    params={};
    params.photoType = this.photoType;

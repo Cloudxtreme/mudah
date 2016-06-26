@@ -9,7 +9,7 @@ import './requestList.html';
 import { taskHelper } from '/imports/api/methods/taskHelper';
 import { name as TaskDetail } from '../taskDetail/taskDetail';
 import { name as EmptyList } from '/imports/ui/directives/emptyList';
-import { name as UserPromise } from '/imports/ui/directives/userPromise';
+import { name as UserPromise } from '/imports/ui/components/userPromise/userPromise';
 import { name as PromiseView } from '/imports/ui/components/promiseView/promiseView';
 import { name as RequestView } from '/imports/ui/components/requestView/requestView';
 
@@ -26,6 +26,8 @@ class RequestList {
     this.requestViewService = requestViewService;
     this.chatService = chatService;
 
+    this.activeGroups = [];
+
     this.load();
   }
 
@@ -39,13 +41,35 @@ class RequestList {
 
     this.helpers({
       tasks() {
-        //return Tasks.find({}, {
         return taskHelper.getRequestList(Meteor.userId());
       },
       tasksCount() {
         return Counts.get('numberOfTasks');
       }
     });
+  }
+
+  toggleGroup(task) {
+    var index = this.activeGroups.indexOf(task.requestId);
+    if (index > -1) {
+      this.activeGroups.splice(index, 1);
+    } else {
+      this.activeGroups.push(task.requestId);
+    }
+  }
+
+
+  isGroupShown(task) {
+    return (  this.activeGroups.indexOf(task.requestId) >=0 );
+  }
+
+  isBelongToGroup(task) {
+    if ( task.isParticipant()  ) {
+      return false;
+    }
+  
+
+    return ( task.isGroupRequest() );
   }
 
   openDetail($event, task) {

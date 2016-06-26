@@ -2,6 +2,7 @@ import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import 'angular-moment';
 
+
 import './dueDate.html';
 
 import { statusHelper } from '../../helpers/statusHelper';
@@ -11,9 +12,9 @@ class DueDate {
   constructor($scope) {
     'ngInject';
 
-    this.color = 'navy';
-    this.beforeColor  = 'green';  // class name
-    this.afterColor = 'red';
+    this.color = 'positive';
+    this.beforeColor  = 'positive';  // class name
+    this.afterColor = 'assertive';
   }
 
   show() {
@@ -27,7 +28,6 @@ class DueDate {
     }
     return (this.date!=null);
   }
-
 
 }
 

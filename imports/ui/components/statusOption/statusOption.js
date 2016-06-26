@@ -54,8 +54,6 @@ class StatusOption {
     // set Status
     newStatus = statusHelper.getNextStatus(component, task.status);
     if ( newStatus != task.status) {
-      console.log("Set task status to :" + newStatus );
-
       // Call the Method
       updateStatus.call({
         taskId: task._id,

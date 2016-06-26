@@ -39,10 +39,15 @@ class TaskOffer {
   show() {
     if (statusHelper.isOffline() ) { return false};
 
-    if ( this.task.status == statusHelper.status.PENDING || this.task.status == statusHelper.status.CANCELLED  || this.task.status == statusHelper.status.REVOKED ) {
-        if ( this.task.isSingleShare() || this.task.isCreator() ) {
+    if ( statusHelper.allow(this.task, name) ) {
+      if ( this.task.isCreator() ) {
+          return true;
+      } else {
+        if ( this.task.isSingleShare() ) {
           return true;
         }
+      }
+
     }
 
     return false;

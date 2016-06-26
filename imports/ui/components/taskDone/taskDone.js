@@ -34,7 +34,7 @@ class TaskDone {
   }
 
   show() {
-    if ( statusHelper.allow(this.task, name)  ) {
+    if ( this.task.isCreator()  && statusHelper.allow(this.task, name)  ) {
       return true;
     }
     return false;

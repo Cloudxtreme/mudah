@@ -42,7 +42,6 @@ class TaskRequest {
 
   show() {
     if (statusHelper.isOffline()|| statusHelper.allow(this.task, name)==false ) {
-      console.log("dont allow..", name);
       return false
     };
 

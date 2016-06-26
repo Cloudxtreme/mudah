@@ -44,10 +44,7 @@ class TaskRevoke {
 
     todayDate = new Date();
 
-console.log("allow = ", statusHelper.allow(this.task, name) );
-console.log(" overdue = ", statusHelper.isNotOverdue(this.task) );
-
-    if ( statusHelper.allow(this.task, name) && statusHelper.isNotOverdue(this.task) )  {
+    if ( this.task.isCreator() && statusHelper.allow(this.task, name) && statusHelper.isNotOverdue(this.task) )  {
       if ( this.getReactively('this.task.status')==statusHelper.status.PENDING ) {
         this.buttonLabel = "Cancel";
       } else {

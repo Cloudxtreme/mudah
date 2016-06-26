@@ -10,7 +10,7 @@ import { name as WatchListOptions } from '../watchListOptions/watchListOptions';
 import { taskHelper } from '/imports/api/methods/taskHelper';
 import { name as TaskDetail } from '../taskDetail/taskDetail';
 import { name as EmptyList } from '/imports/ui/directives/emptyList';
-import { name as UserPromise } from '/imports/ui/directives/userPromise';
+import { name as UserPromise } from '/imports/ui/components/userPromise/userPromise';
 import { name as PromiseView } from '/imports/ui/components/promiseView/promiseView';
 import { name as RequestView } from '/imports/ui/components/requestView/requestView';
 

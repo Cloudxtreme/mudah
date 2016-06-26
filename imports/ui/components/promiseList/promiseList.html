@@ -7,13 +7,11 @@
     <empty-list list="promiseList.tasks" text="You do not have any Promises"></empty-list>
     <ion-list>
 
-      <ion-item ng-repeat="task in promiseList.tasks  track by task._id" class="item-text-wrap" ng-click="promiseList.openDetail($event,task)">
-          <user-promise task="task"></user-promise>
-
-          <ion-option-button ng-show="false">Teatime</ion-option-button> <!--BUG : do not remove or watch options won't show -->
-          <promise-list-options task="task" button-style="option"></promise-list-options>
-
-      </ion-item>
+        <ion-item ng-repeat="task in promiseList.tasks  track by task._id" ng-click="promiseList.openDetail($event,task)"  class="item-text-wrap">
+            <user-promise  task="task"></user-promise>
+            <ion-option-button ng-show="false">Teatime</ion-option-button> <!--BUG : do not remove or watch options won't show -->
+            <promise-list-options task="task" button-style="option"></promise-list-options>
+        </ion-item>
 
     </ion-list>
 

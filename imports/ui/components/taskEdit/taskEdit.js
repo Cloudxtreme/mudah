@@ -124,6 +124,7 @@ function TaskEditService(uiService) {
   function open(task) {
     setTask(task);
     var modal = "<task-edit></task-edit>";
+    uiService.hideModal(); // if there's an open modal
     uiService.openEditModal(modal);
   }
 
@@ -157,7 +158,6 @@ function TaskEditService(uiService) {
     //currTask = _.clone(task);
     currTask = task;
 
-    console.log("set task");
     console.log(task);
   }
 

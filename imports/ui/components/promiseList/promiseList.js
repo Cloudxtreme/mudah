@@ -10,7 +10,9 @@ import { name as StatusIcons } from '../statusIcons/statusIcons';
 import { taskHelper } from '/imports/api/methods/taskHelper';
 import { statusHelper } from '../../helpers/statusHelper';
 import { name as EmptyList } from '/imports/ui/directives/emptyList';
-import { name as UserPromise } from '/imports/ui/directives/userPromise';
+import { name as UserPromise } from '/imports/ui/components/userPromise/userPromise';
+import { name as UserRequest } from '/imports/ui/components/userRequest/userRequest';
+import { name as GroupRequest } from '/imports/ui/components/groupRequest/groupRequest';
 import { name as PromiseView } from '/imports/ui/components/promiseView/promiseView';
 import { name as RequestView } from '/imports/ui/components/requestView/requestView';
 
@@ -25,6 +27,7 @@ class PromiseList {
     this.uiService = uiService;
     this.promiseViewService = promiseViewService;
     this.requestViewService = requestViewService;
+
 
     this.load($scope, $reactive);
 
@@ -73,10 +76,10 @@ class PromiseList {
     this.sort = sort;
   }
 
+
   openDetail($event, task) {
     this.uiService.stopFurtherClicks($event);
     if ( task.isRequest() ) {
-      //this.taskDetailService.openModal(task, this.taskDetailService.promiseListOptions);
       this.requestViewService.openModal(task);
     } else {
       this.promiseViewService.openModal(task, "promiseListOptions");
@@ -95,6 +98,8 @@ export default angular.module(name, [
   PromiseListOptions,
   EmptyList,
   UserPromise,
+  UserRequest,
+  GroupRequest,
   PromiseView,
   RequestView
 ]).component(name, {

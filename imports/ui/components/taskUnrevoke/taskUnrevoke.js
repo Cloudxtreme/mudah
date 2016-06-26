@@ -30,7 +30,7 @@ class TaskUnrevoke {
   show() {
 
     todayDate = new Date();
-    if ( statusHelper.allow( this.task, name) && statusHelper.isNotOverdue(this.task) )  {
+    if ( this.task.isCreator() && statusHelper.allow( this.task, name) && statusHelper.isNotOverdue(this.task) )  {
       if ( this.task.status==statusHelper.status.CANCELLED ) {
           this.buttonLabel = "Restore";
       } else {
