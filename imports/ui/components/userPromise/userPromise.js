@@ -24,8 +24,8 @@ class UserPromise {
   }
 
   openChat($event) {
-    uiService.stopFurtherClicks($event);
-    chatService.openChat(this.task);
+    this.uiService.stopFurtherClicks($event);
+    this.chatService.openChat(this.task);
   }
 }
 

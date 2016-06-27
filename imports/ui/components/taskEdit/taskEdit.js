@@ -68,19 +68,12 @@ class TaskEdit {
   }
 
 
-  isCreator() {
-    console.log("is creator = " + statusHelper.isCreator(this.task));
-    return statusHelper.isCreator(this.task);
-  }
-
-
   destroy() {
     console.log("destroy--- ");
     this.taskEditService.closeModal();
   }
 
   share() {
-    console.log("share... !! ");
     if ( this.task.hasDueDate()  ) {
       if (this.taskEditService.isDirty(this.task) ) {
         this.taskEditService.saveEditedTask(this.task);
@@ -90,7 +83,6 @@ class TaskEdit {
   }
 
   request() {
-    console.log(" request ");
     if ( this.task.hasDueDate()  ) {
       if (this.taskEditService.isDirty(this.task) ) {
         this.taskEditService.saveEditedTask(this.task);

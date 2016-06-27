@@ -19,10 +19,22 @@ if (Meteor.isServer) {
 
     } else {
       selector = {
-        $and: [
-          {"creator": {$ne:this.userId}},
-          {"userIds":  this.userId }
+        $or: [
+          { $and: [
+            {"creator": this.userId},
+            {"request":  true }
+            ]
+          }
+          ,
+          {
+            $and: [
+              {"creator": {$ne:this.userId}},
+              {"userIds":  this.userId }
+            ]
+          }
         ]
+
+
       };
     }
 

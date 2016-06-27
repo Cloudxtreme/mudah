@@ -448,14 +448,20 @@ export const markAsAcknowledged = new ValidatedMethod({
     }).validator(),
 
   run({ taskId }) {
-      const origTask = taskHelper.getPermittedTask(taskId); // will throw Exception if no permission
+      const task = taskHelper.getPermittedTask(taskId); // will throw Exception if no permission
+      let completedFlag=false;
+
+      if (task.status==statusHelper.status.DONE || task.status==statusHelper.status.NOTDONE ) {
+        completedFlag = true; // if done/notdone...automatically set completed = true
+      }
 
       Tasks.update({
         _id: taskId
       }, {
         $set: {
-          'ack': true,
-          'ackBy' : Meteor.userId()
+          ack: true,
+          ackBy : Meteor.userId(),
+          completed : completedFlag
         }
       });
     }
@@ -480,7 +486,27 @@ export const markAsCompleted = new ValidatedMethod({
         completedDate:  new Date()
       }
     });
-    }
+  }
+});
+
+export const markAsArchived = new ValidatedMethod({
+  name: 'markAsArchived',
+
+  validate: new SimpleSchema({
+      taskId: {type:String}
+    }).validator(),
+
+  run({ taskId }) {
+    const origTask = taskHelper.getMyTask(taskId); // will throw Exception if no permission
+
+    Tasks.update({
+      _id: taskId
+    }, {
+      $set: {
+        archived : true
+      }
+    });
+  }
 });
 
 
@@ -492,11 +518,10 @@ export const deleteTask = new ValidatedMethod({
     }).validator(),
 
   run({ taskId }) {
-    const origTask = taskHelper.getMyTask(taskId); // will throw Exception if no permission
-    const deleteUserId = origTask.getRequestUserId();
+    const task = taskHelper.getMyTask(taskId); // will throw Exception if no permission
 
-    if (origTask.isRequest() ) {
-      removeUserFromTask.call({taskId: origTask.requestId, userId: deleteUserId })
+    if (task.isGroupRequest() ) {
+      removeUserFromGroupTask.call({taskId: taskId })
     }
 
     Tasks.remove(taskId);
@@ -505,25 +530,28 @@ export const deleteTask = new ValidatedMethod({
 });
 
 
-export const removeUserFromTask = new ValidatedMethod({
-  name: 'removeUserFromTask',
+export const removeUserFromGroupTask = new ValidatedMethod({
+  name: 'removeUserFromGroupTask',
 
   validate: new SimpleSchema({
-      taskId: {type:String},
-      userId: {type:String}
+      taskId: {type:String}
     }).validator(),
 
 
-  run({ taskId, userId }) {
+  run({ taskId }) {
 
     const task = taskHelper.getPermittedTask(taskId); // will throw Exception if no permission
-    const newUserIds = _without( task.userIds , userId);
+    const deleteUserId = task.getRequestUserId();
+
+    const groupTask = taskHelper.getPermittedTask( task.requestId);
+
+    const newUserIds = _without( groupTask.userIds , deleteUserId);
 
     if ( newUserIds.length==0) {
-        //delete the master record
-        Tasks.remove(taskId);
+        //delete the group's header record
+        Tasks.remove(groupTask._id);
     } else {
-        Tasks.update(taskId, {
+        Tasks.update(groupTask._id, {
           $set: {
             userIds : newUserIds
           }

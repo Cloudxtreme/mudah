@@ -50,6 +50,9 @@ Tasks.helpers({
   isWatcher() {
       return ( this.isParticipant && this.isPromise );
   },
+  isArchived() {
+    return ( this.archived );
+  },
   isCompleted() {
       return ( this.completed );
   },

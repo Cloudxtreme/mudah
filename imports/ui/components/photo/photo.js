@@ -43,13 +43,16 @@ class Photo {
   }
 
   allow() {
-    if ( Meteor.user().services.password ) {
-      return true;
-    } else {
-      this.error={};
-      this.error.message = "You logged in via Google or Facebook, please update your Profile photo there";
-      return false;
+    if ( this.isProfilePhoto() ) {
+        if ( Meteor.user().services.password ) {
+          return true;
+        } else {
+          this.error={};
+          this.error.message = "You logged in via Google or Facebook, please update your Profile photo there";
+          return false;
+        }
     }
+    return true;
   }
 
   isProfilePhoto() {

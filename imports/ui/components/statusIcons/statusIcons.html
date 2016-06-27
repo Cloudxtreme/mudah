@@ -2,7 +2,11 @@
   <div style="float:left">
     <font>{{statusIcons.task.status}}</font>
     <span ng-show="statusIcons.task.status=='ACTIVE'">ENSHRINED</span>
+    <span class="positive padding-right" ng-show="statusIcons.task.isCompleted()"> COMPLETED {{statusIcons.task.completedDate | amDateFormat:'D.M.YYYY'}}</span>
+    <i class="icon ion-ios-box positive padding-right" ng-show="statusIcons.task.isArchived()"> ARCHIVED {{statusIcons.task.completedDate | amDateFormat:'D.M.YYYY'}}</i>
+
     <span ng-show="statusIcons.statusHelper.isPendingAck(statusIcons.task)">Pending Acknowledgement</span>
+    <span ng-if="statusIcons.statusHelper.isAcknowledged(statusIcons.task)">Acknowleged by<font class="navy"> {{statusIcons.lastAck()}}</font></span>
     <span ng-if="statusIcons.hasCounterOffer()">
       <span class="positive">Countered</span>
     </span>
@@ -15,20 +19,19 @@
       {{statusIcons.sharedWith()}}
     </span>
     <i ng-if="statusIcons.task.isRequest()" class="icon ion-radio-waves assertive">Request</i>
-    <i class="icon ion-ios-box positive padding-right" ng-show="statusIcons.task.isCompleted()">COMPLETED</i>
   </div>
   <div style="float:right">
     <span ng-if="statusIcons.canEditArea()" class="padding-right">
       <a ng-click="statusIcons.openArea($event,statusIcons.task)">{{statusIcons.getAreaLabel()}}</a>
     </span>
-    <span ng-if="!statusIcons.canEditArea()" class="padding-right">
+    <span ng-if="!statusIcons.canEditArea() && statusIcons.task.hasArea()" class="padding-right">
       {{statusIcons.task.area}}
     </span>
 
     <span ng-if="statusIcons.canEditValue()" class="padding-right">
       <a ng-click="statusIcons.openValue($event,statusIcons.task)">{{statusIcons.getValueLabel()}}</a>
     </span>
-    <span ng-if="!statusIcons.canEditValue()" class="padding-right">
+    <span ng-if="!statusIcons.canEditValue() && statusIcons.task.hasValue()" class="padding-right">
       Value {{statusIcons.task.value}}
     </span>
   </div>

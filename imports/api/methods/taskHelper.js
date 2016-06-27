@@ -73,7 +73,7 @@ class TaskHelper {
         }
       },
       {
-        completed: false
+        archived: false
       },
       {
         request: false
@@ -94,7 +94,7 @@ class TaskHelper {
   getKudosList(userId) {
     return Tasks.find({
       $and: [{
-        completed: true
+        archived: true
       }, {
         creator: {
           $ne: userId
@@ -106,7 +106,7 @@ class TaskHelper {
   getCompletedList(userId) {
     return Tasks.find({
       $and: [{
-        completed: true
+        archived: true
       }, {
         creator: userId
       }]
@@ -119,9 +119,6 @@ class TaskHelper {
         status: {
           $ne: 'DRAFT'
         }
-      },
-      {
-        completed: false
       },
       {
         $or: [
@@ -161,7 +158,7 @@ class TaskHelper {
         // update new profile photo url
       Meteor.users.update(Meteor.userId(), {$set: {"profile.photo": params.newUrl}} );
     } else {
-      task = this.getMyTask( params.taskId);
+      task = this.getPermittedTask( params.taskId);
       photo = task.photo;
       Meteor.call('updateTaskPhoto',{taskId: params.taskId, photo: params.newUrl},
         function(err) {

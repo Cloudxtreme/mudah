@@ -1,15 +1,14 @@
 import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 
-import './taskComplete.html';
+import './taskArchive.html';
 
 import {  statusHelper} from '/imports/ui/helpers/statusHelper';
-import {  markAsCompleted} from '/imports/api/methods/taskMethods';
-import moment from 'moment';
+import {  markAsArchived} from '/imports/api/methods/taskMethods';
 
-const name = 'taskComplete';
+const name = 'taskArchive';
 
-class TaskComplete {
+class TaskArchive {
   constructor($scope, $rootScope, $reactive, uiService) {
     'ngInject';
 
@@ -27,13 +26,13 @@ class TaskComplete {
       this.$rootScope.modal.remove();
     }
 
-    this.call('markAsCompleted', {taskId:this.task._id},
+    this.call('markAsArchived', {taskId:this.task._id},
       function(err, res)  {
         if (err) {
           alert(err);
         } else {
           // success!
-          this.task.completed = true; // to hide button
+          this.task.archived = true; // to hide button
         }
     });
   }
@@ -47,19 +46,7 @@ class TaskComplete {
       return false
     };
 
-
-
-
-    if ( statusHelper.allow(this.task, name) && this.task.isCreator() && this.task.isCompleted()==false   && this.acknowledgementIsOverdue() ) {
-      return true;
-    }
-    return false;
-  }
-
-  acknowledgementIsOverdue() {
-    let pastDate = moment().subtract(7, 'd');
-    if ( pastDate.isAfter( this.task.statusDate) )  {
-      console.log("-- is after 7 days");
+    if ( this.task.isCreator() &&  this.task.isCompleted() && this.task.isArchived()==false ) {
       return true;
     }
     return false;
@@ -77,5 +64,5 @@ export default angular.module(name, [
     buttonStyle: '@'
   },
   controllerAs: name,
-  controller: TaskComplete
+  controller: TaskArchive
 });

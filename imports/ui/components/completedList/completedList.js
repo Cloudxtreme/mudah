@@ -37,16 +37,14 @@ class CompletedList {
     };
     this.searchText = '';
 
-    this.subscribe('tasks', () => [{
-      //  limit: parseInt(this.perPage),
-      //  skip: parseInt((this.getReactively('page') - 1) * this.perPage),
-        sort: this.getReactively('sort')
-      }, this.getReactively('searchText')
+    this.subscribe('tasks', () => [
+      'promiseList'
     ]);
 
 
     this.helpers({
       tasks() {
+        console.log("user = " , Meteor.userId());
         return taskHelper.getCompletedList(Meteor.userId());
       }
     });

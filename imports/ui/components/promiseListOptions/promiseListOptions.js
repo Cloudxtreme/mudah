@@ -16,6 +16,7 @@ import { name as TaskRevoke } from '../taskRevoke/taskRevoke';
 import { name as TaskUnrevoke } from '../taskUnrevoke/taskUnrevoke';
 import { name as TaskShare } from '../taskShare/taskShare';
 import { name as TaskOffline } from '../taskOffline/taskOffline';
+import { name as TaskArchive } from '../taskArchive/taskArchive';
 import { name as TaskSocial } from '../taskSocial/taskSocial';
 import { name as StatusIcons } from '../statusIcons/statusIcons';
 import { taskHelper } from '/imports/api/methods/taskHelper';
@@ -54,6 +55,7 @@ export default angular.module(name, [
   TaskUnrevoke,
   TaskShare,
   TaskSocial,
+  TaskArchive,
   TaskOffline
 ]).component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,

@@ -6,15 +6,7 @@
 
     <empty-list list="requestList.tasks" text="You do not have any Requests and you are not watching any Promises"></empty-list>
     <ion-list>
-      <!--
-      <ion-item ng-repeat="task in requestList.tasks  track by task._id" class="item-text-wrap" ng-click="requestList.openDetail($event,task)">
-        <user-promise task="task"></user-promise>
-        <ion-option-button ng-show="false">Teatime</ion-option-button> BUG : do not remove or watch options won't show
 
-        <request-view-options task="task" button-style="option"></request-view-options>
-
-      </ion-item>
-    -->
     <div ng-repeat="task in requestList.tasks  track by task._id">
 <!--
       <ion-item>
@@ -26,7 +18,7 @@
       </div>
 
       <ion-item  ng-if="task.isRequestHeader()==false" ng-click="requestList.openDetail($event,task)"
-                class="item-text-wrap"  ng-class="{'item-accordian' : requestList.isBelongToGroup(task), 'active': requestList.isGroupShown(task)}">
+                class="item-text-wrap ion-icon-right"  ng-class="{'item-accordian' : requestList.isBelongToGroup(task), 'active': requestList.isGroupShown(task)}">
           <user-request ng-if="task.isRequest()" task="task"></user-request>
           <user-promise ng-if="task.isPromise()" task="task"></user-promise>
           <ion-option-button ng-show="false">Teatime</ion-option-button>

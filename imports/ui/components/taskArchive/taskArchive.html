@@ -1,0 +1,7 @@
+<span ng-if="!taskArchive.isButton()">
+  <ion-option-button class="button-calm" ng-show="taskArchive.show()"  ng-click="taskArchive.action()">Archive</ion-option-button>
+</span>
+
+<span ng-if="taskArchive.isButton()">
+  <button class="button button-calm"  ng-show="taskArchive.show()" ng-click="taskArchive.action()">Archive</button>
+</span>

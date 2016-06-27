@@ -36,7 +36,7 @@ class StatusHelper {
 
 
     this.acceptedStatus['taskOffer'] = [this.status.PENDING,this.status.CANCELLED,this.status.REVOKED ];
-    this.acceptedStatus['taskComplete'] = [this.status.DONE,this.status.NOTDONE,this.status.REVOKED];
+    this.acceptedStatus['taskComplete'] = [this.status.DONE,this.status.NOTDONE];
     this.acceptedStatus['taskDelete'] = [this.status.DRAFT, this.status.CANCELLED,this.status.REVOKED, this.status.DECLINED];
     this.acceptedStatus['taskDone'] = [this.status.ACTIVE];
     this.acceptedStatus['taskEdit'] = [this.status.DRAFT, this.status.PENDING];

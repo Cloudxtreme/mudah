@@ -30,6 +30,7 @@ class Avatar {
   }
 
   editPhoto() {
+    console.log("edit Photo");
     this.uiService.openModal("<edit-profile-photo></edit-profile-photo>");
   }
 
@@ -52,8 +53,8 @@ class Avatar {
 
 // create a module
 export default angular.module(name, [
-  angularMeteor
-  //EditProfilePhoto
+  angularMeteor,
+  EditProfilePhoto
 ])
 .component(name, {
   templateUrl: `imports/ui/components/${name}/${name}.html`,

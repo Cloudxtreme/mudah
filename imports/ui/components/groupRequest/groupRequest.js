@@ -22,7 +22,6 @@ class GroupRequest {
   }
 
   sharedWith() {
-    console.log("shared with ...");
     
     if ( statusHelper.isSharedTask(this.task) ) {
       let firstUser = this.getName( this.task.userIds[0] );

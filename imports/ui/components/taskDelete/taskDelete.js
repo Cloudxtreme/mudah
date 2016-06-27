@@ -39,7 +39,7 @@ class TaskDelete {
   show() {
     if (statusHelper.isOffline() ) { return false};
 
-    if ( this.task.isCreator() && (statusHelper.allow(this.task, name) || statusHelper.isCompleted(this.task)) ) {
+    if ( this.task.isCreator() && statusHelper.allow(this.task, name) ) {
         return true;
     }
     return false;

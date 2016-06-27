@@ -61,7 +61,7 @@ class EditComment {
       this.sendChatMessage(this.task);
     }
 
-    this.init();hotm
+    this.init();
 
   }
 

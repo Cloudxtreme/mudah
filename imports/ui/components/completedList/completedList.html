@@ -12,12 +12,14 @@
 
     <ion-list>
       <ion-item ng-repeat="task in completedList.tasks track by task._id" class="item-text-wrap" ng-click="completedList.openDetail($event,task)">
-         {{task.name}}
-<status-icons task="task" edit-area="true"></status-icons>
-<!--
-<ion-option-button ng-show="false" class="button-positive">Teatime</ion-option-button>
--->
-<promise-list-options task="task" button-style="option"></promise-list-options>
+        {{task.name}}
+        <status-icons task="task" edit-area="true"></status-icons>
+        <div style="clear:both"></div>
+        <!--
+        <ion-option-button ng-show="false" class="button-positive">Teatime</ion-option-button>
+        -->
+        <promise-list-options task="task"></promise-list-options>
+
       </ion-item>
     </ion-list>
 

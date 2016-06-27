@@ -2,6 +2,7 @@ import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import uiRouter from 'angular-ui-router';
 import { Meteor } from 'meteor/meteor'
+import { name as Photo } from '../photo/photo';
 
 import './editProfilePhoto.html';
 
@@ -12,6 +13,8 @@ class EditProfilePhoto {
     'ngInject';
 
     this.uiService = uiService;
+
+    console.log("--- edit profile photo ---");
   }
 
 }
@@ -20,7 +23,7 @@ class EditProfilePhoto {
 // create a module
 export default angular.module(name, [
   angularMeteor,
-  uiRouter
+  Photo
 ])
   .component(name, {
     templateUrl: `imports/ui/components/${name}/${name}.html`,

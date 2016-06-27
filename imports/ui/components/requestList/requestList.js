@@ -34,14 +34,26 @@ class RequestList {
   load() {
 
     this.subscribe('tasks', () => [
-      //  limit: parseInt(this.perPage),
-      //  skip: parseInt((this.getReactively('page') - 1) * this.perPage),
         'requestList'
-    ]);
+    ], {
+      onReady: function () {
+        console.log("requestList subscription - onReady And the Items actually Arrive", arguments);
+        //subscriptionHandle.stop();  // Stopping the subscription, will cause onStop to fire
+      },
+      onStop: function (error) {
+        if (error) {
+          console.log('An error happened - ', error);
+        } else {
+          console.log('---- The requestList subscription stopped -----');
+        }
+    }
+  });
 
     this.helpers({
       tasks() {
-        return taskHelper.getRequestList(Meteor.userId());
+        const obj = taskHelper.getRequestList(Meteor.userId());
+        console.log("got data in helper ---");
+        return obj;
       },
       tasksCount() {
         return Counts.get('numberOfTasks');
@@ -67,7 +79,7 @@ class RequestList {
     if ( task.isParticipant()  ) {
       return false;
     }
-  
+
 
     return ( task.isGroupRequest() );
   }
