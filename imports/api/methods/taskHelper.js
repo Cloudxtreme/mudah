@@ -67,20 +67,22 @@ class TaskHelper {
 
   getActiveList(userId) {
     return Tasks.find({
-      $and: [{
-        status: {
-          $ne: 'DRAFT'
-        }
-      },
-      {
-        archived: false
-      },
-      {
-        request: false
-      },
-      {
-        creator: userId
-      }]
+      $and: [
+        {status: {$ne: 'DRAFT' }},
+        {  archived: false  },
+        {
+          $or: [
+            {$and: [
+                {creator: userId},
+                {request: false}
+            ]},
+            {$and: [
+                {userIds: userId},
+                {request: true},
+                {requestHeader: false}
+            ]}
+          ]
+        }]
     },
     {
       sort :  {
@@ -115,28 +117,23 @@ class TaskHelper {
 
   getRequestList(userId) {
     return Tasks.find({
-      $and: [{
-        status: {
-          $ne: 'DRAFT'
-        }
-      },
-      {
-        $or: [
-          {
-            $and: [
-              {userIds: userId},
-              {requestHeader: false}
-            ]
-          },
-          {
-            $and: [
+      $and: [
+        {status: {$ne: 'DRAFT' }},
+        {archived: false  },
+        {$or: [
+          {$and: [
               {creator: userId},
               {request: true}
-            ]
+              ]
+          },
+          {$and: [
+              {userIds: userId},
+              {request: false}
+              ]
           }
-        ]
-      }
-    ]},{
+        ]}
+      ]},
+    {
       sort :  {
           createDate : -1,
           requestId: -1,

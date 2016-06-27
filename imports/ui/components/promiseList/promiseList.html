@@ -2,13 +2,14 @@
 
   <ion-content class="has-header">
     <ion-item>
-      <div style="display:inline;padding-right:5px">My Promises</div><div class="red" style="display:inline">Tasks I have to do</div>
+      <div style="display:inline;padding-right:5px">My Promises</div><div class="red" style="display:inline">Tasks I have to do, Requests sent to me</div>
     </ion-item>
     <empty-list list="promiseList.tasks" text="You do not have any Promises"></empty-list>
     <ion-list>
 
         <ion-item ng-repeat="task in promiseList.tasks  track by task._id" ng-click="promiseList.openDetail($event,task)"  class="item-text-wrap">
-            <user-promise  task="task"></user-promise>
+          <user-request ng-if="task.isRequest()" task="task"></user-request>
+          <user-promise ng-if="task.isPromise()" task="task"></user-promise>
             <ion-option-button ng-show="false">Teatime</ion-option-button> <!--BUG : do not remove or watch options won't show -->
             <promise-list-options task="task" button-style="option"></promise-list-options>
         </ion-item>
