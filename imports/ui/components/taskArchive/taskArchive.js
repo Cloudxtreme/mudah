@@ -46,9 +46,10 @@ class TaskArchive {
       return false
     };
 
-    if ( this.task.isCreator() &&  this.task.isCompleted() && this.task.isArchived()==false ) {
+    if ( this.task.isCompleted() && this.task.isCreator() && this.task.isArchived()==false ) {
       return true;
     }
+
     return false;
   }
 }

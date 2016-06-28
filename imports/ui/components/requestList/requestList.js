@@ -7,7 +7,6 @@ import { Counts } from 'meteor/tmeasday:publish-counts';
 import './requestList.html';
 
 import { taskHelper } from '/imports/api/methods/taskHelper';
-import { name as TaskDetail } from '../taskDetail/taskDetail';
 import { name as EmptyList } from '/imports/ui/directives/emptyList';
 import { name as UserPromise } from '/imports/ui/components/userPromise/userPromise';
 import { name as PromiseView } from '/imports/ui/components/promiseView/promiseView';
@@ -16,12 +15,11 @@ import { name as RequestView } from '/imports/ui/components/requestView/requestV
 const name = 'requestList';
 
 class RequestList {
-  constructor($scope, $reactive, uiService, taskDetailService, chatService,promiseViewService, requestViewService)  {
+  constructor($scope, $reactive, uiService, chatService,promiseViewService, requestViewService)  {
     'ngInject';
 
     $reactive(this).attach($scope);
     this.uiService = uiService;
-    this.taskDetailService = taskDetailService;
     this.promiseViewService = promiseViewService;
     this.requestViewService = requestViewService;
     this.chatService = chatService;
@@ -91,8 +89,6 @@ class RequestList {
     } else {
       this.promiseViewService.openModal(task, "requestViewOptions");
     }
-
-    // this.taskDetailService.openModal(task, this.taskDetailService.requestListOptions);
   }
 }
 
@@ -100,8 +96,7 @@ class RequestList {
 // create a module
 export default angular.module(name, [
   angularMeteor,
-  uiRouter,
-  TaskDetail,
+  uiRouter, 
   EmptyList,
   UserPromise,
   PromiseView,

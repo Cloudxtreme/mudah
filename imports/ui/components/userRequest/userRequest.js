@@ -18,20 +18,18 @@ class UserRequest {
     this.uiService = uiService;
     this.chatService = chatService;
 
-
     if ( this.task.isRequestHeader() || this.task.isParticipant() ) {
-      console.log("----is request header");
       const user = taskHelper.getUser(this.task.creator );
 
       this.photoUrl = uiService.getProfilePhoto(user);
       this.name = user.profile.name;
     } else {
       if ( this.task.isCreator() ) {
-        const user = taskHelper.getUser(this.task.getRequestUserId() ); // there's always only 1 receipient
+        const user = taskHelper.getUser(this.task.getRequestRecipientUserId() ); // there's always only 1 receipient
 
         this.photoUrl = uiService.getProfilePhoto(user);
         this.name = user.profile.name;
-      } 
+      }
     }
 
   }

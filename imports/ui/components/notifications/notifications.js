@@ -4,7 +4,6 @@ import uiRouter from 'angular-ui-router';
 
 
 import { Counts } from 'meteor/tmeasday:publish-counts';
-import { name as TaskDetail } from '../taskDetail/taskDetail';
 import { name as PromiseListOptions } from '../promiseListOptions/promiseListOptions';
 import { name as StatusIcons } from '../statusIcons/statusIcons';
 import { taskHelper } from '/imports/api/methods/taskHelper';
@@ -79,7 +78,6 @@ export default angular.module(name, [
   angularMeteor,
   uiRouter,
   StatusIcons,
-  TaskDetail,
   PromiseListOptions,
   EmptyList,
   UserPromise,

@@ -21,12 +21,10 @@ class TaskNotDone {
   action() {
     this.uiService.hideOptions(this.isButton());
 
-    console.log("not-done task ...", this.task._id);
-    newStatus = statusHelper.getNextStatus(name,  this.task.status);
-    // Call the Method
+
     updateStatus.call({
       taskId: this.task._id,
-      newStatus: newStatus
+      newStatus: statusHelper.status.NOTDONE
     }, (err, res) => {
       if (err) {
         alert(err);

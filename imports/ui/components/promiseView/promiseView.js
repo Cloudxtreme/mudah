@@ -7,6 +7,7 @@ import { statusHelper } from '/imports/ui/helpers/statusHelper';
 import { taskHelper } from '/imports/api/methods/taskHelper';
 import { name as Photo } from '../photo/photo';
 import { name as EditComment } from '../editComment/editComment';
+import { name as UserList } from '../userList/userList';
 
 const name = 'promiseView';
 
@@ -107,7 +108,8 @@ function PromiseViewService(uiService) {
 export default angular.module(name, [
     angularMeteor,
     Photo,
-    EditComment
+    EditComment,
+    UserList
   ]).component(name, {
     templateUrl: `imports/ui/components/${name}/${name}.html`,
     controllerAs: name,

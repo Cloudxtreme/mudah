@@ -27,7 +27,7 @@ class TaskOffer {
 
   setButtonLabel(neverFlag) {
     this.buttonLabel = "Offer";
-    if ( statusHelper.isCreator(this.task) && neverFlag==true ) {
+    if ( this.task.isCreator() && neverFlag==true ) {
       this.buttonLabel = "Edit";
     }
   }
@@ -43,7 +43,7 @@ class TaskOffer {
       if ( this.task.isCreator() ) {
           return true;
       } else {
-        if ( this.task.isSingleShare() ) {
+        if ( this.task.hasOneParticipant() && this.task.status==statusHelper.status.PENDING ) {
           return true;
         }
       }

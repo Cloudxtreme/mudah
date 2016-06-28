@@ -1,8 +1,7 @@
 import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import { Meteor } from 'meteor/meteor'
-import uiRouter from 'angular-ui-router';
-import { name as DisplayNameFilter } from '../../filters/displayNameFilter';
+import uiRouter from 'angular-ui-router'; 
 import 'ionic-scripts';
 
 

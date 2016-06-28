@@ -6,7 +6,6 @@ import './statusOption.html';
 import { statusHelper } from '../../helpers/statusHelper';
 import { name as uiService } from '../../services/uiService';
 
-import { updateStatus } from '../../../api/methods/taskMethods.js';
 
 const name = 'statusOption';
 
@@ -50,23 +49,6 @@ class StatusOption {
     return null;
   }
 
-  updateStatus(component, task) {
-    // set Status
-    newStatus = statusHelper.getNextStatus(component, task.status);
-    if ( newStatus != task.status) {
-      // Call the Method
-      updateStatus.call({
-        taskId: task._id,
-        newStatus: newStatus
-      }, (err, res) => {
-        if (err) {
-          alert(err);
-        } else {
-          // success!
-        }
-      });
-    };
-  }
 
 }
 

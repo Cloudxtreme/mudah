@@ -20,8 +20,20 @@ Tasks.helpers({
   isCreator() {
     return ( this.creator == Meteor.userId() );
   },
+  isWatcher() {
+    if (_contains(this.watcherIds, Meteor.userId()) ) {
+      return true;
+    }
+    return false;
+  },
+  isPromiser() {
+    if (_contains(this.promiserIds, Meteor.userId()) ) {
+      return true;
+    }
+    return false;
+  },
   isParticipant() {
-     if (_contains(this.userIds, Meteor.userId()) ) {
+     if ( this.isWatcher() || this.isPromiser() ) {
        return true;
      }
      return false;
@@ -29,26 +41,20 @@ Tasks.helpers({
   isPrivate() {
     return this.private;
   },
-  isShared() {
-      return (this.userIds.length > 0 );
+  isAcknowledged() {
+    return this.ack;
   },
-  isSingleShare() {
-    return ( this.userIds.length == 1 );
+  hasParticipants() {
+      return (this.promiserIds.length > 0 || this.watcherIds.length > 0 );
   },
-  isGroupShare() {
-    return ( this.userIds.length > 1 );
+  hasOneParticipant() {
+    return ( this.promiserIds.length == 1 || this.watcherIds.length == 1 );
+  },
+  hasManyParticipants() {
+    return ( this.promiserIds.length > 1 || this.watcherIds.length > 1 );
   },
   isGroupRequest() {
     return (this.requestId !=null );
-  },
-  isMyRequest() {
-    return ( this.isCreator && this.isRequest );
-  },
-  isMyPromise() {
-    return ( this.isCreator && this.isPromise );
-  },
-  isWatcher() {
-      return ( this.isParticipant && this.isPromise );
   },
   isArchived() {
     return ( this.archived );
@@ -80,9 +86,9 @@ Tasks.helpers({
   hasForfeit() {
     return (this.forfeit!=null && this.forfeit.length>0);
   },
-  getRequestUserId() {
-    if ( this.userIds!= null) {
-      return this.userIds[0]; // always ONE only
+  getRequestRecipientUserId() {
+    if ( this.promiserIds!= null) {
+      return this.promiserIds[0]; // always ONE only
     }
     return null;
   }

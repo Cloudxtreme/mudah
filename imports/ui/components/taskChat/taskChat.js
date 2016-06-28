@@ -24,7 +24,7 @@ class TaskChat {
 
     if (statusHelper.isOffline() ) { return false};
 
-    if (  statusHelper.isSharedTask(this.task) ) {
+    if ( this.task.hasParticipants() ) {
         return true;
     }
     return false;

@@ -25,7 +25,6 @@ import { name as PromiseList } from '../promiseList/promiseList';
 import { name as RequestList } from '../requestList/requestList';
 import { name as Notifications } from '../notifications/notifications';
 import { name as CompletedList } from '../completedList/completedList';
-import { name as KudosList } from '../kudosList/kudosList';
 import { name as Photo } from '../photo/photo';
 
 import { Tasks } from '/imports/api/tasks';
@@ -64,7 +63,6 @@ const dependencies=
   RequestList,
   Notifications,
   CompletedList,
-  KudosList,
   MeteorStatus,
   VerifyLoginEmail,
   ResetUserPassword,
@@ -104,7 +102,6 @@ export default angular.module(name, [
   RequestList,
   Notifications,
   CompletedList,
-  KudosList,
   MeteorStatus,
   VerifyLoginEmail,
   ResetUserPassword,

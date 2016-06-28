@@ -19,11 +19,9 @@ class TaskDone {
   action() {
     this.uiService.hideOptions(this.isButton());
 
-    newStatus = statusHelper.getNextStatus(name,  this.task.status);
-    // Call the Method
     updateStatus.call({
       taskId: this.task._id,
-      newStatus: newStatus
+        newStatus: statusHelper.status.DONE
     }, (err, res) => {
       if (err) {
         alert(err);

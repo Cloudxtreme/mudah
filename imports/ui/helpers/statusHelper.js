@@ -9,7 +9,6 @@ db.inventory.find( {
     ]
 } )
 */
-import { contains as _contains } from 'underscore';
 import { words as _words } from 'underscore.string';
 
 class StatusHelper {
@@ -53,21 +52,7 @@ class StatusHelper {
 
     this.acceptedStatus['editComment'] = [this.status.DONE,this.status.NOTDONE, this.status.REVOKED, this.status.CANCELLED];
 
-    this.nextStatus =  {};
-    this.nextStatus['taskDecline'] = this.status.DECLINED;
 
-    this.nextStatus['taskDone'] = this.status.DONE;
-    this.nextStatus['taskNotDone'] = this.status.NOTDONE;
-
-
-  }
-
-  getNextStatus(component, currStatus) {
-    if ( this.nextStatus[component] == undefined ) {
-        console.log("Not available, no next status for : " + component);
-        return currStatus;
-    }
-    return this.nextStatus[component];;
   }
 
 
@@ -91,24 +76,6 @@ class StatusHelper {
     return component + 'Service';
   }
 
-  isPrivateTask(task) {
-    return task.private;
-  }
-
-  isSharedTask(task) {
-      return (task.userIds.length > 0 );
-  }
-
-  isCreator(task) {
-    return (task && task.creator === Meteor.userId() );
-  }
-
-  isParticipant(task) {
-     if (task && _contains(task.userIds, Meteor.userId()) ) {
-       return true;
-     }
-     return false;
-  }
 
   isOverdue(task) {
     return this.isOverdueDate(task.dueDate);
@@ -126,13 +93,6 @@ class StatusHelper {
     return !this.isOverdue(task);
   }
 
-  isCompleted(task) {
-    return task.completed;
-  }
-
-  isAcknowledged(task) {
-    return (task!=null && task.ack);
-  }
 
   isMyTurnToRespond(task) {
     return (task.edited && task.editedBy !=Meteor.userId() );
@@ -155,8 +115,7 @@ class StatusHelper {
 
   needAcknowledgement(task) {
     acceptedStatus = this.acceptedStatus['taskAcknowledge'];
-    //if ( task.ack == false && this.isSharedWithMe(task) && acceptedStatus.indexOf(task.status)>=0 ) {
-    if ( this.isMember(task.status, acceptedStatus) && task.ack == false && this.isSharedTask(task)  ) {
+    if ( this.isMember(task.status, acceptedStatus) && task.ack == false && task.hasParticipants() ) {
       return true;
     }
     return false;
@@ -178,13 +137,6 @@ class StatusHelper {
       return false;
   }
 
-  hasPermission(task) {
-    if ( task.creator == Meteor.userId() || this.isParticipant(task)  ) {
-      return true;
-    }
-
-    return false;
-  }
 
   isButton(buttonStyle) {
     if ( buttonStyle=='button') {
@@ -193,9 +145,6 @@ class StatusHelper {
     return false;
   }
 
-  noDueDate(task) {
-    return ( task.dueDate==null);
-  }
 
   getFirstName(name) {
     if (name!=null) {
@@ -204,15 +153,53 @@ class StatusHelper {
       return "No name";
   }
 
+  getName(userId) {
+    if (userId != null) {
+      tmpUser = Meteor.users.findOne(userId);
+      return tmpUser.profile.name;
+    }
+    return "";
+  }
+
+  sharedWith(task) {
+    let firstUser=null;
+    let howManyOthers=0;
+
+    if ( task.hasParticipants() ) {
+      if ( task.isRequest() ) {
+        firstUser = this.getName( task.promiserIds[0] );
+        howManyOthers = task.promiserIds.length;
+      } else {
+        firstUser = this.getName( task.watcherIds[0] );
+        howManyOthers = task.watcherIds.length;
+      }
+
+      if ( howManyOthers==0) {
+          console.log("this is a Bug ! should not be a shared task and shared with 0 users !!");
+          return "";
+      }
+
+      if ( howManyOthers==1) {
+        return firstUser;
+      } else {
+        if ( howManyOthers==2) {
+          return firstUser + " and 1 other";
+        } else {
+          return firstUser + " and " + howManyOthers + " others";
+        }
+      }
+    }
+    return "";
+  }
+
+
   log(task) {
     console.log("-------------------------");
-    console.log(" isSingleShare=", task.isSingleShare());
-    console.log(" isGroupShare=", task.isGroupShare());
+    console.log(" isSingleShare=", task.hasOneParticipant());
+    console.log(" isGroupShare=", task.hasManyParticipants());
     console.log(" isCreator=", task.isCreator());
     console.log(" isParticipant=", task.isParticipant());
     console.log(" isMyTurnToRespond=", this.isMyTurnToRespond(task));
-
-    console.log(" isOfferStage=", this.isOfferStage(task));
 
   }
 }

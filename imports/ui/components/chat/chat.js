@@ -74,13 +74,20 @@ class Chat {
 
   cacheUsers(taskId) {
     let task = this.task;
+    let userIdsArray = [];
 
     console.log("---> get friends=");
-    console.log( task.userIds);
+    if ( task.isPromise() ) {
+      userIdsArray = task.watcherIds;
+    } else {
+      userIdsArray = task.promiserIds;
+    }
+
+    console.log( userIdsArray);
 
     this.users = [];
-    for (x=0;x< task.userIds.length;x++) {
-      let userId = task.userIds[x];
+    for (x=0;x< userIdsArray.length;x++) {
+      let userId = userIdsArray[x];
 
       let currUser = taskHelper.getUser(userId);
       let userDetails = {};
@@ -88,7 +95,6 @@ class Chat {
         userDetails.photo = this.uiService.getProfilePhoto(currUser);
 
       this.users[ userId ] = userDetails;
-      //console.log("name = " + this.users[userId].name );
     }
 
     // get the Creator's profile

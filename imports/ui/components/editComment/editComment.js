@@ -58,7 +58,7 @@ class EditComment {
     if ( this.isDirty() ) {
       this.label = this.task.comment;
       this.updateComment(this.task);
-      this.sendChatMessage(this.task);
+      //this.sendChatMessage(this.task);  //-- not wanted as each time the User edits comment, it goes to Chat. User could just be correcting typos
     }
 
     this.init();

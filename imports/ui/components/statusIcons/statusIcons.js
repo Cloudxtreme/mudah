@@ -59,7 +59,7 @@ class StatusIcons {
   }
 
   hasCounterOffer() {
-    if (this.isOfferStage() && this.task.isSingleShare() && statusHelper.isMyTurnToRespond(this.task) && this.task.isCountered() ) {
+    if (this.isOfferStage() && this.task.hasOneParticipant() && statusHelper.isMyTurnToRespond(this.task) && this.task.isCountered() ) {
       return true;
     }
     return false;
@@ -70,7 +70,7 @@ class StatusIcons {
         return "me";
       } else {
         this.myTurn=true;
-        return this.getName(this.task.editedBy);
+        return statusHelper.getName(this.task.editedBy);
       }
   }
 
@@ -78,7 +78,7 @@ class StatusIcons {
     if (this.task.ackBy === Meteor.userId() ) {
       return "me";
     } else {
-      return this.getName(this.task.ackBy);
+      return statusHelper.getName(this.task.ackBy);
     }
   }
 
@@ -89,52 +89,17 @@ class StatusIcons {
     return false
   }
 
-  isShared() {
-    if ( statusHelper.isCreator(this.task) && statusHelper.isSharedTask(this.task) ) {
-      return true;
-    }
-    return false;
-  }
 
-  sharedWith() {
-    if ( statusHelper.isSharedTask(this.task) ) {
-      let firstUser = this.getName( this.task.userIds[0] );
-      let howManyOthers = this.task.userIds.length;
-
-      if ( howManyOthers==0) {
-          console.log("this is a Bug ! should not be a shared task and shared with 0 users !!");
-          return "";
-      }
-
-      if ( howManyOthers==1) {
-        return firstUser;
-      } else {
-        if ( howManyOthers==2) {
-          return firstUser + " and 1 other";
-        } else {
-          return firstUser + " and " + howManyOthers + " others";
-        }
-      }
-    }
-    return "";
-  }
-
-  isSharedWithMe() {
-    if ( statusHelper.isCreator(this.task)==false &&  statusHelper.isParticipant(this.task) )  {
-      return true;
-    }
-    return false;
-  }
 
   canEditArea() {
-    if (  statusHelper.isCreator(this.task) ) {
+    if (  this.task.isCreator() ) {
       return true;
     }
     return false;
   }
 
   canEditValue() {
-    if ( this.task.isSingleShare() ) {
+    if ( this.task.hasOneParticipant() ) {
         if (  this.task.isParticipant()  ) {
           return true;
         }
@@ -148,18 +113,6 @@ class StatusIcons {
     return false;
   }
 
-  creatorName() {
-      return this.getName( this.task.creator );
-  }
-
-  getName(userId) {
-    if (userId != null) {
-    //  console.log("getName() userId is NOT Null userId=", userId);
-      tmpUser = Meteor.users.findOne(userId);
-      return tmpUser.profile.name;
-    }
-    return "";
-  }
 
   hasMessage() {
     if (this.task.lastMessage!=null) {
@@ -176,7 +129,7 @@ class StatusIcons {
 
   lastChatUser() {
     if (this.task.lastMessage!=null) {
-        return this.getName(this.task.lastMessage.userId);
+        return statusHelper.getName(this.task.lastMessage.userId);
     }
     return "";
   }

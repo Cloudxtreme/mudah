@@ -15,6 +15,8 @@ class UserList {
     'ngInject';
 
     this.uiService = uiService;
+    console.log("user list ids=");
+    console.log(this.userIds);
   }
 
   getPhotoUrl(userId) {

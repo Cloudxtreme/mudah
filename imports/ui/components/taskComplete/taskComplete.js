@@ -47,11 +47,14 @@ class TaskComplete {
       return false
     };
 
-
-
-
-    if ( statusHelper.allow(this.task, name) && this.task.isCreator() && this.task.isCompleted()==false   && this.acknowledgementIsOverdue() ) {
-      return true;
+    if ( statusHelper.allow(this.task, name) && this.task.isCompleted()==false  ) {
+      if ( this.task.isPrivate() ) {
+        return true;
+      } else {
+        if ( this.task.isCreator()   && this.acknowledgementIsOverdue() ) {
+           return true;
+         }
+      }
     }
     return false;
   }

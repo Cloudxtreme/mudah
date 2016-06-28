@@ -4,14 +4,14 @@ import angularMeteor from 'angular-meteor';
 import './taskDecline.html';
 
 import { statusHelper } from '/imports/ui/helpers/statusHelper';
-import { updateStatus } from '/imports/api/methods/taskMethods';
 
 const name = 'taskDecline';
 
 class TaskDecline {
-  constructor($scope,uiService) {
+  constructor($scope,$reactive, uiService) {
     'ngInject';
     this.uiService = uiService;
+    $reactive(this).attach($scope);
   }
 
 
@@ -23,7 +23,7 @@ class TaskDecline {
   show() {
     if (statusHelper.isOffline() ) { return false};
 
-    if ( this.task.status == statusHelper.status.PENDING && this.task.isShared() && statusHelper.isMyTurnToRespond(this.task) ) {
+    if ( this.task.status == statusHelper.status.PENDING && statusHelper.isMyTurnToRespond(this.task) ) {
         return true;
     }
     return false;
@@ -33,19 +33,8 @@ class TaskDecline {
   action() {
     this.uiService.hideOptions(this.isButton());
 
-    newStatus = statusHelper.getNextStatus(name,  this.task.status);
-
     // Call the Method
-    updateStatus.call({
-      taskId: this.task._id,
-      newStatus: newStatus
-    }, (err, res) => {
-      if (err) {
-        alert(err);
-      } else {
-        // success!
-      }
-    });
+    this.call('declineTask', {taskId: this.task._id} );
   }
 }
 

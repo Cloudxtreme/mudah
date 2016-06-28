@@ -1,6 +1,5 @@
 import {  Tasks} from '../tasks/collection';
 import {  Messages} from '../tasks/collection';
-import {  statusHelper} from '../../ui/helpers/statusHelper';
 import { deleteProfilePhoto } from '/imports/api/methods/taskMethods';
 
 import _ from 'underscore';
@@ -20,7 +19,7 @@ class TaskHelper {
       this.handleMethodError(404, "no such task"); // if user doesnt have permission, this Task won't be in the subscription
     }
 
-    if (statusHelper.isCreator(task) == false) {
+    if ( task.isCreator() == false) {
       this.handleMethodError(404, "no permission");
     }
 
@@ -30,14 +29,12 @@ class TaskHelper {
   // get Task, task must belong to the logged-in User OR logged-in user must have permission to use the Task
   getPermittedTask(taskId) {
     const task = Tasks.findOne(taskId);
-    //const task = Tasks.findOne("dKzgP7cTEYKuKkFxe");
-    //const task = Tasks.findOne("kJ25gauz55FcFo9CK");
 
     if (!task) {
       this.handleMethodError(404, "no such task"); // if user doesnt have permission, this Task won't be in the subscription
     }
 
-    if (statusHelper.hasPermission(task) == false) {
+    if ( task.isCreator()==false && task.isParticipant() == false) {
       this.handleMethodError(404, "no permission");
     }
 
@@ -72,17 +69,11 @@ class TaskHelper {
         {  archived: false  },
         {
           $or: [
-            {$and: [
-                {creator: userId},
-                {request: false}
-            ]},
-            {$and: [
-                {userIds: userId},
-                {request: true},
-                {requestHeader: false}
-            ]}
-          ]
-        }]
+                {$and: [ {creator: userId},{request:false}]},
+                {$and: [ {promiserIds: userId},{requestHeader:false}]}
+            ]
+        }
+        ]
     },
     {
       sort :  {
@@ -127,7 +118,7 @@ class TaskHelper {
               ]
           },
           {$and: [
-              {userIds: userId},
+              {watcherIds: userId},
               {request: false}
               ]
           }

@@ -132,12 +132,10 @@ describe('TaskAccept', function() {
 
         spyOn(controller, 'action').and.callThrough();        // must use callThrough() when testing controllers !!!
         spyOn(updateStatus, 'call').and.returnValue(true);        // mock
-        spyOn(statusHelper, 'getNextStatus').and.callThrough();
 
         controller.task = {_id: "4JYG4SMG4gs8HGMSi", status: statusHelper.status.DRAFT};
 
-        newStat = statusHelper.getNextStatus('taskAccept', controller.task.status);
-
+     
         controller.action();
         expect(updateStatus.call.calls.mostRecent().args[0]).toEqual({
           taskId: controller.task._id,

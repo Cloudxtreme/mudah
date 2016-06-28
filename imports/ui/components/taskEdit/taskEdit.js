@@ -221,7 +221,8 @@ function TaskEditService(uiService) {
     saveTask.forfeit = task.forfeit;
     saveTask.dueDate = task.dueDate;
     saveTask.neverCountered = task.neverCountered;
-    saveTask.userIds = task.userIds;
+    saveTask.promiserIds = task.promiserIds;
+    saveTask.watcherIds = task.watcherIds;
 
       updateTask.call({
         task: saveTask

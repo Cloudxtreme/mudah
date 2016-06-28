@@ -4,8 +4,6 @@ import angularMeteor from 'angular-meteor';
 import { Meteor } from 'meteor/meteor';
 
 import './avatar.html';
-import { name as FacebookPhotoFilter } from '../../filters/facebookPhotoFilter';
-import { name as DisplayNameFilter } from '../../filters/displayNameFilter';
 import { name as EditProfilePhoto } from '../editProfilePhoto/editProfilePhoto';
 
 const name = 'avatar';

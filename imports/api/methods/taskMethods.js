@@ -8,6 +8,7 @@ import AWS from 'aws-sdk';
 
 import {clone as _clone } from 'underscore';
 import {without as _without } from 'underscore';
+import {contains as _contains } from 'underscore';
 
 // Schema docs : https://atmospherejs.com/aldeed/simple-schema
 // beware performance issue with Friends array : http://guide.meteor.com/collections.html#schema-design
@@ -46,7 +47,8 @@ TaskSchema = new SimpleSchema({
   forfeit: {type: String, optional:true},
   area: {type: String, optional:true},
   value: {type: String, optional:true},
-  userIds : {type: [String] , optional:true}
+  watcherIds : {type: [String] , optional:true},  // watchers of a promise
+  promiserIds : {type: [String] , optional:true}  // those asked to promise something (ie. carry out a request)
 });
 
 EditSchema = new SimpleSchema({
@@ -57,7 +59,8 @@ EditSchema = new SimpleSchema({
   forfeit: {type: String, optional:true},
   dueDate : {type: Date, optional:true},
   neverCountered: {type:Boolean},
-  userIds : {type: [String]}
+  promiserIds : {type: [String]},
+  watcherIds : {type: [String]}
 });
 
 /*-------
@@ -143,18 +146,32 @@ export const acceptTask = new ValidatedMethod({
             _id: taskId
           }, {
             $set: {
-              'request': false,
-              'creator' : task.userIds[0],  // the participant becomes the 'creator/owner'
-              'owner' :  task.userIds[0],
-              'userIds' : [ task.creator ], // turn the original Creator into a Participant,
-              'status': statusHelper.status.ACTIVE,
-              'statusBy' : Meteor.userId(),
-              'statusDate' : new Date(),
-              'ack' : false,
-              'ackBy' : null
+              request: false,
+              creator : task.promiserIds[0],  // the promiser becomes the 'creator/owner'
+              watcherIds : [ task.creator ], // turn the original Creator into a Watcher,
+              promiserIds : [],
+              status: statusHelper.status.ACTIVE,
+              statusBy : Meteor.userId(),
+              statusDate : new Date(),
+              ack : false,
+              ackBy : null
             }
           });
       }
+  }
+});
+
+export const declineTask = new ValidatedMethod({
+  name: 'declineTask',
+
+  validate: new SimpleSchema({
+      taskId: { type: String }
+    }).validator(),
+
+  run({ taskId }) {
+    console.log("decline task...");
+      const task = taskHelper.getPermittedTask(taskId);
+      updateStatus.call({taskId:taskId, newStatus: statusHelper.status.DECLINED});
   }
 });
 
@@ -206,7 +223,7 @@ export const unrevokeTask = new ValidatedMethod({
 
       const task = taskHelper.getMyTask(taskId);
 
-      if ( task.isShared() ) {
+      if ( task.hasParticipants() ) {
         newStatus = statusHelper.status.PENDING;
       } else {
         newStatus = statusHelper.status.ACTIVE;
@@ -238,7 +255,8 @@ export const updateTask = new ValidatedMethod({
   run({ task }) {
     const oldTask = taskHelper.getPermittedTask(task._id); // will throw Exception if no permission
 
-    if ( statusHelper.isParticipant(task) && task.neverCountered==true) {  // watcher is countering this offer
+
+    if ( task.neverCountered==true && _contains(task.watcherIds, Meteor.userId()) ) {  // watcher is countering this offer
       task.neverCountered = false;
     }
 
@@ -338,7 +356,7 @@ export const updateDueDate = new ValidatedMethod({
   run({ taskId, dueDate }) {
     const origTask = taskHelper.getPermittedTask(taskId); // will throw Exception if no permission
 
-    if (statusHelper.isCreator(origTask) ) {
+    if ( orig.isCreator() ) {
       Tasks.update({
         _id: taskId
       }, {
@@ -365,21 +383,22 @@ export const shareTask = new ValidatedMethod({
     }).validator(),
 
   run({ taskId,newStatus, otherUserId }) {
-    console.log("shareTask userIds=");
-    console.log(otherUserId);
 
       const origTask = taskHelper.getMyTask(taskId); // will throw Exception if no permission
 
       Tasks.update(taskId, {
         $set: {
-          'status' : statusHelper.status.PENDING,
-          'statusBy' : Meteor.userId(),
-          'ack' : false,
-          'ackBy' : null,
-          'private' : false
-        },
-        $addToSet: {  userIds: {$each: otherUserId } }
+          status : statusHelper.status.PENDING,
+          statusBy : Meteor.userId(),
+          ack : false,
+          ackBy : null,
+          private : false,
+          watcherIds: otherUserId,
+        }
+      //  $addToSet: {  watcherIds: {$each: otherUserId } },
       });
+
+
 
   }
 });
@@ -393,7 +412,7 @@ export const requestTask = new ValidatedMethod({
       userIds: {type:[String]}
     }).validator(),
 
-  run({ taskId,newStatus, userIds }) {
+  run({ taskId, userIds }) {
 
     const origTask = taskHelper.getMyTask(taskId); // will throw Exception if no permission
 
@@ -417,7 +436,7 @@ export const requestTask = new ValidatedMethod({
             requestHeader:true,
             requestSeqId: -1,    // header record for the requests
             status: newTask.status,
-            userIds: userIds
+            promiserIds: userIds
           }
         });
     }
@@ -425,15 +444,13 @@ export const requestTask = new ValidatedMethod({
     for (x=0;x< userIds.length;x++) {
       // make selected friend a Participant
       const friend = userIds[x];
-        newTask.userIds=[ friend ];
+        newTask.promiserIds=[ friend ];
         newTask.requestSeqId = x; //for ordering the requests
 
       // create new task
         let _id = Tasks.insert(newTask);
         console.log("new id=", _id);
     }
-
-
 
   }
 });
@@ -541,19 +558,19 @@ export const removeUserFromGroupTask = new ValidatedMethod({
   run({ taskId }) {
 
     const task = taskHelper.getPermittedTask(taskId); // will throw Exception if no permission
-    const deleteUserId = task.getRequestUserId();
+    const deleteUserId = task.getRequestRecipientUserId();
 
     const groupTask = taskHelper.getPermittedTask( task.requestId);
 
-    const newUserIds = _without( groupTask.userIds , deleteUserId);
+    const newPromiserIds = _without( groupTask.promiserIds , deleteUserId);
 
-    if ( newUserIds.length==0) {
+    if ( newPromiserIds.length==0) {
         //delete the group's header record
         Tasks.remove(groupTask._id);
     } else {
         Tasks.update(groupTask._id, {
           $set: {
-            userIds : newUserIds
+            promiserIds : newPromiserIds
           }
         });
     }
@@ -718,7 +735,8 @@ function initTask(taskName) {
 
   task.creator = Meteor.userId();
   task.createDate = new Date();
-  task.userIds = [];
+  task.promiserIds =[];
+  task.watcherIds =[];
 
   task.edited = true;     // used for counter-offers
   task.editedBy = Meteor.userId();

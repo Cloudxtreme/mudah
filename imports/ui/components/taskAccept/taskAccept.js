@@ -5,36 +5,38 @@ import './taskAccept.html';
 import { name as TaskEdit } from '../taskEdit/taskEdit';
 
 import {  statusHelper } from '../../helpers/statusHelper';
-import {acceptTask} from '/imports/api/methods/taskMethods';
 
 const name = 'taskAccept';
 
 class TaskAccept {
-  constructor($scope, taskEditService, uiService) {
+  constructor($scope,$reactive, taskEditService, uiService) {
     'ngInject';
     this.taskEditService = taskEditService;
     this.uiService = uiService;
+    $reactive(this).attach($scope);
   }
 
 
   action() {
     if ( this.close ) {
-      console.log("--close the Modals---");
       this.uiService.hideOptions(this.isButton(), true, true); // close the Edit Modal
       this.uiService.hideOptions(this.isButton(),true ); // close Modal,depending on config
     }
 
-    if (  statusHelper.noDueDate(this.task) ) {  // call from list button-option
+    if ( this.task.hasDueDate()==false ) {  // call from list button-option
         this.taskEditService.openModalForDate(this.task);
         return;
     }
+console.log("check if dirty task");
 
     // if user updated the task, then pressed 'Accept', save the task first
     if (this.taskEditService.isDirty(this.task) ) {
+console.log("save edited task");
       this.taskEditService.saveEditedTask(this.task);
     }
+console.log("call accept task");
 
-    acceptTask.call({
+    this.call('acceptTask', {
         taskId: this.task._id
       }, (err, res) => {
         if (err) {

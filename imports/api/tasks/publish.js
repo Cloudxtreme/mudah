@@ -15,27 +15,27 @@ if (Meteor.isServer) {
     console.log("publish tasks user=", this.userId + " listType=", listType);
 
     if (listType=='promiseList') {
-      selector = {'creator': this.userId }; //TEMP only
+      //  selector = {'creator': this.userId };
+      selector =  { $and: [
+                      {requestHeader: false},
+                      {
+                        $or: [
+                          {creator: this.userId},
+                          {promiserIds: this.userId}
+                        ]
+                      },
 
+                    ]};
     } else {
-      selector = {
-        $or: [
-          { $and: [
-            {"creator": this.userId},
-            {"request":  true }
-            ]
-          }
-          ,
-          {
-            $and: [
-              {"creator": {$ne:this.userId}},
-              {"userIds":  this.userId }
-            ]
-          }
-        ]
-
-
-      };
+      selector =  { $or: [
+                      {
+                        $and: [
+                          {creator: this.userId},
+                          {request: true}
+                        ]
+                      },
+                      {watcherIds: this.userId}
+                    ]};
     }
 
     Counts.publish(this, 'numberOfTasks', Tasks.find(selector), {
@@ -46,57 +46,6 @@ if (Meteor.isServer) {
   });
 
 
-/*
-  Meteor.publish('tasks', function(options, searchString) {
-    console.log("publish tasks");
-    const selector = {
-      $or: [{
-        // the public tasks
-        $and: [{
-          public: true
-        }, {
-          public: {
-            $exists: true
-          }
-        }]
-      }, {
-        // when logged in user is the creator
-        $and: [{
-          creator: this.userId
-        }, {
-          creator: {
-            $exists: true
-          }
-        }]
-      }]
-    };
-
-
-    if (typeof searchString === 'string' && searchString.length) {
-      selector.name = {
-        $regex: `.*${searchString}.*`,
-        $options : 'i'
-      };
-    }
-
-    Counts.publish(this, 'numberOfTasks', Tasks.find(selector), {
-      noReady: true
-    });
-
-    return Tasks.find(selector, options);
-  });
-
-db.tasks.find({
-$and : [
-{_id: "a2FxuSkJqNiBzLvb3"},
-  {
-    $or : [
-    {creator: "8xyPRAHAmDZDue3kh"},
-    {userIds :"8xyPRAHAmDZDue3kh" }
-  ]
-  }
-] })
-*/
 
 Meteor.publish('messages', function(taskId) {
   console.log("publish messages taskId=", taskId + " user=", this.userId);
@@ -106,18 +55,16 @@ Meteor.publish('messages', function(taskId) {
   // check permission
   const task = Tasks.findOne({
       $and : [
-      {_id:  taskId},
-        {
-          $or : [
-          {creator: this.userId},
-          {userIds : this.userId }
-        ]
+        {_id:  taskId},
+        { $or : [
+            {creator: this.userId},
+            {watcherIds : this.userId },
+            {promiserIds : this.userId }
+          ]
         }
-      ] });
-
+      ]});
 
   if (task) {
-    console.log("You have permission to view this task !!");
     return Messages.find({ taskId: taskId},  {fields:{taskId:1,text: 1,timestamp:1,userId:1}});
   } else {
     console.log("ERROR !! Not your TASK !!");

@@ -1,0 +1,11 @@
+db.tasks.find({
+$and: [
+{requestHeader: false},
+{$or: [
+ {creator: "EcLxBzH5dBzRzdinW"},
+ {promiserIds: "EcLxBzH5dBzRzdinW"}
+ ]
+ }
+ ]},
+{name:1, ,promiserIds:1,watcherIds:1}
+ );

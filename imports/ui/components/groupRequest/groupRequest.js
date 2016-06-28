@@ -21,11 +21,11 @@ class GroupRequest {
     this.name = user.profile.name;
   }
 
-  sharedWith() {
-    
-    if ( statusHelper.isSharedTask(this.task) ) {
-      let firstUser = this.getName( this.task.userIds[0] );
-      let howManyOthers = this.task.userIds.length;
+  participants() {
+
+    if ( this.task.hasParticipants() ) {
+      let firstUser = this.getName( this.task.promiserIds[0] );
+      let howManyOthers = this.task.promiserIds.length;
 
       if ( howManyOthers==0) {
           console.log("this is a Bug ! should not be a shared task and shared with 0 users !!");

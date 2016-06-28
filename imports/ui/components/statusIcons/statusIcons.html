@@ -6,17 +6,17 @@
     <i class="icon ion-ios-box positive padding-right" ng-show="statusIcons.task.isArchived()"> ARCHIVED {{statusIcons.task.completedDate | amDateFormat:'D.M.YYYY'}}</i>
 
     <span ng-show="statusIcons.statusHelper.isPendingAck(statusIcons.task)">Pending Acknowledgement</span>
-    <span ng-if="statusIcons.statusHelper.isAcknowledged(statusIcons.task)">Acknowleged by<font class="navy"> {{statusIcons.lastAck()}}</font></span>
+    <span ng-if="statusIcons.task.isAcknowledged()">Acknowleged by<font class="navy"> {{statusIcons.lastAck()}}</font></span>
     <span ng-if="statusIcons.hasCounterOffer()">
       <span class="positive">Countered</span>
     </span>
   </div>
   <div style="clear:both"></div>
   <div style="float:left">
-    <span ng-if="statusIcons.task.isCreator() && statusIcons.task.isShared()" class="padding-right">
-      <i ng-if="statusIcons.task.isGroupShare()" class="icon ion-person-stalker" style="font-size:20px"></i>
-      <i ng-if="statusIcons.task.isSingleShare()" class="icon ion-person" style="font-size:20px"></i>
-      {{statusIcons.sharedWith()}}
+    <span ng-if="statusIcons.task.isCreator() && statusIcons.task.hasParticipants()" class="padding-right">
+      <i ng-if="statusIcons.task.hasManyParticipants()" class="icon ion-person-stalker" style="font-size:20px"></i>
+      <i ng-if="statusIcons.task.hasOneParticipant()" class="icon ion-person" style="font-size:20px"></i>
+      {{statusIcons.statusHelper.sharedWith(statusIcons.task)}}
     </span>
     <i ng-if="statusIcons.task.isRequest()" class="icon ion-radio-waves assertive">Request</i>
   </div>

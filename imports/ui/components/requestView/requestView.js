@@ -25,7 +25,7 @@ class RequestView {
 
     console.log("From user = ", this.fromUser.profile.name);
 
-    this.toUser = taskHelper.getUser(this.task.getRequestUserId() ); // there's always only 1 receipient
+    this.toUser = taskHelper.getUser(this.task.getRequestRecipientUserId() ); // there's always only 1 receipient
   }
 
   destroy() {

@@ -29,7 +29,7 @@ class TaskShare {
       this.uiService.hideOptions(this.isButton() ); // close Modal,depending on config
     }
 
-    if ( this.isButton()==false && statusHelper.noDueDate(this.task)  ) {  // call from list button-option
+    if ( this.isButton()==false && this.task.hasDueDate()==false  ) {  // call from list button-option
       this.taskEditService.openModalForDate(this.task);
       return;
     } else {
@@ -42,8 +42,7 @@ class TaskShare {
   }
 
   show() {
-    //  ||   statusHelper.noDueDate(this.task)
-
+  
     if (statusHelper.isOffline()|| statusHelper.allow(this.task, name)==false ) {
       return false
     };

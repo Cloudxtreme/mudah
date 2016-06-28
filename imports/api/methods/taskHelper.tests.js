@@ -116,7 +116,7 @@ if (Meteor.isServer) {
         spyOn(statusHelper, 'hasPermission').and.returnValue(false);
         spyOn(Tasks, 'findOne').and.returnValue({
           creator: 'creatorId',
-          userIds: '["testUser"]'
+          promiserIds: '["testUser"]'
         });
 
         expect(() => {
